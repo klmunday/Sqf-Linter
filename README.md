@@ -1,0 +1,1 @@
+# Sqf Linter
