@@ -1,0 +1,3070 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    AND
+    BOOL
+    COMMENT_MULTI
+    COMMENT_SINGLE
+    ELSE
+    FOR
+    IF
+    NEWLINE
+    OR
+    SWITCH
+    WHILE
+    WITH
+
+Grammar
+
+Rule 0     S' -> code
+Rule 1     code -> statements
+Rule 2     code -> statement
+Rule 3     statements -> statement SEMI_COLON statement
+Rule 4     statements -> statement
+Rule 5     statement -> empty
+Rule 6     statement -> assignment
+Rule 7     statement -> binaryexpression
+Rule 8     assignment -> PRIVATE identifier EQUAL binaryexpression
+Rule 9     assignment -> identifier EQUAL binaryexpression
+Rule 10    binaryexpression -> binaryexpression operator binaryexpression
+Rule 11    binaryexpression -> primaryexpression
+Rule 12    primaryexpression -> number
+Rule 13    primaryexpression -> unaryexpression
+Rule 14    primaryexpression -> nularexpression
+Rule 15    primaryexpression -> variable
+Rule 16    primaryexpression -> string
+Rule 17    primaryexpression -> LBRACE code RBRACE
+Rule 18    primaryexpression -> LPAREN binaryexpression RPAREN
+Rule 19    primaryexpression -> array
+Rule 20    array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN
+Rule 21    array -> LSPAREN empty RSPAREN
+Rule 22    nularexpression -> operator
+Rule 23    nularexpression -> empty
+Rule 24    unaryexpression -> operator primaryexpression
+Rule 25    unaryexpression -> NOT primaryexpression
+Rule 26    unaryexpression -> empty
+Rule 27    identifier -> PRIVATE_ID
+Rule 28    identifier -> GLOBAL_ID
+Rule 29    variable -> identifier
+Rule 30    operator -> identifier
+Rule 31    operator -> punctuation
+Rule 32    punctuation -> DIVIDE
+Rule 33    punctuation -> MINUS
+Rule 34    punctuation -> MOD
+Rule 35    punctuation -> PLUS
+Rule 36    punctuation -> POW
+Rule 37    punctuation -> SELECT
+Rule 38    punctuation -> TIMES
+Rule 39    punctuation -> COLON
+Rule 40    number -> NUMBER_REAL
+Rule 41    number -> NUMBER_HEX
+Rule 42    number -> NUMBER_EXP
+Rule 43    string -> STRING_SINGLE
+Rule 44    string -> STRING_DOUBLE
+Rule 45    gte -> GT EQUAL
+Rule 46    lte -> LT EQUAL
+Rule 47    equality -> EQUAL EQUAL
+Rule 48    inequality -> NOT EQUAL
+Rule 49    empty -> <empty>
+
+Terminals, with rules where they appear
+
+AND                  : 
+BOOL                 : 
+COLON                : 39
+COMMA                : 20 20 20
+COMMENT_MULTI        : 
+COMMENT_SINGLE       : 
+DIVIDE               : 32
+ELSE                 : 
+EQUAL                : 8 9 45 46 47 47 48
+FOR                  : 
+GLOBAL_ID            : 28
+GT                   : 45
+IF                   : 
+LBRACE               : 17
+LPAREN               : 18
+LSPAREN              : 20 21
+LT                   : 46
+MINUS                : 33
+MOD                  : 34
+NEWLINE              : 
+NOT                  : 25 48
+NUMBER_EXP           : 42
+NUMBER_HEX           : 41
+NUMBER_REAL          : 40
+OR                   : 
+PLUS                 : 35
+POW                  : 36
+PRIVATE              : 8
+PRIVATE_ID           : 27
+RBRACE               : 17
+RPAREN               : 18
+RSPAREN              : 20 21
+SELECT               : 37
+SEMI_COLON           : 3
+STRING_DOUBLE        : 44
+STRING_SINGLE        : 43
+SWITCH               : 
+TIMES                : 38
+WHILE                : 
+WITH                 : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+array                : 19
+assignment           : 6
+binaryexpression     : 7 8 9 10 10 18 20 20 20 20
+code                 : 17 0
+empty                : 5 21 23 26
+equality             : 
+gte                  : 
+identifier           : 8 9 29 30
+inequality           : 
+lte                  : 
+nularexpression      : 14
+number               : 12
+operator             : 10 22 24
+primaryexpression    : 11 24 25
+punctuation          : 31
+statement            : 2 3 3 4
+statements           : 1
+string               : 16
+unaryexpression      : 13
+variable             : 15
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . code
+    (1) code -> . statements
+    (2) code -> . statement
+    (3) statements -> . statement SEMI_COLON statement
+    (4) statements -> . statement
+    (5) statement -> . empty
+    (6) statement -> . assignment
+    (7) statement -> . binaryexpression
+    (49) empty -> .
+    (8) assignment -> . PRIVATE identifier EQUAL binaryexpression
+    (9) assignment -> . identifier EQUAL binaryexpression
+    (10) binaryexpression -> . binaryexpression operator binaryexpression
+    (11) binaryexpression -> . primaryexpression
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (12) primaryexpression -> . number
+    (13) primaryexpression -> . unaryexpression
+    (14) primaryexpression -> . nularexpression
+    (15) primaryexpression -> . variable
+    (16) primaryexpression -> . string
+    (17) primaryexpression -> . LBRACE code RBRACE
+    (18) primaryexpression -> . LPAREN binaryexpression RPAREN
+    (19) primaryexpression -> . array
+    (40) number -> . NUMBER_REAL
+    (41) number -> . NUMBER_HEX
+    (42) number -> . NUMBER_EXP
+    (24) unaryexpression -> . operator primaryexpression
+    (25) unaryexpression -> . NOT primaryexpression
+    (26) unaryexpression -> . empty
+    (22) nularexpression -> . operator
+    (23) nularexpression -> . empty
+    (29) variable -> . identifier
+    (43) string -> . STRING_SINGLE
+    (44) string -> . STRING_DOUBLE
+    (20) array -> . LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN
+    (21) array -> . LSPAREN empty RSPAREN
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+  ! shift/reduce conflict for PRIVATE_ID resolved as shift
+  ! shift/reduce conflict for GLOBAL_ID resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for POW resolved as shift
+  ! shift/reduce conflict for SELECT resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for COLON resolved as shift
+    SEMI_COLON      reduce using rule 49 (empty -> .)
+    $end            reduce using rule 49 (empty -> .)
+    PRIVATE         shift and go to state 7
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_HEX      shift and go to state 22
+    NUMBER_EXP      shift and go to state 23
+    NOT             shift and go to state 24
+    STRING_SINGLE   shift and go to state 25
+    STRING_DOUBLE   shift and go to state 26
+    LSPAREN         shift and go to state 27
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+  ! PRIVATE_ID      [ reduce using rule 49 (empty -> .) ]
+  ! GLOBAL_ID       [ reduce using rule 49 (empty -> .) ]
+  ! DIVIDE          [ reduce using rule 49 (empty -> .) ]
+  ! MINUS           [ reduce using rule 49 (empty -> .) ]
+  ! MOD             [ reduce using rule 49 (empty -> .) ]
+  ! PLUS            [ reduce using rule 49 (empty -> .) ]
+  ! POW             [ reduce using rule 49 (empty -> .) ]
+  ! SELECT          [ reduce using rule 49 (empty -> .) ]
+  ! TIMES           [ reduce using rule 49 (empty -> .) ]
+  ! COLON           [ reduce using rule 49 (empty -> .) ]
+
+    code                           shift and go to state 1
+    statements                     shift and go to state 2
+    statement                      shift and go to state 3
+    empty                          shift and go to state 4
+    assignment                     shift and go to state 5
+    binaryexpression               shift and go to state 6
+    identifier                     shift and go to state 8
+    operator                       shift and go to state 9
+    primaryexpression              shift and go to state 10
+    number                         shift and go to state 13
+    unaryexpression                shift and go to state 14
+    nularexpression                shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    punctuation                    shift and go to state 28
+
+state 1
+
+    (0) S' -> code .
+
+
+
+state 2
+
+    (1) code -> statements .
+
+    $end            reduce using rule 1 (code -> statements .)
+    RBRACE          reduce using rule 1 (code -> statements .)
+
+
+state 3
+
+    (2) code -> statement .
+    (3) statements -> statement . SEMI_COLON statement
+    (4) statements -> statement .
+
+  ! reduce/reduce conflict for $end resolved using rule 2 (code -> statement .)
+  ! reduce/reduce conflict for RBRACE resolved using rule 2 (code -> statement .)
+    $end            reduce using rule 2 (code -> statement .)
+    RBRACE          reduce using rule 2 (code -> statement .)
+    SEMI_COLON      shift and go to state 37
+
+  ! $end            [ reduce using rule 4 (statements -> statement .) ]
+  ! RBRACE          [ reduce using rule 4 (statements -> statement .) ]
+
+
+state 4
+
+    (5) statement -> empty .
+    (26) unaryexpression -> empty .
+    (23) nularexpression -> empty .
+
+  ! reduce/reduce conflict for SEMI_COLON resolved using rule 5 (statement -> empty .)
+  ! reduce/reduce conflict for $end resolved using rule 5 (statement -> empty .)
+  ! reduce/reduce conflict for RBRACE resolved using rule 5 (statement -> empty .)
+  ! reduce/reduce conflict for PRIVATE_ID resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for GLOBAL_ID resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for DIVIDE resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for MINUS resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for MOD resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for PLUS resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for POW resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for SELECT resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for TIMES resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for COLON resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for SEMI_COLON resolved using rule 5 (statement -> empty .)
+  ! reduce/reduce conflict for $end resolved using rule 5 (statement -> empty .)
+  ! reduce/reduce conflict for RBRACE resolved using rule 5 (statement -> empty .)
+    SEMI_COLON      reduce using rule 5 (statement -> empty .)
+    $end            reduce using rule 5 (statement -> empty .)
+    RBRACE          reduce using rule 5 (statement -> empty .)
+    PRIVATE_ID      reduce using rule 23 (nularexpression -> empty .)
+    GLOBAL_ID       reduce using rule 23 (nularexpression -> empty .)
+    DIVIDE          reduce using rule 23 (nularexpression -> empty .)
+    MINUS           reduce using rule 23 (nularexpression -> empty .)
+    MOD             reduce using rule 23 (nularexpression -> empty .)
+    PLUS            reduce using rule 23 (nularexpression -> empty .)
+    POW             reduce using rule 23 (nularexpression -> empty .)
+    SELECT          reduce using rule 23 (nularexpression -> empty .)
+    TIMES           reduce using rule 23 (nularexpression -> empty .)
+    COLON           reduce using rule 23 (nularexpression -> empty .)
+
+  ! PRIVATE_ID      [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! GLOBAL_ID       [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! DIVIDE          [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! MINUS           [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! MOD             [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! PLUS            [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! POW             [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! SELECT          [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! TIMES           [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! COLON           [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! SEMI_COLON      [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! $end            [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! RBRACE          [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! SEMI_COLON      [ reduce using rule 23 (nularexpression -> empty .) ]
+  ! $end            [ reduce using rule 23 (nularexpression -> empty .) ]
+  ! RBRACE          [ reduce using rule 23 (nularexpression -> empty .) ]
+
+
+state 5
+
+    (6) statement -> assignment .
+
+    SEMI_COLON      reduce using rule 6 (statement -> assignment .)
+    $end            reduce using rule 6 (statement -> assignment .)
+    RBRACE          reduce using rule 6 (statement -> assignment .)
+
+
+state 6
+
+    (7) statement -> binaryexpression .
+    (10) binaryexpression -> binaryexpression . operator binaryexpression
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+    SEMI_COLON      reduce using rule 7 (statement -> binaryexpression .)
+    $end            reduce using rule 7 (statement -> binaryexpression .)
+    RBRACE          reduce using rule 7 (statement -> binaryexpression .)
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+    operator                       shift and go to state 38
+    identifier                     shift and go to state 39
+    punctuation                    shift and go to state 28
+
+state 7
+
+    (8) assignment -> PRIVATE . identifier EQUAL binaryexpression
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+
+    identifier                     shift and go to state 40
+
+state 8
+
+    (9) assignment -> identifier . EQUAL binaryexpression
+    (29) variable -> identifier .
+    (30) operator -> identifier .
+
+  ! reduce/reduce conflict for PRIVATE_ID resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for GLOBAL_ID resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for DIVIDE resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for MINUS resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for MOD resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for PLUS resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for POW resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for SELECT resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for TIMES resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for COLON resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for SEMI_COLON resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for $end resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for RBRACE resolved using rule 29 (variable -> identifier .)
+    EQUAL           shift and go to state 41
+    PRIVATE_ID      reduce using rule 29 (variable -> identifier .)
+    GLOBAL_ID       reduce using rule 29 (variable -> identifier .)
+    DIVIDE          reduce using rule 29 (variable -> identifier .)
+    MINUS           reduce using rule 29 (variable -> identifier .)
+    MOD             reduce using rule 29 (variable -> identifier .)
+    PLUS            reduce using rule 29 (variable -> identifier .)
+    POW             reduce using rule 29 (variable -> identifier .)
+    SELECT          reduce using rule 29 (variable -> identifier .)
+    TIMES           reduce using rule 29 (variable -> identifier .)
+    COLON           reduce using rule 29 (variable -> identifier .)
+    SEMI_COLON      reduce using rule 29 (variable -> identifier .)
+    $end            reduce using rule 29 (variable -> identifier .)
+    RBRACE          reduce using rule 29 (variable -> identifier .)
+    LBRACE          reduce using rule 30 (operator -> identifier .)
+    LPAREN          reduce using rule 30 (operator -> identifier .)
+    NUMBER_REAL     reduce using rule 30 (operator -> identifier .)
+    NUMBER_HEX      reduce using rule 30 (operator -> identifier .)
+    NUMBER_EXP      reduce using rule 30 (operator -> identifier .)
+    NOT             reduce using rule 30 (operator -> identifier .)
+    STRING_SINGLE   reduce using rule 30 (operator -> identifier .)
+    STRING_DOUBLE   reduce using rule 30 (operator -> identifier .)
+    LSPAREN         reduce using rule 30 (operator -> identifier .)
+
+  ! PRIVATE_ID      [ reduce using rule 30 (operator -> identifier .) ]
+  ! GLOBAL_ID       [ reduce using rule 30 (operator -> identifier .) ]
+  ! DIVIDE          [ reduce using rule 30 (operator -> identifier .) ]
+  ! MINUS           [ reduce using rule 30 (operator -> identifier .) ]
+  ! MOD             [ reduce using rule 30 (operator -> identifier .) ]
+  ! PLUS            [ reduce using rule 30 (operator -> identifier .) ]
+  ! POW             [ reduce using rule 30 (operator -> identifier .) ]
+  ! SELECT          [ reduce using rule 30 (operator -> identifier .) ]
+  ! TIMES           [ reduce using rule 30 (operator -> identifier .) ]
+  ! COLON           [ reduce using rule 30 (operator -> identifier .) ]
+  ! SEMI_COLON      [ reduce using rule 30 (operator -> identifier .) ]
+  ! $end            [ reduce using rule 30 (operator -> identifier .) ]
+  ! RBRACE          [ reduce using rule 30 (operator -> identifier .) ]
+
+
+state 9
+
+    (24) unaryexpression -> operator . primaryexpression
+    (22) nularexpression -> operator .
+    (12) primaryexpression -> . number
+    (13) primaryexpression -> . unaryexpression
+    (14) primaryexpression -> . nularexpression
+    (15) primaryexpression -> . variable
+    (16) primaryexpression -> . string
+    (17) primaryexpression -> . LBRACE code RBRACE
+    (18) primaryexpression -> . LPAREN binaryexpression RPAREN
+    (19) primaryexpression -> . array
+    (40) number -> . NUMBER_REAL
+    (41) number -> . NUMBER_HEX
+    (42) number -> . NUMBER_EXP
+    (24) unaryexpression -> . operator primaryexpression
+    (25) unaryexpression -> . NOT primaryexpression
+    (26) unaryexpression -> . empty
+    (22) nularexpression -> . operator
+    (23) nularexpression -> . empty
+    (29) variable -> . identifier
+    (43) string -> . STRING_SINGLE
+    (44) string -> . STRING_DOUBLE
+    (20) array -> . LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN
+    (21) array -> . LSPAREN empty RSPAREN
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (49) empty -> .
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+  ! reduce/reduce conflict for PRIVATE_ID resolved using rule 22 (nularexpression -> operator .)
+  ! reduce/reduce conflict for GLOBAL_ID resolved using rule 22 (nularexpression -> operator .)
+  ! reduce/reduce conflict for DIVIDE resolved using rule 22 (nularexpression -> operator .)
+  ! reduce/reduce conflict for MINUS resolved using rule 22 (nularexpression -> operator .)
+  ! reduce/reduce conflict for MOD resolved using rule 22 (nularexpression -> operator .)
+  ! reduce/reduce conflict for PLUS resolved using rule 22 (nularexpression -> operator .)
+  ! reduce/reduce conflict for POW resolved using rule 22 (nularexpression -> operator .)
+  ! reduce/reduce conflict for SELECT resolved using rule 22 (nularexpression -> operator .)
+  ! reduce/reduce conflict for TIMES resolved using rule 22 (nularexpression -> operator .)
+  ! reduce/reduce conflict for COLON resolved using rule 22 (nularexpression -> operator .)
+  ! reduce/reduce conflict for SEMI_COLON resolved using rule 22 (nularexpression -> operator .)
+  ! reduce/reduce conflict for $end resolved using rule 22 (nularexpression -> operator .)
+  ! reduce/reduce conflict for RBRACE resolved using rule 22 (nularexpression -> operator .)
+  ! reduce/reduce conflict for RPAREN resolved using rule 22 (nularexpression -> operator .)
+  ! reduce/reduce conflict for COMMA resolved using rule 22 (nularexpression -> operator .)
+  ! reduce/reduce conflict for RSPAREN resolved using rule 22 (nularexpression -> operator .)
+  ! shift/reduce conflict for PRIVATE_ID resolved as shift
+  ! shift/reduce conflict for GLOBAL_ID resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for POW resolved as shift
+  ! shift/reduce conflict for SELECT resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for COLON resolved as shift
+    SEMI_COLON      reduce using rule 22 (nularexpression -> operator .)
+    $end            reduce using rule 22 (nularexpression -> operator .)
+    RBRACE          reduce using rule 22 (nularexpression -> operator .)
+    RPAREN          reduce using rule 22 (nularexpression -> operator .)
+    COMMA           reduce using rule 22 (nularexpression -> operator .)
+    RSPAREN         reduce using rule 22 (nularexpression -> operator .)
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_HEX      shift and go to state 22
+    NUMBER_EXP      shift and go to state 23
+    NOT             shift and go to state 24
+    STRING_SINGLE   shift and go to state 25
+    STRING_DOUBLE   shift and go to state 26
+    LSPAREN         shift and go to state 27
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+  ! PRIVATE_ID      [ reduce using rule 22 (nularexpression -> operator .) ]
+  ! GLOBAL_ID       [ reduce using rule 22 (nularexpression -> operator .) ]
+  ! DIVIDE          [ reduce using rule 22 (nularexpression -> operator .) ]
+  ! MINUS           [ reduce using rule 22 (nularexpression -> operator .) ]
+  ! MOD             [ reduce using rule 22 (nularexpression -> operator .) ]
+  ! PLUS            [ reduce using rule 22 (nularexpression -> operator .) ]
+  ! POW             [ reduce using rule 22 (nularexpression -> operator .) ]
+  ! SELECT          [ reduce using rule 22 (nularexpression -> operator .) ]
+  ! TIMES           [ reduce using rule 22 (nularexpression -> operator .) ]
+  ! COLON           [ reduce using rule 22 (nularexpression -> operator .) ]
+  ! PRIVATE_ID      [ reduce using rule 49 (empty -> .) ]
+  ! GLOBAL_ID       [ reduce using rule 49 (empty -> .) ]
+  ! DIVIDE          [ reduce using rule 49 (empty -> .) ]
+  ! MINUS           [ reduce using rule 49 (empty -> .) ]
+  ! MOD             [ reduce using rule 49 (empty -> .) ]
+  ! PLUS            [ reduce using rule 49 (empty -> .) ]
+  ! POW             [ reduce using rule 49 (empty -> .) ]
+  ! SELECT          [ reduce using rule 49 (empty -> .) ]
+  ! TIMES           [ reduce using rule 49 (empty -> .) ]
+  ! COLON           [ reduce using rule 49 (empty -> .) ]
+  ! SEMI_COLON      [ reduce using rule 49 (empty -> .) ]
+  ! $end            [ reduce using rule 49 (empty -> .) ]
+  ! RBRACE          [ reduce using rule 49 (empty -> .) ]
+  ! RPAREN          [ reduce using rule 49 (empty -> .) ]
+  ! COMMA           [ reduce using rule 49 (empty -> .) ]
+  ! RSPAREN         [ reduce using rule 49 (empty -> .) ]
+
+    operator                       shift and go to state 9
+    primaryexpression              shift and go to state 42
+    number                         shift and go to state 13
+    unaryexpression                shift and go to state 14
+    nularexpression                shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    empty                          shift and go to state 43
+    identifier                     shift and go to state 44
+    punctuation                    shift and go to state 28
+
+state 10
+
+    (11) binaryexpression -> primaryexpression .
+
+    PRIVATE_ID      reduce using rule 11 (binaryexpression -> primaryexpression .)
+    GLOBAL_ID       reduce using rule 11 (binaryexpression -> primaryexpression .)
+    DIVIDE          reduce using rule 11 (binaryexpression -> primaryexpression .)
+    MINUS           reduce using rule 11 (binaryexpression -> primaryexpression .)
+    MOD             reduce using rule 11 (binaryexpression -> primaryexpression .)
+    PLUS            reduce using rule 11 (binaryexpression -> primaryexpression .)
+    POW             reduce using rule 11 (binaryexpression -> primaryexpression .)
+    SELECT          reduce using rule 11 (binaryexpression -> primaryexpression .)
+    TIMES           reduce using rule 11 (binaryexpression -> primaryexpression .)
+    COLON           reduce using rule 11 (binaryexpression -> primaryexpression .)
+    SEMI_COLON      reduce using rule 11 (binaryexpression -> primaryexpression .)
+    $end            reduce using rule 11 (binaryexpression -> primaryexpression .)
+    RBRACE          reduce using rule 11 (binaryexpression -> primaryexpression .)
+    RPAREN          reduce using rule 11 (binaryexpression -> primaryexpression .)
+    COMMA           reduce using rule 11 (binaryexpression -> primaryexpression .)
+    RSPAREN         reduce using rule 11 (binaryexpression -> primaryexpression .)
+
+
+state 11
+
+    (27) identifier -> PRIVATE_ID .
+
+    EQUAL           reduce using rule 27 (identifier -> PRIVATE_ID .)
+    PRIVATE_ID      reduce using rule 27 (identifier -> PRIVATE_ID .)
+    GLOBAL_ID       reduce using rule 27 (identifier -> PRIVATE_ID .)
+    DIVIDE          reduce using rule 27 (identifier -> PRIVATE_ID .)
+    MINUS           reduce using rule 27 (identifier -> PRIVATE_ID .)
+    MOD             reduce using rule 27 (identifier -> PRIVATE_ID .)
+    PLUS            reduce using rule 27 (identifier -> PRIVATE_ID .)
+    POW             reduce using rule 27 (identifier -> PRIVATE_ID .)
+    SELECT          reduce using rule 27 (identifier -> PRIVATE_ID .)
+    TIMES           reduce using rule 27 (identifier -> PRIVATE_ID .)
+    COLON           reduce using rule 27 (identifier -> PRIVATE_ID .)
+    SEMI_COLON      reduce using rule 27 (identifier -> PRIVATE_ID .)
+    $end            reduce using rule 27 (identifier -> PRIVATE_ID .)
+    LBRACE          reduce using rule 27 (identifier -> PRIVATE_ID .)
+    LPAREN          reduce using rule 27 (identifier -> PRIVATE_ID .)
+    NUMBER_REAL     reduce using rule 27 (identifier -> PRIVATE_ID .)
+    NUMBER_HEX      reduce using rule 27 (identifier -> PRIVATE_ID .)
+    NUMBER_EXP      reduce using rule 27 (identifier -> PRIVATE_ID .)
+    NOT             reduce using rule 27 (identifier -> PRIVATE_ID .)
+    STRING_SINGLE   reduce using rule 27 (identifier -> PRIVATE_ID .)
+    STRING_DOUBLE   reduce using rule 27 (identifier -> PRIVATE_ID .)
+    LSPAREN         reduce using rule 27 (identifier -> PRIVATE_ID .)
+    RBRACE          reduce using rule 27 (identifier -> PRIVATE_ID .)
+    RPAREN          reduce using rule 27 (identifier -> PRIVATE_ID .)
+    COMMA           reduce using rule 27 (identifier -> PRIVATE_ID .)
+    RSPAREN         reduce using rule 27 (identifier -> PRIVATE_ID .)
+
+
+state 12
+
+    (28) identifier -> GLOBAL_ID .
+
+    EQUAL           reduce using rule 28 (identifier -> GLOBAL_ID .)
+    PRIVATE_ID      reduce using rule 28 (identifier -> GLOBAL_ID .)
+    GLOBAL_ID       reduce using rule 28 (identifier -> GLOBAL_ID .)
+    DIVIDE          reduce using rule 28 (identifier -> GLOBAL_ID .)
+    MINUS           reduce using rule 28 (identifier -> GLOBAL_ID .)
+    MOD             reduce using rule 28 (identifier -> GLOBAL_ID .)
+    PLUS            reduce using rule 28 (identifier -> GLOBAL_ID .)
+    POW             reduce using rule 28 (identifier -> GLOBAL_ID .)
+    SELECT          reduce using rule 28 (identifier -> GLOBAL_ID .)
+    TIMES           reduce using rule 28 (identifier -> GLOBAL_ID .)
+    COLON           reduce using rule 28 (identifier -> GLOBAL_ID .)
+    SEMI_COLON      reduce using rule 28 (identifier -> GLOBAL_ID .)
+    $end            reduce using rule 28 (identifier -> GLOBAL_ID .)
+    LBRACE          reduce using rule 28 (identifier -> GLOBAL_ID .)
+    LPAREN          reduce using rule 28 (identifier -> GLOBAL_ID .)
+    NUMBER_REAL     reduce using rule 28 (identifier -> GLOBAL_ID .)
+    NUMBER_HEX      reduce using rule 28 (identifier -> GLOBAL_ID .)
+    NUMBER_EXP      reduce using rule 28 (identifier -> GLOBAL_ID .)
+    NOT             reduce using rule 28 (identifier -> GLOBAL_ID .)
+    STRING_SINGLE   reduce using rule 28 (identifier -> GLOBAL_ID .)
+    STRING_DOUBLE   reduce using rule 28 (identifier -> GLOBAL_ID .)
+    LSPAREN         reduce using rule 28 (identifier -> GLOBAL_ID .)
+    RBRACE          reduce using rule 28 (identifier -> GLOBAL_ID .)
+    RPAREN          reduce using rule 28 (identifier -> GLOBAL_ID .)
+    COMMA           reduce using rule 28 (identifier -> GLOBAL_ID .)
+    RSPAREN         reduce using rule 28 (identifier -> GLOBAL_ID .)
+
+
+state 13
+
+    (12) primaryexpression -> number .
+
+    PRIVATE_ID      reduce using rule 12 (primaryexpression -> number .)
+    GLOBAL_ID       reduce using rule 12 (primaryexpression -> number .)
+    DIVIDE          reduce using rule 12 (primaryexpression -> number .)
+    MINUS           reduce using rule 12 (primaryexpression -> number .)
+    MOD             reduce using rule 12 (primaryexpression -> number .)
+    PLUS            reduce using rule 12 (primaryexpression -> number .)
+    POW             reduce using rule 12 (primaryexpression -> number .)
+    SELECT          reduce using rule 12 (primaryexpression -> number .)
+    TIMES           reduce using rule 12 (primaryexpression -> number .)
+    COLON           reduce using rule 12 (primaryexpression -> number .)
+    SEMI_COLON      reduce using rule 12 (primaryexpression -> number .)
+    $end            reduce using rule 12 (primaryexpression -> number .)
+    RBRACE          reduce using rule 12 (primaryexpression -> number .)
+    RPAREN          reduce using rule 12 (primaryexpression -> number .)
+    COMMA           reduce using rule 12 (primaryexpression -> number .)
+    RSPAREN         reduce using rule 12 (primaryexpression -> number .)
+
+
+state 14
+
+    (13) primaryexpression -> unaryexpression .
+
+    PRIVATE_ID      reduce using rule 13 (primaryexpression -> unaryexpression .)
+    GLOBAL_ID       reduce using rule 13 (primaryexpression -> unaryexpression .)
+    DIVIDE          reduce using rule 13 (primaryexpression -> unaryexpression .)
+    MINUS           reduce using rule 13 (primaryexpression -> unaryexpression .)
+    MOD             reduce using rule 13 (primaryexpression -> unaryexpression .)
+    PLUS            reduce using rule 13 (primaryexpression -> unaryexpression .)
+    POW             reduce using rule 13 (primaryexpression -> unaryexpression .)
+    SELECT          reduce using rule 13 (primaryexpression -> unaryexpression .)
+    TIMES           reduce using rule 13 (primaryexpression -> unaryexpression .)
+    COLON           reduce using rule 13 (primaryexpression -> unaryexpression .)
+    SEMI_COLON      reduce using rule 13 (primaryexpression -> unaryexpression .)
+    $end            reduce using rule 13 (primaryexpression -> unaryexpression .)
+    RBRACE          reduce using rule 13 (primaryexpression -> unaryexpression .)
+    RPAREN          reduce using rule 13 (primaryexpression -> unaryexpression .)
+    COMMA           reduce using rule 13 (primaryexpression -> unaryexpression .)
+    RSPAREN         reduce using rule 13 (primaryexpression -> unaryexpression .)
+
+
+state 15
+
+    (14) primaryexpression -> nularexpression .
+
+    PRIVATE_ID      reduce using rule 14 (primaryexpression -> nularexpression .)
+    GLOBAL_ID       reduce using rule 14 (primaryexpression -> nularexpression .)
+    DIVIDE          reduce using rule 14 (primaryexpression -> nularexpression .)
+    MINUS           reduce using rule 14 (primaryexpression -> nularexpression .)
+    MOD             reduce using rule 14 (primaryexpression -> nularexpression .)
+    PLUS            reduce using rule 14 (primaryexpression -> nularexpression .)
+    POW             reduce using rule 14 (primaryexpression -> nularexpression .)
+    SELECT          reduce using rule 14 (primaryexpression -> nularexpression .)
+    TIMES           reduce using rule 14 (primaryexpression -> nularexpression .)
+    COLON           reduce using rule 14 (primaryexpression -> nularexpression .)
+    SEMI_COLON      reduce using rule 14 (primaryexpression -> nularexpression .)
+    $end            reduce using rule 14 (primaryexpression -> nularexpression .)
+    RBRACE          reduce using rule 14 (primaryexpression -> nularexpression .)
+    RPAREN          reduce using rule 14 (primaryexpression -> nularexpression .)
+    COMMA           reduce using rule 14 (primaryexpression -> nularexpression .)
+    RSPAREN         reduce using rule 14 (primaryexpression -> nularexpression .)
+
+
+state 16
+
+    (15) primaryexpression -> variable .
+
+    PRIVATE_ID      reduce using rule 15 (primaryexpression -> variable .)
+    GLOBAL_ID       reduce using rule 15 (primaryexpression -> variable .)
+    DIVIDE          reduce using rule 15 (primaryexpression -> variable .)
+    MINUS           reduce using rule 15 (primaryexpression -> variable .)
+    MOD             reduce using rule 15 (primaryexpression -> variable .)
+    PLUS            reduce using rule 15 (primaryexpression -> variable .)
+    POW             reduce using rule 15 (primaryexpression -> variable .)
+    SELECT          reduce using rule 15 (primaryexpression -> variable .)
+    TIMES           reduce using rule 15 (primaryexpression -> variable .)
+    COLON           reduce using rule 15 (primaryexpression -> variable .)
+    SEMI_COLON      reduce using rule 15 (primaryexpression -> variable .)
+    $end            reduce using rule 15 (primaryexpression -> variable .)
+    RBRACE          reduce using rule 15 (primaryexpression -> variable .)
+    RPAREN          reduce using rule 15 (primaryexpression -> variable .)
+    COMMA           reduce using rule 15 (primaryexpression -> variable .)
+    RSPAREN         reduce using rule 15 (primaryexpression -> variable .)
+
+
+state 17
+
+    (16) primaryexpression -> string .
+
+    PRIVATE_ID      reduce using rule 16 (primaryexpression -> string .)
+    GLOBAL_ID       reduce using rule 16 (primaryexpression -> string .)
+    DIVIDE          reduce using rule 16 (primaryexpression -> string .)
+    MINUS           reduce using rule 16 (primaryexpression -> string .)
+    MOD             reduce using rule 16 (primaryexpression -> string .)
+    PLUS            reduce using rule 16 (primaryexpression -> string .)
+    POW             reduce using rule 16 (primaryexpression -> string .)
+    SELECT          reduce using rule 16 (primaryexpression -> string .)
+    TIMES           reduce using rule 16 (primaryexpression -> string .)
+    COLON           reduce using rule 16 (primaryexpression -> string .)
+    SEMI_COLON      reduce using rule 16 (primaryexpression -> string .)
+    $end            reduce using rule 16 (primaryexpression -> string .)
+    RBRACE          reduce using rule 16 (primaryexpression -> string .)
+    RPAREN          reduce using rule 16 (primaryexpression -> string .)
+    COMMA           reduce using rule 16 (primaryexpression -> string .)
+    RSPAREN         reduce using rule 16 (primaryexpression -> string .)
+
+
+state 18
+
+    (17) primaryexpression -> LBRACE . code RBRACE
+    (1) code -> . statements
+    (2) code -> . statement
+    (3) statements -> . statement SEMI_COLON statement
+    (4) statements -> . statement
+    (5) statement -> . empty
+    (6) statement -> . assignment
+    (7) statement -> . binaryexpression
+    (49) empty -> .
+    (8) assignment -> . PRIVATE identifier EQUAL binaryexpression
+    (9) assignment -> . identifier EQUAL binaryexpression
+    (10) binaryexpression -> . binaryexpression operator binaryexpression
+    (11) binaryexpression -> . primaryexpression
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (12) primaryexpression -> . number
+    (13) primaryexpression -> . unaryexpression
+    (14) primaryexpression -> . nularexpression
+    (15) primaryexpression -> . variable
+    (16) primaryexpression -> . string
+    (17) primaryexpression -> . LBRACE code RBRACE
+    (18) primaryexpression -> . LPAREN binaryexpression RPAREN
+    (19) primaryexpression -> . array
+    (40) number -> . NUMBER_REAL
+    (41) number -> . NUMBER_HEX
+    (42) number -> . NUMBER_EXP
+    (24) unaryexpression -> . operator primaryexpression
+    (25) unaryexpression -> . NOT primaryexpression
+    (26) unaryexpression -> . empty
+    (22) nularexpression -> . operator
+    (23) nularexpression -> . empty
+    (29) variable -> . identifier
+    (43) string -> . STRING_SINGLE
+    (44) string -> . STRING_DOUBLE
+    (20) array -> . LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN
+    (21) array -> . LSPAREN empty RSPAREN
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+  ! shift/reduce conflict for PRIVATE_ID resolved as shift
+  ! shift/reduce conflict for GLOBAL_ID resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for POW resolved as shift
+  ! shift/reduce conflict for SELECT resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for COLON resolved as shift
+    SEMI_COLON      reduce using rule 49 (empty -> .)
+    RBRACE          reduce using rule 49 (empty -> .)
+    PRIVATE         shift and go to state 7
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_HEX      shift and go to state 22
+    NUMBER_EXP      shift and go to state 23
+    NOT             shift and go to state 24
+    STRING_SINGLE   shift and go to state 25
+    STRING_DOUBLE   shift and go to state 26
+    LSPAREN         shift and go to state 27
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+  ! PRIVATE_ID      [ reduce using rule 49 (empty -> .) ]
+  ! GLOBAL_ID       [ reduce using rule 49 (empty -> .) ]
+  ! DIVIDE          [ reduce using rule 49 (empty -> .) ]
+  ! MINUS           [ reduce using rule 49 (empty -> .) ]
+  ! MOD             [ reduce using rule 49 (empty -> .) ]
+  ! PLUS            [ reduce using rule 49 (empty -> .) ]
+  ! POW             [ reduce using rule 49 (empty -> .) ]
+  ! SELECT          [ reduce using rule 49 (empty -> .) ]
+  ! TIMES           [ reduce using rule 49 (empty -> .) ]
+  ! COLON           [ reduce using rule 49 (empty -> .) ]
+
+    code                           shift and go to state 45
+    statements                     shift and go to state 2
+    statement                      shift and go to state 3
+    empty                          shift and go to state 4
+    assignment                     shift and go to state 5
+    binaryexpression               shift and go to state 6
+    identifier                     shift and go to state 8
+    operator                       shift and go to state 9
+    primaryexpression              shift and go to state 10
+    number                         shift and go to state 13
+    unaryexpression                shift and go to state 14
+    nularexpression                shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    punctuation                    shift and go to state 28
+
+state 19
+
+    (18) primaryexpression -> LPAREN . binaryexpression RPAREN
+    (10) binaryexpression -> . binaryexpression operator binaryexpression
+    (11) binaryexpression -> . primaryexpression
+    (12) primaryexpression -> . number
+    (13) primaryexpression -> . unaryexpression
+    (14) primaryexpression -> . nularexpression
+    (15) primaryexpression -> . variable
+    (16) primaryexpression -> . string
+    (17) primaryexpression -> . LBRACE code RBRACE
+    (18) primaryexpression -> . LPAREN binaryexpression RPAREN
+    (19) primaryexpression -> . array
+    (40) number -> . NUMBER_REAL
+    (41) number -> . NUMBER_HEX
+    (42) number -> . NUMBER_EXP
+    (24) unaryexpression -> . operator primaryexpression
+    (25) unaryexpression -> . NOT primaryexpression
+    (26) unaryexpression -> . empty
+    (22) nularexpression -> . operator
+    (23) nularexpression -> . empty
+    (29) variable -> . identifier
+    (43) string -> . STRING_SINGLE
+    (44) string -> . STRING_DOUBLE
+    (20) array -> . LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN
+    (21) array -> . LSPAREN empty RSPAREN
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (49) empty -> .
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+  ! shift/reduce conflict for PRIVATE_ID resolved as shift
+  ! shift/reduce conflict for GLOBAL_ID resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for POW resolved as shift
+  ! shift/reduce conflict for SELECT resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for COLON resolved as shift
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_HEX      shift and go to state 22
+    NUMBER_EXP      shift and go to state 23
+    NOT             shift and go to state 24
+    STRING_SINGLE   shift and go to state 25
+    STRING_DOUBLE   shift and go to state 26
+    LSPAREN         shift and go to state 27
+    RPAREN          reduce using rule 49 (empty -> .)
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+  ! PRIVATE_ID      [ reduce using rule 49 (empty -> .) ]
+  ! GLOBAL_ID       [ reduce using rule 49 (empty -> .) ]
+  ! DIVIDE          [ reduce using rule 49 (empty -> .) ]
+  ! MINUS           [ reduce using rule 49 (empty -> .) ]
+  ! MOD             [ reduce using rule 49 (empty -> .) ]
+  ! PLUS            [ reduce using rule 49 (empty -> .) ]
+  ! POW             [ reduce using rule 49 (empty -> .) ]
+  ! SELECT          [ reduce using rule 49 (empty -> .) ]
+  ! TIMES           [ reduce using rule 49 (empty -> .) ]
+  ! COLON           [ reduce using rule 49 (empty -> .) ]
+
+    binaryexpression               shift and go to state 46
+    operator                       shift and go to state 9
+    primaryexpression              shift and go to state 10
+    number                         shift and go to state 13
+    unaryexpression                shift and go to state 14
+    nularexpression                shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    empty                          shift and go to state 43
+    identifier                     shift and go to state 44
+    punctuation                    shift and go to state 28
+
+state 20
+
+    (19) primaryexpression -> array .
+
+    PRIVATE_ID      reduce using rule 19 (primaryexpression -> array .)
+    GLOBAL_ID       reduce using rule 19 (primaryexpression -> array .)
+    DIVIDE          reduce using rule 19 (primaryexpression -> array .)
+    MINUS           reduce using rule 19 (primaryexpression -> array .)
+    MOD             reduce using rule 19 (primaryexpression -> array .)
+    PLUS            reduce using rule 19 (primaryexpression -> array .)
+    POW             reduce using rule 19 (primaryexpression -> array .)
+    SELECT          reduce using rule 19 (primaryexpression -> array .)
+    TIMES           reduce using rule 19 (primaryexpression -> array .)
+    COLON           reduce using rule 19 (primaryexpression -> array .)
+    SEMI_COLON      reduce using rule 19 (primaryexpression -> array .)
+    $end            reduce using rule 19 (primaryexpression -> array .)
+    RBRACE          reduce using rule 19 (primaryexpression -> array .)
+    RPAREN          reduce using rule 19 (primaryexpression -> array .)
+    COMMA           reduce using rule 19 (primaryexpression -> array .)
+    RSPAREN         reduce using rule 19 (primaryexpression -> array .)
+
+
+state 21
+
+    (40) number -> NUMBER_REAL .
+
+    PRIVATE_ID      reduce using rule 40 (number -> NUMBER_REAL .)
+    GLOBAL_ID       reduce using rule 40 (number -> NUMBER_REAL .)
+    DIVIDE          reduce using rule 40 (number -> NUMBER_REAL .)
+    MINUS           reduce using rule 40 (number -> NUMBER_REAL .)
+    MOD             reduce using rule 40 (number -> NUMBER_REAL .)
+    PLUS            reduce using rule 40 (number -> NUMBER_REAL .)
+    POW             reduce using rule 40 (number -> NUMBER_REAL .)
+    SELECT          reduce using rule 40 (number -> NUMBER_REAL .)
+    TIMES           reduce using rule 40 (number -> NUMBER_REAL .)
+    COLON           reduce using rule 40 (number -> NUMBER_REAL .)
+    SEMI_COLON      reduce using rule 40 (number -> NUMBER_REAL .)
+    $end            reduce using rule 40 (number -> NUMBER_REAL .)
+    RBRACE          reduce using rule 40 (number -> NUMBER_REAL .)
+    RPAREN          reduce using rule 40 (number -> NUMBER_REAL .)
+    COMMA           reduce using rule 40 (number -> NUMBER_REAL .)
+    RSPAREN         reduce using rule 40 (number -> NUMBER_REAL .)
+
+
+state 22
+
+    (41) number -> NUMBER_HEX .
+
+    PRIVATE_ID      reduce using rule 41 (number -> NUMBER_HEX .)
+    GLOBAL_ID       reduce using rule 41 (number -> NUMBER_HEX .)
+    DIVIDE          reduce using rule 41 (number -> NUMBER_HEX .)
+    MINUS           reduce using rule 41 (number -> NUMBER_HEX .)
+    MOD             reduce using rule 41 (number -> NUMBER_HEX .)
+    PLUS            reduce using rule 41 (number -> NUMBER_HEX .)
+    POW             reduce using rule 41 (number -> NUMBER_HEX .)
+    SELECT          reduce using rule 41 (number -> NUMBER_HEX .)
+    TIMES           reduce using rule 41 (number -> NUMBER_HEX .)
+    COLON           reduce using rule 41 (number -> NUMBER_HEX .)
+    SEMI_COLON      reduce using rule 41 (number -> NUMBER_HEX .)
+    $end            reduce using rule 41 (number -> NUMBER_HEX .)
+    RBRACE          reduce using rule 41 (number -> NUMBER_HEX .)
+    RPAREN          reduce using rule 41 (number -> NUMBER_HEX .)
+    COMMA           reduce using rule 41 (number -> NUMBER_HEX .)
+    RSPAREN         reduce using rule 41 (number -> NUMBER_HEX .)
+
+
+state 23
+
+    (42) number -> NUMBER_EXP .
+
+    PRIVATE_ID      reduce using rule 42 (number -> NUMBER_EXP .)
+    GLOBAL_ID       reduce using rule 42 (number -> NUMBER_EXP .)
+    DIVIDE          reduce using rule 42 (number -> NUMBER_EXP .)
+    MINUS           reduce using rule 42 (number -> NUMBER_EXP .)
+    MOD             reduce using rule 42 (number -> NUMBER_EXP .)
+    PLUS            reduce using rule 42 (number -> NUMBER_EXP .)
+    POW             reduce using rule 42 (number -> NUMBER_EXP .)
+    SELECT          reduce using rule 42 (number -> NUMBER_EXP .)
+    TIMES           reduce using rule 42 (number -> NUMBER_EXP .)
+    COLON           reduce using rule 42 (number -> NUMBER_EXP .)
+    SEMI_COLON      reduce using rule 42 (number -> NUMBER_EXP .)
+    $end            reduce using rule 42 (number -> NUMBER_EXP .)
+    RBRACE          reduce using rule 42 (number -> NUMBER_EXP .)
+    RPAREN          reduce using rule 42 (number -> NUMBER_EXP .)
+    COMMA           reduce using rule 42 (number -> NUMBER_EXP .)
+    RSPAREN         reduce using rule 42 (number -> NUMBER_EXP .)
+
+
+state 24
+
+    (25) unaryexpression -> NOT . primaryexpression
+    (12) primaryexpression -> . number
+    (13) primaryexpression -> . unaryexpression
+    (14) primaryexpression -> . nularexpression
+    (15) primaryexpression -> . variable
+    (16) primaryexpression -> . string
+    (17) primaryexpression -> . LBRACE code RBRACE
+    (18) primaryexpression -> . LPAREN binaryexpression RPAREN
+    (19) primaryexpression -> . array
+    (40) number -> . NUMBER_REAL
+    (41) number -> . NUMBER_HEX
+    (42) number -> . NUMBER_EXP
+    (24) unaryexpression -> . operator primaryexpression
+    (25) unaryexpression -> . NOT primaryexpression
+    (26) unaryexpression -> . empty
+    (22) nularexpression -> . operator
+    (23) nularexpression -> . empty
+    (29) variable -> . identifier
+    (43) string -> . STRING_SINGLE
+    (44) string -> . STRING_DOUBLE
+    (20) array -> . LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN
+    (21) array -> . LSPAREN empty RSPAREN
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (49) empty -> .
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+  ! shift/reduce conflict for PRIVATE_ID resolved as shift
+  ! shift/reduce conflict for GLOBAL_ID resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for POW resolved as shift
+  ! shift/reduce conflict for SELECT resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for COLON resolved as shift
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_HEX      shift and go to state 22
+    NUMBER_EXP      shift and go to state 23
+    NOT             shift and go to state 24
+    STRING_SINGLE   shift and go to state 25
+    STRING_DOUBLE   shift and go to state 26
+    LSPAREN         shift and go to state 27
+    SEMI_COLON      reduce using rule 49 (empty -> .)
+    $end            reduce using rule 49 (empty -> .)
+    RBRACE          reduce using rule 49 (empty -> .)
+    RPAREN          reduce using rule 49 (empty -> .)
+    COMMA           reduce using rule 49 (empty -> .)
+    RSPAREN         reduce using rule 49 (empty -> .)
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+  ! PRIVATE_ID      [ reduce using rule 49 (empty -> .) ]
+  ! GLOBAL_ID       [ reduce using rule 49 (empty -> .) ]
+  ! DIVIDE          [ reduce using rule 49 (empty -> .) ]
+  ! MINUS           [ reduce using rule 49 (empty -> .) ]
+  ! MOD             [ reduce using rule 49 (empty -> .) ]
+  ! PLUS            [ reduce using rule 49 (empty -> .) ]
+  ! POW             [ reduce using rule 49 (empty -> .) ]
+  ! SELECT          [ reduce using rule 49 (empty -> .) ]
+  ! TIMES           [ reduce using rule 49 (empty -> .) ]
+  ! COLON           [ reduce using rule 49 (empty -> .) ]
+
+    primaryexpression              shift and go to state 47
+    number                         shift and go to state 13
+    unaryexpression                shift and go to state 14
+    nularexpression                shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    operator                       shift and go to state 9
+    empty                          shift and go to state 43
+    identifier                     shift and go to state 44
+    punctuation                    shift and go to state 28
+
+state 25
+
+    (43) string -> STRING_SINGLE .
+
+    PRIVATE_ID      reduce using rule 43 (string -> STRING_SINGLE .)
+    GLOBAL_ID       reduce using rule 43 (string -> STRING_SINGLE .)
+    DIVIDE          reduce using rule 43 (string -> STRING_SINGLE .)
+    MINUS           reduce using rule 43 (string -> STRING_SINGLE .)
+    MOD             reduce using rule 43 (string -> STRING_SINGLE .)
+    PLUS            reduce using rule 43 (string -> STRING_SINGLE .)
+    POW             reduce using rule 43 (string -> STRING_SINGLE .)
+    SELECT          reduce using rule 43 (string -> STRING_SINGLE .)
+    TIMES           reduce using rule 43 (string -> STRING_SINGLE .)
+    COLON           reduce using rule 43 (string -> STRING_SINGLE .)
+    SEMI_COLON      reduce using rule 43 (string -> STRING_SINGLE .)
+    $end            reduce using rule 43 (string -> STRING_SINGLE .)
+    RBRACE          reduce using rule 43 (string -> STRING_SINGLE .)
+    RPAREN          reduce using rule 43 (string -> STRING_SINGLE .)
+    COMMA           reduce using rule 43 (string -> STRING_SINGLE .)
+    RSPAREN         reduce using rule 43 (string -> STRING_SINGLE .)
+
+
+state 26
+
+    (44) string -> STRING_DOUBLE .
+
+    PRIVATE_ID      reduce using rule 44 (string -> STRING_DOUBLE .)
+    GLOBAL_ID       reduce using rule 44 (string -> STRING_DOUBLE .)
+    DIVIDE          reduce using rule 44 (string -> STRING_DOUBLE .)
+    MINUS           reduce using rule 44 (string -> STRING_DOUBLE .)
+    MOD             reduce using rule 44 (string -> STRING_DOUBLE .)
+    PLUS            reduce using rule 44 (string -> STRING_DOUBLE .)
+    POW             reduce using rule 44 (string -> STRING_DOUBLE .)
+    SELECT          reduce using rule 44 (string -> STRING_DOUBLE .)
+    TIMES           reduce using rule 44 (string -> STRING_DOUBLE .)
+    COLON           reduce using rule 44 (string -> STRING_DOUBLE .)
+    SEMI_COLON      reduce using rule 44 (string -> STRING_DOUBLE .)
+    $end            reduce using rule 44 (string -> STRING_DOUBLE .)
+    RBRACE          reduce using rule 44 (string -> STRING_DOUBLE .)
+    RPAREN          reduce using rule 44 (string -> STRING_DOUBLE .)
+    COMMA           reduce using rule 44 (string -> STRING_DOUBLE .)
+    RSPAREN         reduce using rule 44 (string -> STRING_DOUBLE .)
+
+
+state 27
+
+    (20) array -> LSPAREN . binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN
+    (21) array -> LSPAREN . empty RSPAREN
+    (10) binaryexpression -> . binaryexpression operator binaryexpression
+    (11) binaryexpression -> . primaryexpression
+    (49) empty -> .
+    (12) primaryexpression -> . number
+    (13) primaryexpression -> . unaryexpression
+    (14) primaryexpression -> . nularexpression
+    (15) primaryexpression -> . variable
+    (16) primaryexpression -> . string
+    (17) primaryexpression -> . LBRACE code RBRACE
+    (18) primaryexpression -> . LPAREN binaryexpression RPAREN
+    (19) primaryexpression -> . array
+    (40) number -> . NUMBER_REAL
+    (41) number -> . NUMBER_HEX
+    (42) number -> . NUMBER_EXP
+    (24) unaryexpression -> . operator primaryexpression
+    (25) unaryexpression -> . NOT primaryexpression
+    (26) unaryexpression -> . empty
+    (22) nularexpression -> . operator
+    (23) nularexpression -> . empty
+    (29) variable -> . identifier
+    (43) string -> . STRING_SINGLE
+    (44) string -> . STRING_DOUBLE
+    (20) array -> . LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN
+    (21) array -> . LSPAREN empty RSPAREN
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+  ! shift/reduce conflict for PRIVATE_ID resolved as shift
+  ! shift/reduce conflict for GLOBAL_ID resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for POW resolved as shift
+  ! shift/reduce conflict for SELECT resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for COLON resolved as shift
+    RSPAREN         reduce using rule 49 (empty -> .)
+    COMMA           reduce using rule 49 (empty -> .)
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_HEX      shift and go to state 22
+    NUMBER_EXP      shift and go to state 23
+    NOT             shift and go to state 24
+    STRING_SINGLE   shift and go to state 25
+    STRING_DOUBLE   shift and go to state 26
+    LSPAREN         shift and go to state 27
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+  ! PRIVATE_ID      [ reduce using rule 49 (empty -> .) ]
+  ! GLOBAL_ID       [ reduce using rule 49 (empty -> .) ]
+  ! DIVIDE          [ reduce using rule 49 (empty -> .) ]
+  ! MINUS           [ reduce using rule 49 (empty -> .) ]
+  ! MOD             [ reduce using rule 49 (empty -> .) ]
+  ! PLUS            [ reduce using rule 49 (empty -> .) ]
+  ! POW             [ reduce using rule 49 (empty -> .) ]
+  ! SELECT          [ reduce using rule 49 (empty -> .) ]
+  ! TIMES           [ reduce using rule 49 (empty -> .) ]
+  ! COLON           [ reduce using rule 49 (empty -> .) ]
+
+    binaryexpression               shift and go to state 48
+    empty                          shift and go to state 49
+    operator                       shift and go to state 9
+    primaryexpression              shift and go to state 10
+    number                         shift and go to state 13
+    unaryexpression                shift and go to state 14
+    nularexpression                shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    identifier                     shift and go to state 44
+    punctuation                    shift and go to state 28
+
+state 28
+
+    (31) operator -> punctuation .
+
+    LBRACE          reduce using rule 31 (operator -> punctuation .)
+    LPAREN          reduce using rule 31 (operator -> punctuation .)
+    NUMBER_REAL     reduce using rule 31 (operator -> punctuation .)
+    NUMBER_HEX      reduce using rule 31 (operator -> punctuation .)
+    NUMBER_EXP      reduce using rule 31 (operator -> punctuation .)
+    NOT             reduce using rule 31 (operator -> punctuation .)
+    STRING_SINGLE   reduce using rule 31 (operator -> punctuation .)
+    STRING_DOUBLE   reduce using rule 31 (operator -> punctuation .)
+    LSPAREN         reduce using rule 31 (operator -> punctuation .)
+    PRIVATE_ID      reduce using rule 31 (operator -> punctuation .)
+    GLOBAL_ID       reduce using rule 31 (operator -> punctuation .)
+    DIVIDE          reduce using rule 31 (operator -> punctuation .)
+    MINUS           reduce using rule 31 (operator -> punctuation .)
+    MOD             reduce using rule 31 (operator -> punctuation .)
+    PLUS            reduce using rule 31 (operator -> punctuation .)
+    POW             reduce using rule 31 (operator -> punctuation .)
+    SELECT          reduce using rule 31 (operator -> punctuation .)
+    TIMES           reduce using rule 31 (operator -> punctuation .)
+    COLON           reduce using rule 31 (operator -> punctuation .)
+    SEMI_COLON      reduce using rule 31 (operator -> punctuation .)
+    $end            reduce using rule 31 (operator -> punctuation .)
+    RBRACE          reduce using rule 31 (operator -> punctuation .)
+    RPAREN          reduce using rule 31 (operator -> punctuation .)
+    COMMA           reduce using rule 31 (operator -> punctuation .)
+    RSPAREN         reduce using rule 31 (operator -> punctuation .)
+
+
+state 29
+
+    (32) punctuation -> DIVIDE .
+
+    LBRACE          reduce using rule 32 (punctuation -> DIVIDE .)
+    LPAREN          reduce using rule 32 (punctuation -> DIVIDE .)
+    NUMBER_REAL     reduce using rule 32 (punctuation -> DIVIDE .)
+    NUMBER_HEX      reduce using rule 32 (punctuation -> DIVIDE .)
+    NUMBER_EXP      reduce using rule 32 (punctuation -> DIVIDE .)
+    NOT             reduce using rule 32 (punctuation -> DIVIDE .)
+    STRING_SINGLE   reduce using rule 32 (punctuation -> DIVIDE .)
+    STRING_DOUBLE   reduce using rule 32 (punctuation -> DIVIDE .)
+    LSPAREN         reduce using rule 32 (punctuation -> DIVIDE .)
+    PRIVATE_ID      reduce using rule 32 (punctuation -> DIVIDE .)
+    GLOBAL_ID       reduce using rule 32 (punctuation -> DIVIDE .)
+    DIVIDE          reduce using rule 32 (punctuation -> DIVIDE .)
+    MINUS           reduce using rule 32 (punctuation -> DIVIDE .)
+    MOD             reduce using rule 32 (punctuation -> DIVIDE .)
+    PLUS            reduce using rule 32 (punctuation -> DIVIDE .)
+    POW             reduce using rule 32 (punctuation -> DIVIDE .)
+    SELECT          reduce using rule 32 (punctuation -> DIVIDE .)
+    TIMES           reduce using rule 32 (punctuation -> DIVIDE .)
+    COLON           reduce using rule 32 (punctuation -> DIVIDE .)
+    SEMI_COLON      reduce using rule 32 (punctuation -> DIVIDE .)
+    $end            reduce using rule 32 (punctuation -> DIVIDE .)
+    RBRACE          reduce using rule 32 (punctuation -> DIVIDE .)
+    RPAREN          reduce using rule 32 (punctuation -> DIVIDE .)
+    COMMA           reduce using rule 32 (punctuation -> DIVIDE .)
+    RSPAREN         reduce using rule 32 (punctuation -> DIVIDE .)
+
+
+state 30
+
+    (33) punctuation -> MINUS .
+
+    LBRACE          reduce using rule 33 (punctuation -> MINUS .)
+    LPAREN          reduce using rule 33 (punctuation -> MINUS .)
+    NUMBER_REAL     reduce using rule 33 (punctuation -> MINUS .)
+    NUMBER_HEX      reduce using rule 33 (punctuation -> MINUS .)
+    NUMBER_EXP      reduce using rule 33 (punctuation -> MINUS .)
+    NOT             reduce using rule 33 (punctuation -> MINUS .)
+    STRING_SINGLE   reduce using rule 33 (punctuation -> MINUS .)
+    STRING_DOUBLE   reduce using rule 33 (punctuation -> MINUS .)
+    LSPAREN         reduce using rule 33 (punctuation -> MINUS .)
+    PRIVATE_ID      reduce using rule 33 (punctuation -> MINUS .)
+    GLOBAL_ID       reduce using rule 33 (punctuation -> MINUS .)
+    DIVIDE          reduce using rule 33 (punctuation -> MINUS .)
+    MINUS           reduce using rule 33 (punctuation -> MINUS .)
+    MOD             reduce using rule 33 (punctuation -> MINUS .)
+    PLUS            reduce using rule 33 (punctuation -> MINUS .)
+    POW             reduce using rule 33 (punctuation -> MINUS .)
+    SELECT          reduce using rule 33 (punctuation -> MINUS .)
+    TIMES           reduce using rule 33 (punctuation -> MINUS .)
+    COLON           reduce using rule 33 (punctuation -> MINUS .)
+    SEMI_COLON      reduce using rule 33 (punctuation -> MINUS .)
+    $end            reduce using rule 33 (punctuation -> MINUS .)
+    RBRACE          reduce using rule 33 (punctuation -> MINUS .)
+    RPAREN          reduce using rule 33 (punctuation -> MINUS .)
+    COMMA           reduce using rule 33 (punctuation -> MINUS .)
+    RSPAREN         reduce using rule 33 (punctuation -> MINUS .)
+
+
+state 31
+
+    (34) punctuation -> MOD .
+
+    LBRACE          reduce using rule 34 (punctuation -> MOD .)
+    LPAREN          reduce using rule 34 (punctuation -> MOD .)
+    NUMBER_REAL     reduce using rule 34 (punctuation -> MOD .)
+    NUMBER_HEX      reduce using rule 34 (punctuation -> MOD .)
+    NUMBER_EXP      reduce using rule 34 (punctuation -> MOD .)
+    NOT             reduce using rule 34 (punctuation -> MOD .)
+    STRING_SINGLE   reduce using rule 34 (punctuation -> MOD .)
+    STRING_DOUBLE   reduce using rule 34 (punctuation -> MOD .)
+    LSPAREN         reduce using rule 34 (punctuation -> MOD .)
+    PRIVATE_ID      reduce using rule 34 (punctuation -> MOD .)
+    GLOBAL_ID       reduce using rule 34 (punctuation -> MOD .)
+    DIVIDE          reduce using rule 34 (punctuation -> MOD .)
+    MINUS           reduce using rule 34 (punctuation -> MOD .)
+    MOD             reduce using rule 34 (punctuation -> MOD .)
+    PLUS            reduce using rule 34 (punctuation -> MOD .)
+    POW             reduce using rule 34 (punctuation -> MOD .)
+    SELECT          reduce using rule 34 (punctuation -> MOD .)
+    TIMES           reduce using rule 34 (punctuation -> MOD .)
+    COLON           reduce using rule 34 (punctuation -> MOD .)
+    SEMI_COLON      reduce using rule 34 (punctuation -> MOD .)
+    $end            reduce using rule 34 (punctuation -> MOD .)
+    RBRACE          reduce using rule 34 (punctuation -> MOD .)
+    RPAREN          reduce using rule 34 (punctuation -> MOD .)
+    COMMA           reduce using rule 34 (punctuation -> MOD .)
+    RSPAREN         reduce using rule 34 (punctuation -> MOD .)
+
+
+state 32
+
+    (35) punctuation -> PLUS .
+
+    LBRACE          reduce using rule 35 (punctuation -> PLUS .)
+    LPAREN          reduce using rule 35 (punctuation -> PLUS .)
+    NUMBER_REAL     reduce using rule 35 (punctuation -> PLUS .)
+    NUMBER_HEX      reduce using rule 35 (punctuation -> PLUS .)
+    NUMBER_EXP      reduce using rule 35 (punctuation -> PLUS .)
+    NOT             reduce using rule 35 (punctuation -> PLUS .)
+    STRING_SINGLE   reduce using rule 35 (punctuation -> PLUS .)
+    STRING_DOUBLE   reduce using rule 35 (punctuation -> PLUS .)
+    LSPAREN         reduce using rule 35 (punctuation -> PLUS .)
+    PRIVATE_ID      reduce using rule 35 (punctuation -> PLUS .)
+    GLOBAL_ID       reduce using rule 35 (punctuation -> PLUS .)
+    DIVIDE          reduce using rule 35 (punctuation -> PLUS .)
+    MINUS           reduce using rule 35 (punctuation -> PLUS .)
+    MOD             reduce using rule 35 (punctuation -> PLUS .)
+    PLUS            reduce using rule 35 (punctuation -> PLUS .)
+    POW             reduce using rule 35 (punctuation -> PLUS .)
+    SELECT          reduce using rule 35 (punctuation -> PLUS .)
+    TIMES           reduce using rule 35 (punctuation -> PLUS .)
+    COLON           reduce using rule 35 (punctuation -> PLUS .)
+    SEMI_COLON      reduce using rule 35 (punctuation -> PLUS .)
+    $end            reduce using rule 35 (punctuation -> PLUS .)
+    RBRACE          reduce using rule 35 (punctuation -> PLUS .)
+    RPAREN          reduce using rule 35 (punctuation -> PLUS .)
+    COMMA           reduce using rule 35 (punctuation -> PLUS .)
+    RSPAREN         reduce using rule 35 (punctuation -> PLUS .)
+
+
+state 33
+
+    (36) punctuation -> POW .
+
+    LBRACE          reduce using rule 36 (punctuation -> POW .)
+    LPAREN          reduce using rule 36 (punctuation -> POW .)
+    NUMBER_REAL     reduce using rule 36 (punctuation -> POW .)
+    NUMBER_HEX      reduce using rule 36 (punctuation -> POW .)
+    NUMBER_EXP      reduce using rule 36 (punctuation -> POW .)
+    NOT             reduce using rule 36 (punctuation -> POW .)
+    STRING_SINGLE   reduce using rule 36 (punctuation -> POW .)
+    STRING_DOUBLE   reduce using rule 36 (punctuation -> POW .)
+    LSPAREN         reduce using rule 36 (punctuation -> POW .)
+    PRIVATE_ID      reduce using rule 36 (punctuation -> POW .)
+    GLOBAL_ID       reduce using rule 36 (punctuation -> POW .)
+    DIVIDE          reduce using rule 36 (punctuation -> POW .)
+    MINUS           reduce using rule 36 (punctuation -> POW .)
+    MOD             reduce using rule 36 (punctuation -> POW .)
+    PLUS            reduce using rule 36 (punctuation -> POW .)
+    POW             reduce using rule 36 (punctuation -> POW .)
+    SELECT          reduce using rule 36 (punctuation -> POW .)
+    TIMES           reduce using rule 36 (punctuation -> POW .)
+    COLON           reduce using rule 36 (punctuation -> POW .)
+    SEMI_COLON      reduce using rule 36 (punctuation -> POW .)
+    $end            reduce using rule 36 (punctuation -> POW .)
+    RBRACE          reduce using rule 36 (punctuation -> POW .)
+    RPAREN          reduce using rule 36 (punctuation -> POW .)
+    COMMA           reduce using rule 36 (punctuation -> POW .)
+    RSPAREN         reduce using rule 36 (punctuation -> POW .)
+
+
+state 34
+
+    (37) punctuation -> SELECT .
+
+    LBRACE          reduce using rule 37 (punctuation -> SELECT .)
+    LPAREN          reduce using rule 37 (punctuation -> SELECT .)
+    NUMBER_REAL     reduce using rule 37 (punctuation -> SELECT .)
+    NUMBER_HEX      reduce using rule 37 (punctuation -> SELECT .)
+    NUMBER_EXP      reduce using rule 37 (punctuation -> SELECT .)
+    NOT             reduce using rule 37 (punctuation -> SELECT .)
+    STRING_SINGLE   reduce using rule 37 (punctuation -> SELECT .)
+    STRING_DOUBLE   reduce using rule 37 (punctuation -> SELECT .)
+    LSPAREN         reduce using rule 37 (punctuation -> SELECT .)
+    PRIVATE_ID      reduce using rule 37 (punctuation -> SELECT .)
+    GLOBAL_ID       reduce using rule 37 (punctuation -> SELECT .)
+    DIVIDE          reduce using rule 37 (punctuation -> SELECT .)
+    MINUS           reduce using rule 37 (punctuation -> SELECT .)
+    MOD             reduce using rule 37 (punctuation -> SELECT .)
+    PLUS            reduce using rule 37 (punctuation -> SELECT .)
+    POW             reduce using rule 37 (punctuation -> SELECT .)
+    SELECT          reduce using rule 37 (punctuation -> SELECT .)
+    TIMES           reduce using rule 37 (punctuation -> SELECT .)
+    COLON           reduce using rule 37 (punctuation -> SELECT .)
+    SEMI_COLON      reduce using rule 37 (punctuation -> SELECT .)
+    $end            reduce using rule 37 (punctuation -> SELECT .)
+    RBRACE          reduce using rule 37 (punctuation -> SELECT .)
+    RPAREN          reduce using rule 37 (punctuation -> SELECT .)
+    COMMA           reduce using rule 37 (punctuation -> SELECT .)
+    RSPAREN         reduce using rule 37 (punctuation -> SELECT .)
+
+
+state 35
+
+    (38) punctuation -> TIMES .
+
+    LBRACE          reduce using rule 38 (punctuation -> TIMES .)
+    LPAREN          reduce using rule 38 (punctuation -> TIMES .)
+    NUMBER_REAL     reduce using rule 38 (punctuation -> TIMES .)
+    NUMBER_HEX      reduce using rule 38 (punctuation -> TIMES .)
+    NUMBER_EXP      reduce using rule 38 (punctuation -> TIMES .)
+    NOT             reduce using rule 38 (punctuation -> TIMES .)
+    STRING_SINGLE   reduce using rule 38 (punctuation -> TIMES .)
+    STRING_DOUBLE   reduce using rule 38 (punctuation -> TIMES .)
+    LSPAREN         reduce using rule 38 (punctuation -> TIMES .)
+    PRIVATE_ID      reduce using rule 38 (punctuation -> TIMES .)
+    GLOBAL_ID       reduce using rule 38 (punctuation -> TIMES .)
+    DIVIDE          reduce using rule 38 (punctuation -> TIMES .)
+    MINUS           reduce using rule 38 (punctuation -> TIMES .)
+    MOD             reduce using rule 38 (punctuation -> TIMES .)
+    PLUS            reduce using rule 38 (punctuation -> TIMES .)
+    POW             reduce using rule 38 (punctuation -> TIMES .)
+    SELECT          reduce using rule 38 (punctuation -> TIMES .)
+    TIMES           reduce using rule 38 (punctuation -> TIMES .)
+    COLON           reduce using rule 38 (punctuation -> TIMES .)
+    SEMI_COLON      reduce using rule 38 (punctuation -> TIMES .)
+    $end            reduce using rule 38 (punctuation -> TIMES .)
+    RBRACE          reduce using rule 38 (punctuation -> TIMES .)
+    RPAREN          reduce using rule 38 (punctuation -> TIMES .)
+    COMMA           reduce using rule 38 (punctuation -> TIMES .)
+    RSPAREN         reduce using rule 38 (punctuation -> TIMES .)
+
+
+state 36
+
+    (39) punctuation -> COLON .
+
+    LBRACE          reduce using rule 39 (punctuation -> COLON .)
+    LPAREN          reduce using rule 39 (punctuation -> COLON .)
+    NUMBER_REAL     reduce using rule 39 (punctuation -> COLON .)
+    NUMBER_HEX      reduce using rule 39 (punctuation -> COLON .)
+    NUMBER_EXP      reduce using rule 39 (punctuation -> COLON .)
+    NOT             reduce using rule 39 (punctuation -> COLON .)
+    STRING_SINGLE   reduce using rule 39 (punctuation -> COLON .)
+    STRING_DOUBLE   reduce using rule 39 (punctuation -> COLON .)
+    LSPAREN         reduce using rule 39 (punctuation -> COLON .)
+    PRIVATE_ID      reduce using rule 39 (punctuation -> COLON .)
+    GLOBAL_ID       reduce using rule 39 (punctuation -> COLON .)
+    DIVIDE          reduce using rule 39 (punctuation -> COLON .)
+    MINUS           reduce using rule 39 (punctuation -> COLON .)
+    MOD             reduce using rule 39 (punctuation -> COLON .)
+    PLUS            reduce using rule 39 (punctuation -> COLON .)
+    POW             reduce using rule 39 (punctuation -> COLON .)
+    SELECT          reduce using rule 39 (punctuation -> COLON .)
+    TIMES           reduce using rule 39 (punctuation -> COLON .)
+    COLON           reduce using rule 39 (punctuation -> COLON .)
+    SEMI_COLON      reduce using rule 39 (punctuation -> COLON .)
+    $end            reduce using rule 39 (punctuation -> COLON .)
+    RBRACE          reduce using rule 39 (punctuation -> COLON .)
+    RPAREN          reduce using rule 39 (punctuation -> COLON .)
+    COMMA           reduce using rule 39 (punctuation -> COLON .)
+    RSPAREN         reduce using rule 39 (punctuation -> COLON .)
+
+
+state 37
+
+    (3) statements -> statement SEMI_COLON . statement
+    (5) statement -> . empty
+    (6) statement -> . assignment
+    (7) statement -> . binaryexpression
+    (49) empty -> .
+    (8) assignment -> . PRIVATE identifier EQUAL binaryexpression
+    (9) assignment -> . identifier EQUAL binaryexpression
+    (10) binaryexpression -> . binaryexpression operator binaryexpression
+    (11) binaryexpression -> . primaryexpression
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (12) primaryexpression -> . number
+    (13) primaryexpression -> . unaryexpression
+    (14) primaryexpression -> . nularexpression
+    (15) primaryexpression -> . variable
+    (16) primaryexpression -> . string
+    (17) primaryexpression -> . LBRACE code RBRACE
+    (18) primaryexpression -> . LPAREN binaryexpression RPAREN
+    (19) primaryexpression -> . array
+    (40) number -> . NUMBER_REAL
+    (41) number -> . NUMBER_HEX
+    (42) number -> . NUMBER_EXP
+    (24) unaryexpression -> . operator primaryexpression
+    (25) unaryexpression -> . NOT primaryexpression
+    (26) unaryexpression -> . empty
+    (22) nularexpression -> . operator
+    (23) nularexpression -> . empty
+    (29) variable -> . identifier
+    (43) string -> . STRING_SINGLE
+    (44) string -> . STRING_DOUBLE
+    (20) array -> . LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN
+    (21) array -> . LSPAREN empty RSPAREN
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+  ! shift/reduce conflict for PRIVATE_ID resolved as shift
+  ! shift/reduce conflict for GLOBAL_ID resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for POW resolved as shift
+  ! shift/reduce conflict for SELECT resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for COLON resolved as shift
+    $end            reduce using rule 49 (empty -> .)
+    RBRACE          reduce using rule 49 (empty -> .)
+    PRIVATE         shift and go to state 7
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_HEX      shift and go to state 22
+    NUMBER_EXP      shift and go to state 23
+    NOT             shift and go to state 24
+    STRING_SINGLE   shift and go to state 25
+    STRING_DOUBLE   shift and go to state 26
+    LSPAREN         shift and go to state 27
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+  ! PRIVATE_ID      [ reduce using rule 49 (empty -> .) ]
+  ! GLOBAL_ID       [ reduce using rule 49 (empty -> .) ]
+  ! DIVIDE          [ reduce using rule 49 (empty -> .) ]
+  ! MINUS           [ reduce using rule 49 (empty -> .) ]
+  ! MOD             [ reduce using rule 49 (empty -> .) ]
+  ! PLUS            [ reduce using rule 49 (empty -> .) ]
+  ! POW             [ reduce using rule 49 (empty -> .) ]
+  ! SELECT          [ reduce using rule 49 (empty -> .) ]
+  ! TIMES           [ reduce using rule 49 (empty -> .) ]
+  ! COLON           [ reduce using rule 49 (empty -> .) ]
+
+    statement                      shift and go to state 50
+    empty                          shift and go to state 4
+    assignment                     shift and go to state 5
+    binaryexpression               shift and go to state 6
+    identifier                     shift and go to state 8
+    operator                       shift and go to state 9
+    primaryexpression              shift and go to state 10
+    number                         shift and go to state 13
+    unaryexpression                shift and go to state 14
+    nularexpression                shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    punctuation                    shift and go to state 28
+
+state 38
+
+    (10) binaryexpression -> binaryexpression operator . binaryexpression
+    (10) binaryexpression -> . binaryexpression operator binaryexpression
+    (11) binaryexpression -> . primaryexpression
+    (12) primaryexpression -> . number
+    (13) primaryexpression -> . unaryexpression
+    (14) primaryexpression -> . nularexpression
+    (15) primaryexpression -> . variable
+    (16) primaryexpression -> . string
+    (17) primaryexpression -> . LBRACE code RBRACE
+    (18) primaryexpression -> . LPAREN binaryexpression RPAREN
+    (19) primaryexpression -> . array
+    (40) number -> . NUMBER_REAL
+    (41) number -> . NUMBER_HEX
+    (42) number -> . NUMBER_EXP
+    (24) unaryexpression -> . operator primaryexpression
+    (25) unaryexpression -> . NOT primaryexpression
+    (26) unaryexpression -> . empty
+    (22) nularexpression -> . operator
+    (23) nularexpression -> . empty
+    (29) variable -> . identifier
+    (43) string -> . STRING_SINGLE
+    (44) string -> . STRING_DOUBLE
+    (20) array -> . LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN
+    (21) array -> . LSPAREN empty RSPAREN
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (49) empty -> .
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+  ! shift/reduce conflict for PRIVATE_ID resolved as shift
+  ! shift/reduce conflict for GLOBAL_ID resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for POW resolved as shift
+  ! shift/reduce conflict for SELECT resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for COLON resolved as shift
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_HEX      shift and go to state 22
+    NUMBER_EXP      shift and go to state 23
+    NOT             shift and go to state 24
+    STRING_SINGLE   shift and go to state 25
+    STRING_DOUBLE   shift and go to state 26
+    LSPAREN         shift and go to state 27
+    SEMI_COLON      reduce using rule 49 (empty -> .)
+    $end            reduce using rule 49 (empty -> .)
+    RBRACE          reduce using rule 49 (empty -> .)
+    RPAREN          reduce using rule 49 (empty -> .)
+    COMMA           reduce using rule 49 (empty -> .)
+    RSPAREN         reduce using rule 49 (empty -> .)
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+  ! PRIVATE_ID      [ reduce using rule 49 (empty -> .) ]
+  ! GLOBAL_ID       [ reduce using rule 49 (empty -> .) ]
+  ! DIVIDE          [ reduce using rule 49 (empty -> .) ]
+  ! MINUS           [ reduce using rule 49 (empty -> .) ]
+  ! MOD             [ reduce using rule 49 (empty -> .) ]
+  ! PLUS            [ reduce using rule 49 (empty -> .) ]
+  ! POW             [ reduce using rule 49 (empty -> .) ]
+  ! SELECT          [ reduce using rule 49 (empty -> .) ]
+  ! TIMES           [ reduce using rule 49 (empty -> .) ]
+  ! COLON           [ reduce using rule 49 (empty -> .) ]
+
+    binaryexpression               shift and go to state 51
+    operator                       shift and go to state 9
+    primaryexpression              shift and go to state 10
+    number                         shift and go to state 13
+    unaryexpression                shift and go to state 14
+    nularexpression                shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    empty                          shift and go to state 43
+    identifier                     shift and go to state 44
+    punctuation                    shift and go to state 28
+
+state 39
+
+    (30) operator -> identifier .
+
+    LBRACE          reduce using rule 30 (operator -> identifier .)
+    LPAREN          reduce using rule 30 (operator -> identifier .)
+    NUMBER_REAL     reduce using rule 30 (operator -> identifier .)
+    NUMBER_HEX      reduce using rule 30 (operator -> identifier .)
+    NUMBER_EXP      reduce using rule 30 (operator -> identifier .)
+    NOT             reduce using rule 30 (operator -> identifier .)
+    STRING_SINGLE   reduce using rule 30 (operator -> identifier .)
+    STRING_DOUBLE   reduce using rule 30 (operator -> identifier .)
+    LSPAREN         reduce using rule 30 (operator -> identifier .)
+    PRIVATE_ID      reduce using rule 30 (operator -> identifier .)
+    GLOBAL_ID       reduce using rule 30 (operator -> identifier .)
+    DIVIDE          reduce using rule 30 (operator -> identifier .)
+    MINUS           reduce using rule 30 (operator -> identifier .)
+    MOD             reduce using rule 30 (operator -> identifier .)
+    PLUS            reduce using rule 30 (operator -> identifier .)
+    POW             reduce using rule 30 (operator -> identifier .)
+    SELECT          reduce using rule 30 (operator -> identifier .)
+    TIMES           reduce using rule 30 (operator -> identifier .)
+    COLON           reduce using rule 30 (operator -> identifier .)
+    SEMI_COLON      reduce using rule 30 (operator -> identifier .)
+    $end            reduce using rule 30 (operator -> identifier .)
+    RBRACE          reduce using rule 30 (operator -> identifier .)
+    RPAREN          reduce using rule 30 (operator -> identifier .)
+    COMMA           reduce using rule 30 (operator -> identifier .)
+    RSPAREN         reduce using rule 30 (operator -> identifier .)
+
+
+state 40
+
+    (8) assignment -> PRIVATE identifier . EQUAL binaryexpression
+
+    EQUAL           shift and go to state 52
+
+
+state 41
+
+    (9) assignment -> identifier EQUAL . binaryexpression
+    (10) binaryexpression -> . binaryexpression operator binaryexpression
+    (11) binaryexpression -> . primaryexpression
+    (12) primaryexpression -> . number
+    (13) primaryexpression -> . unaryexpression
+    (14) primaryexpression -> . nularexpression
+    (15) primaryexpression -> . variable
+    (16) primaryexpression -> . string
+    (17) primaryexpression -> . LBRACE code RBRACE
+    (18) primaryexpression -> . LPAREN binaryexpression RPAREN
+    (19) primaryexpression -> . array
+    (40) number -> . NUMBER_REAL
+    (41) number -> . NUMBER_HEX
+    (42) number -> . NUMBER_EXP
+    (24) unaryexpression -> . operator primaryexpression
+    (25) unaryexpression -> . NOT primaryexpression
+    (26) unaryexpression -> . empty
+    (22) nularexpression -> . operator
+    (23) nularexpression -> . empty
+    (29) variable -> . identifier
+    (43) string -> . STRING_SINGLE
+    (44) string -> . STRING_DOUBLE
+    (20) array -> . LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN
+    (21) array -> . LSPAREN empty RSPAREN
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (49) empty -> .
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+  ! shift/reduce conflict for PRIVATE_ID resolved as shift
+  ! shift/reduce conflict for GLOBAL_ID resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for POW resolved as shift
+  ! shift/reduce conflict for SELECT resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for COLON resolved as shift
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_HEX      shift and go to state 22
+    NUMBER_EXP      shift and go to state 23
+    NOT             shift and go to state 24
+    STRING_SINGLE   shift and go to state 25
+    STRING_DOUBLE   shift and go to state 26
+    LSPAREN         shift and go to state 27
+    SEMI_COLON      reduce using rule 49 (empty -> .)
+    $end            reduce using rule 49 (empty -> .)
+    RBRACE          reduce using rule 49 (empty -> .)
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+  ! PRIVATE_ID      [ reduce using rule 49 (empty -> .) ]
+  ! GLOBAL_ID       [ reduce using rule 49 (empty -> .) ]
+  ! DIVIDE          [ reduce using rule 49 (empty -> .) ]
+  ! MINUS           [ reduce using rule 49 (empty -> .) ]
+  ! MOD             [ reduce using rule 49 (empty -> .) ]
+  ! PLUS            [ reduce using rule 49 (empty -> .) ]
+  ! POW             [ reduce using rule 49 (empty -> .) ]
+  ! SELECT          [ reduce using rule 49 (empty -> .) ]
+  ! TIMES           [ reduce using rule 49 (empty -> .) ]
+  ! COLON           [ reduce using rule 49 (empty -> .) ]
+
+    identifier                     shift and go to state 44
+    binaryexpression               shift and go to state 53
+    operator                       shift and go to state 9
+    primaryexpression              shift and go to state 10
+    number                         shift and go to state 13
+    unaryexpression                shift and go to state 14
+    nularexpression                shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    empty                          shift and go to state 43
+    punctuation                    shift and go to state 28
+
+state 42
+
+    (24) unaryexpression -> operator primaryexpression .
+
+    PRIVATE_ID      reduce using rule 24 (unaryexpression -> operator primaryexpression .)
+    GLOBAL_ID       reduce using rule 24 (unaryexpression -> operator primaryexpression .)
+    DIVIDE          reduce using rule 24 (unaryexpression -> operator primaryexpression .)
+    MINUS           reduce using rule 24 (unaryexpression -> operator primaryexpression .)
+    MOD             reduce using rule 24 (unaryexpression -> operator primaryexpression .)
+    PLUS            reduce using rule 24 (unaryexpression -> operator primaryexpression .)
+    POW             reduce using rule 24 (unaryexpression -> operator primaryexpression .)
+    SELECT          reduce using rule 24 (unaryexpression -> operator primaryexpression .)
+    TIMES           reduce using rule 24 (unaryexpression -> operator primaryexpression .)
+    COLON           reduce using rule 24 (unaryexpression -> operator primaryexpression .)
+    SEMI_COLON      reduce using rule 24 (unaryexpression -> operator primaryexpression .)
+    $end            reduce using rule 24 (unaryexpression -> operator primaryexpression .)
+    RBRACE          reduce using rule 24 (unaryexpression -> operator primaryexpression .)
+    RPAREN          reduce using rule 24 (unaryexpression -> operator primaryexpression .)
+    COMMA           reduce using rule 24 (unaryexpression -> operator primaryexpression .)
+    RSPAREN         reduce using rule 24 (unaryexpression -> operator primaryexpression .)
+
+
+state 43
+
+    (26) unaryexpression -> empty .
+    (23) nularexpression -> empty .
+
+  ! reduce/reduce conflict for PRIVATE_ID resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for GLOBAL_ID resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for DIVIDE resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for MINUS resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for MOD resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for PLUS resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for POW resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for SELECT resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for TIMES resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for COLON resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for SEMI_COLON resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for $end resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for RBRACE resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for RPAREN resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for COMMA resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for RSPAREN resolved using rule 23 (nularexpression -> empty .)
+    PRIVATE_ID      reduce using rule 23 (nularexpression -> empty .)
+    GLOBAL_ID       reduce using rule 23 (nularexpression -> empty .)
+    DIVIDE          reduce using rule 23 (nularexpression -> empty .)
+    MINUS           reduce using rule 23 (nularexpression -> empty .)
+    MOD             reduce using rule 23 (nularexpression -> empty .)
+    PLUS            reduce using rule 23 (nularexpression -> empty .)
+    POW             reduce using rule 23 (nularexpression -> empty .)
+    SELECT          reduce using rule 23 (nularexpression -> empty .)
+    TIMES           reduce using rule 23 (nularexpression -> empty .)
+    COLON           reduce using rule 23 (nularexpression -> empty .)
+    SEMI_COLON      reduce using rule 23 (nularexpression -> empty .)
+    $end            reduce using rule 23 (nularexpression -> empty .)
+    RBRACE          reduce using rule 23 (nularexpression -> empty .)
+    RPAREN          reduce using rule 23 (nularexpression -> empty .)
+    COMMA           reduce using rule 23 (nularexpression -> empty .)
+    RSPAREN         reduce using rule 23 (nularexpression -> empty .)
+
+  ! PRIVATE_ID      [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! GLOBAL_ID       [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! DIVIDE          [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! MINUS           [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! MOD             [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! PLUS            [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! POW             [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! SELECT          [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! TIMES           [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! COLON           [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! SEMI_COLON      [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! $end            [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! RBRACE          [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! RPAREN          [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! COMMA           [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! RSPAREN         [ reduce using rule 26 (unaryexpression -> empty .) ]
+
+
+state 44
+
+    (29) variable -> identifier .
+    (30) operator -> identifier .
+
+  ! reduce/reduce conflict for PRIVATE_ID resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for GLOBAL_ID resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for DIVIDE resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for MINUS resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for MOD resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for PLUS resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for POW resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for SELECT resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for TIMES resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for COLON resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for SEMI_COLON resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for $end resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for RBRACE resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for RPAREN resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for COMMA resolved using rule 29 (variable -> identifier .)
+  ! reduce/reduce conflict for RSPAREN resolved using rule 29 (variable -> identifier .)
+    PRIVATE_ID      reduce using rule 29 (variable -> identifier .)
+    GLOBAL_ID       reduce using rule 29 (variable -> identifier .)
+    DIVIDE          reduce using rule 29 (variable -> identifier .)
+    MINUS           reduce using rule 29 (variable -> identifier .)
+    MOD             reduce using rule 29 (variable -> identifier .)
+    PLUS            reduce using rule 29 (variable -> identifier .)
+    POW             reduce using rule 29 (variable -> identifier .)
+    SELECT          reduce using rule 29 (variable -> identifier .)
+    TIMES           reduce using rule 29 (variable -> identifier .)
+    COLON           reduce using rule 29 (variable -> identifier .)
+    SEMI_COLON      reduce using rule 29 (variable -> identifier .)
+    $end            reduce using rule 29 (variable -> identifier .)
+    RBRACE          reduce using rule 29 (variable -> identifier .)
+    RPAREN          reduce using rule 29 (variable -> identifier .)
+    COMMA           reduce using rule 29 (variable -> identifier .)
+    RSPAREN         reduce using rule 29 (variable -> identifier .)
+    LBRACE          reduce using rule 30 (operator -> identifier .)
+    LPAREN          reduce using rule 30 (operator -> identifier .)
+    NUMBER_REAL     reduce using rule 30 (operator -> identifier .)
+    NUMBER_HEX      reduce using rule 30 (operator -> identifier .)
+    NUMBER_EXP      reduce using rule 30 (operator -> identifier .)
+    NOT             reduce using rule 30 (operator -> identifier .)
+    STRING_SINGLE   reduce using rule 30 (operator -> identifier .)
+    STRING_DOUBLE   reduce using rule 30 (operator -> identifier .)
+    LSPAREN         reduce using rule 30 (operator -> identifier .)
+
+  ! PRIVATE_ID      [ reduce using rule 30 (operator -> identifier .) ]
+  ! GLOBAL_ID       [ reduce using rule 30 (operator -> identifier .) ]
+  ! DIVIDE          [ reduce using rule 30 (operator -> identifier .) ]
+  ! MINUS           [ reduce using rule 30 (operator -> identifier .) ]
+  ! MOD             [ reduce using rule 30 (operator -> identifier .) ]
+  ! PLUS            [ reduce using rule 30 (operator -> identifier .) ]
+  ! POW             [ reduce using rule 30 (operator -> identifier .) ]
+  ! SELECT          [ reduce using rule 30 (operator -> identifier .) ]
+  ! TIMES           [ reduce using rule 30 (operator -> identifier .) ]
+  ! COLON           [ reduce using rule 30 (operator -> identifier .) ]
+  ! SEMI_COLON      [ reduce using rule 30 (operator -> identifier .) ]
+  ! $end            [ reduce using rule 30 (operator -> identifier .) ]
+  ! RBRACE          [ reduce using rule 30 (operator -> identifier .) ]
+  ! RPAREN          [ reduce using rule 30 (operator -> identifier .) ]
+  ! COMMA           [ reduce using rule 30 (operator -> identifier .) ]
+  ! RSPAREN         [ reduce using rule 30 (operator -> identifier .) ]
+
+
+state 45
+
+    (17) primaryexpression -> LBRACE code . RBRACE
+
+    RBRACE          shift and go to state 54
+
+
+state 46
+
+    (18) primaryexpression -> LPAREN binaryexpression . RPAREN
+    (10) binaryexpression -> binaryexpression . operator binaryexpression
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+    RPAREN          shift and go to state 55
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+    operator                       shift and go to state 38
+    identifier                     shift and go to state 39
+    punctuation                    shift and go to state 28
+
+state 47
+
+    (25) unaryexpression -> NOT primaryexpression .
+
+    PRIVATE_ID      reduce using rule 25 (unaryexpression -> NOT primaryexpression .)
+    GLOBAL_ID       reduce using rule 25 (unaryexpression -> NOT primaryexpression .)
+    DIVIDE          reduce using rule 25 (unaryexpression -> NOT primaryexpression .)
+    MINUS           reduce using rule 25 (unaryexpression -> NOT primaryexpression .)
+    MOD             reduce using rule 25 (unaryexpression -> NOT primaryexpression .)
+    PLUS            reduce using rule 25 (unaryexpression -> NOT primaryexpression .)
+    POW             reduce using rule 25 (unaryexpression -> NOT primaryexpression .)
+    SELECT          reduce using rule 25 (unaryexpression -> NOT primaryexpression .)
+    TIMES           reduce using rule 25 (unaryexpression -> NOT primaryexpression .)
+    COLON           reduce using rule 25 (unaryexpression -> NOT primaryexpression .)
+    SEMI_COLON      reduce using rule 25 (unaryexpression -> NOT primaryexpression .)
+    $end            reduce using rule 25 (unaryexpression -> NOT primaryexpression .)
+    RBRACE          reduce using rule 25 (unaryexpression -> NOT primaryexpression .)
+    RPAREN          reduce using rule 25 (unaryexpression -> NOT primaryexpression .)
+    COMMA           reduce using rule 25 (unaryexpression -> NOT primaryexpression .)
+    RSPAREN         reduce using rule 25 (unaryexpression -> NOT primaryexpression .)
+
+
+state 48
+
+    (20) array -> LSPAREN binaryexpression . COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN
+    (10) binaryexpression -> binaryexpression . operator binaryexpression
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+    COMMA           shift and go to state 56
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+    operator                       shift and go to state 38
+    identifier                     shift and go to state 39
+    punctuation                    shift and go to state 28
+
+state 49
+
+    (21) array -> LSPAREN empty . RSPAREN
+    (26) unaryexpression -> empty .
+    (23) nularexpression -> empty .
+
+  ! reduce/reduce conflict for COMMA resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for PRIVATE_ID resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for GLOBAL_ID resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for DIVIDE resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for MINUS resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for MOD resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for PLUS resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for POW resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for SELECT resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for TIMES resolved using rule 23 (nularexpression -> empty .)
+  ! reduce/reduce conflict for COLON resolved using rule 23 (nularexpression -> empty .)
+    RSPAREN         shift and go to state 57
+    COMMA           reduce using rule 23 (nularexpression -> empty .)
+    PRIVATE_ID      reduce using rule 23 (nularexpression -> empty .)
+    GLOBAL_ID       reduce using rule 23 (nularexpression -> empty .)
+    DIVIDE          reduce using rule 23 (nularexpression -> empty .)
+    MINUS           reduce using rule 23 (nularexpression -> empty .)
+    MOD             reduce using rule 23 (nularexpression -> empty .)
+    PLUS            reduce using rule 23 (nularexpression -> empty .)
+    POW             reduce using rule 23 (nularexpression -> empty .)
+    SELECT          reduce using rule 23 (nularexpression -> empty .)
+    TIMES           reduce using rule 23 (nularexpression -> empty .)
+    COLON           reduce using rule 23 (nularexpression -> empty .)
+
+  ! COMMA           [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! PRIVATE_ID      [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! GLOBAL_ID       [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! DIVIDE          [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! MINUS           [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! MOD             [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! PLUS            [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! POW             [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! SELECT          [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! TIMES           [ reduce using rule 26 (unaryexpression -> empty .) ]
+  ! COLON           [ reduce using rule 26 (unaryexpression -> empty .) ]
+
+
+state 50
+
+    (3) statements -> statement SEMI_COLON statement .
+
+    $end            reduce using rule 3 (statements -> statement SEMI_COLON statement .)
+    RBRACE          reduce using rule 3 (statements -> statement SEMI_COLON statement .)
+
+
+state 51
+
+    (10) binaryexpression -> binaryexpression operator binaryexpression .
+    (10) binaryexpression -> binaryexpression . operator binaryexpression
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+  ! shift/reduce conflict for PRIVATE_ID resolved as shift
+  ! shift/reduce conflict for GLOBAL_ID resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for POW resolved as shift
+  ! shift/reduce conflict for SELECT resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for COLON resolved as shift
+    SEMI_COLON      reduce using rule 10 (binaryexpression -> binaryexpression operator binaryexpression .)
+    $end            reduce using rule 10 (binaryexpression -> binaryexpression operator binaryexpression .)
+    RBRACE          reduce using rule 10 (binaryexpression -> binaryexpression operator binaryexpression .)
+    RPAREN          reduce using rule 10 (binaryexpression -> binaryexpression operator binaryexpression .)
+    COMMA           reduce using rule 10 (binaryexpression -> binaryexpression operator binaryexpression .)
+    RSPAREN         reduce using rule 10 (binaryexpression -> binaryexpression operator binaryexpression .)
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+  ! PRIVATE_ID      [ reduce using rule 10 (binaryexpression -> binaryexpression operator binaryexpression .) ]
+  ! GLOBAL_ID       [ reduce using rule 10 (binaryexpression -> binaryexpression operator binaryexpression .) ]
+  ! DIVIDE          [ reduce using rule 10 (binaryexpression -> binaryexpression operator binaryexpression .) ]
+  ! MINUS           [ reduce using rule 10 (binaryexpression -> binaryexpression operator binaryexpression .) ]
+  ! MOD             [ reduce using rule 10 (binaryexpression -> binaryexpression operator binaryexpression .) ]
+  ! PLUS            [ reduce using rule 10 (binaryexpression -> binaryexpression operator binaryexpression .) ]
+  ! POW             [ reduce using rule 10 (binaryexpression -> binaryexpression operator binaryexpression .) ]
+  ! SELECT          [ reduce using rule 10 (binaryexpression -> binaryexpression operator binaryexpression .) ]
+  ! TIMES           [ reduce using rule 10 (binaryexpression -> binaryexpression operator binaryexpression .) ]
+  ! COLON           [ reduce using rule 10 (binaryexpression -> binaryexpression operator binaryexpression .) ]
+
+    operator                       shift and go to state 38
+    identifier                     shift and go to state 39
+    punctuation                    shift and go to state 28
+
+state 52
+
+    (8) assignment -> PRIVATE identifier EQUAL . binaryexpression
+    (10) binaryexpression -> . binaryexpression operator binaryexpression
+    (11) binaryexpression -> . primaryexpression
+    (12) primaryexpression -> . number
+    (13) primaryexpression -> . unaryexpression
+    (14) primaryexpression -> . nularexpression
+    (15) primaryexpression -> . variable
+    (16) primaryexpression -> . string
+    (17) primaryexpression -> . LBRACE code RBRACE
+    (18) primaryexpression -> . LPAREN binaryexpression RPAREN
+    (19) primaryexpression -> . array
+    (40) number -> . NUMBER_REAL
+    (41) number -> . NUMBER_HEX
+    (42) number -> . NUMBER_EXP
+    (24) unaryexpression -> . operator primaryexpression
+    (25) unaryexpression -> . NOT primaryexpression
+    (26) unaryexpression -> . empty
+    (22) nularexpression -> . operator
+    (23) nularexpression -> . empty
+    (29) variable -> . identifier
+    (43) string -> . STRING_SINGLE
+    (44) string -> . STRING_DOUBLE
+    (20) array -> . LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN
+    (21) array -> . LSPAREN empty RSPAREN
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (49) empty -> .
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+  ! shift/reduce conflict for PRIVATE_ID resolved as shift
+  ! shift/reduce conflict for GLOBAL_ID resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for POW resolved as shift
+  ! shift/reduce conflict for SELECT resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for COLON resolved as shift
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_HEX      shift and go to state 22
+    NUMBER_EXP      shift and go to state 23
+    NOT             shift and go to state 24
+    STRING_SINGLE   shift and go to state 25
+    STRING_DOUBLE   shift and go to state 26
+    LSPAREN         shift and go to state 27
+    SEMI_COLON      reduce using rule 49 (empty -> .)
+    $end            reduce using rule 49 (empty -> .)
+    RBRACE          reduce using rule 49 (empty -> .)
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+  ! PRIVATE_ID      [ reduce using rule 49 (empty -> .) ]
+  ! GLOBAL_ID       [ reduce using rule 49 (empty -> .) ]
+  ! DIVIDE          [ reduce using rule 49 (empty -> .) ]
+  ! MINUS           [ reduce using rule 49 (empty -> .) ]
+  ! MOD             [ reduce using rule 49 (empty -> .) ]
+  ! PLUS            [ reduce using rule 49 (empty -> .) ]
+  ! POW             [ reduce using rule 49 (empty -> .) ]
+  ! SELECT          [ reduce using rule 49 (empty -> .) ]
+  ! TIMES           [ reduce using rule 49 (empty -> .) ]
+  ! COLON           [ reduce using rule 49 (empty -> .) ]
+
+    identifier                     shift and go to state 44
+    binaryexpression               shift and go to state 58
+    operator                       shift and go to state 9
+    primaryexpression              shift and go to state 10
+    number                         shift and go to state 13
+    unaryexpression                shift and go to state 14
+    nularexpression                shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    empty                          shift and go to state 43
+    punctuation                    shift and go to state 28
+
+state 53
+
+    (9) assignment -> identifier EQUAL binaryexpression .
+    (10) binaryexpression -> binaryexpression . operator binaryexpression
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+    SEMI_COLON      reduce using rule 9 (assignment -> identifier EQUAL binaryexpression .)
+    $end            reduce using rule 9 (assignment -> identifier EQUAL binaryexpression .)
+    RBRACE          reduce using rule 9 (assignment -> identifier EQUAL binaryexpression .)
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+    identifier                     shift and go to state 39
+    operator                       shift and go to state 38
+    punctuation                    shift and go to state 28
+
+state 54
+
+    (17) primaryexpression -> LBRACE code RBRACE .
+
+    PRIVATE_ID      reduce using rule 17 (primaryexpression -> LBRACE code RBRACE .)
+    GLOBAL_ID       reduce using rule 17 (primaryexpression -> LBRACE code RBRACE .)
+    DIVIDE          reduce using rule 17 (primaryexpression -> LBRACE code RBRACE .)
+    MINUS           reduce using rule 17 (primaryexpression -> LBRACE code RBRACE .)
+    MOD             reduce using rule 17 (primaryexpression -> LBRACE code RBRACE .)
+    PLUS            reduce using rule 17 (primaryexpression -> LBRACE code RBRACE .)
+    POW             reduce using rule 17 (primaryexpression -> LBRACE code RBRACE .)
+    SELECT          reduce using rule 17 (primaryexpression -> LBRACE code RBRACE .)
+    TIMES           reduce using rule 17 (primaryexpression -> LBRACE code RBRACE .)
+    COLON           reduce using rule 17 (primaryexpression -> LBRACE code RBRACE .)
+    SEMI_COLON      reduce using rule 17 (primaryexpression -> LBRACE code RBRACE .)
+    $end            reduce using rule 17 (primaryexpression -> LBRACE code RBRACE .)
+    RBRACE          reduce using rule 17 (primaryexpression -> LBRACE code RBRACE .)
+    RPAREN          reduce using rule 17 (primaryexpression -> LBRACE code RBRACE .)
+    COMMA           reduce using rule 17 (primaryexpression -> LBRACE code RBRACE .)
+    RSPAREN         reduce using rule 17 (primaryexpression -> LBRACE code RBRACE .)
+
+
+state 55
+
+    (18) primaryexpression -> LPAREN binaryexpression RPAREN .
+
+    PRIVATE_ID      reduce using rule 18 (primaryexpression -> LPAREN binaryexpression RPAREN .)
+    GLOBAL_ID       reduce using rule 18 (primaryexpression -> LPAREN binaryexpression RPAREN .)
+    DIVIDE          reduce using rule 18 (primaryexpression -> LPAREN binaryexpression RPAREN .)
+    MINUS           reduce using rule 18 (primaryexpression -> LPAREN binaryexpression RPAREN .)
+    MOD             reduce using rule 18 (primaryexpression -> LPAREN binaryexpression RPAREN .)
+    PLUS            reduce using rule 18 (primaryexpression -> LPAREN binaryexpression RPAREN .)
+    POW             reduce using rule 18 (primaryexpression -> LPAREN binaryexpression RPAREN .)
+    SELECT          reduce using rule 18 (primaryexpression -> LPAREN binaryexpression RPAREN .)
+    TIMES           reduce using rule 18 (primaryexpression -> LPAREN binaryexpression RPAREN .)
+    COLON           reduce using rule 18 (primaryexpression -> LPAREN binaryexpression RPAREN .)
+    SEMI_COLON      reduce using rule 18 (primaryexpression -> LPAREN binaryexpression RPAREN .)
+    $end            reduce using rule 18 (primaryexpression -> LPAREN binaryexpression RPAREN .)
+    RBRACE          reduce using rule 18 (primaryexpression -> LPAREN binaryexpression RPAREN .)
+    RPAREN          reduce using rule 18 (primaryexpression -> LPAREN binaryexpression RPAREN .)
+    COMMA           reduce using rule 18 (primaryexpression -> LPAREN binaryexpression RPAREN .)
+    RSPAREN         reduce using rule 18 (primaryexpression -> LPAREN binaryexpression RPAREN .)
+
+
+state 56
+
+    (20) array -> LSPAREN binaryexpression COMMA . binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN
+    (10) binaryexpression -> . binaryexpression operator binaryexpression
+    (11) binaryexpression -> . primaryexpression
+    (12) primaryexpression -> . number
+    (13) primaryexpression -> . unaryexpression
+    (14) primaryexpression -> . nularexpression
+    (15) primaryexpression -> . variable
+    (16) primaryexpression -> . string
+    (17) primaryexpression -> . LBRACE code RBRACE
+    (18) primaryexpression -> . LPAREN binaryexpression RPAREN
+    (19) primaryexpression -> . array
+    (40) number -> . NUMBER_REAL
+    (41) number -> . NUMBER_HEX
+    (42) number -> . NUMBER_EXP
+    (24) unaryexpression -> . operator primaryexpression
+    (25) unaryexpression -> . NOT primaryexpression
+    (26) unaryexpression -> . empty
+    (22) nularexpression -> . operator
+    (23) nularexpression -> . empty
+    (29) variable -> . identifier
+    (43) string -> . STRING_SINGLE
+    (44) string -> . STRING_DOUBLE
+    (20) array -> . LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN
+    (21) array -> . LSPAREN empty RSPAREN
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (49) empty -> .
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+  ! shift/reduce conflict for PRIVATE_ID resolved as shift
+  ! shift/reduce conflict for GLOBAL_ID resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for POW resolved as shift
+  ! shift/reduce conflict for SELECT resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for COLON resolved as shift
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_HEX      shift and go to state 22
+    NUMBER_EXP      shift and go to state 23
+    NOT             shift and go to state 24
+    STRING_SINGLE   shift and go to state 25
+    STRING_DOUBLE   shift and go to state 26
+    LSPAREN         shift and go to state 27
+    COMMA           reduce using rule 49 (empty -> .)
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+  ! PRIVATE_ID      [ reduce using rule 49 (empty -> .) ]
+  ! GLOBAL_ID       [ reduce using rule 49 (empty -> .) ]
+  ! DIVIDE          [ reduce using rule 49 (empty -> .) ]
+  ! MINUS           [ reduce using rule 49 (empty -> .) ]
+  ! MOD             [ reduce using rule 49 (empty -> .) ]
+  ! PLUS            [ reduce using rule 49 (empty -> .) ]
+  ! POW             [ reduce using rule 49 (empty -> .) ]
+  ! SELECT          [ reduce using rule 49 (empty -> .) ]
+  ! TIMES           [ reduce using rule 49 (empty -> .) ]
+  ! COLON           [ reduce using rule 49 (empty -> .) ]
+
+    binaryexpression               shift and go to state 59
+    operator                       shift and go to state 9
+    primaryexpression              shift and go to state 10
+    number                         shift and go to state 13
+    unaryexpression                shift and go to state 14
+    nularexpression                shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    empty                          shift and go to state 43
+    identifier                     shift and go to state 44
+    punctuation                    shift and go to state 28
+
+state 57
+
+    (21) array -> LSPAREN empty RSPAREN .
+
+    PRIVATE_ID      reduce using rule 21 (array -> LSPAREN empty RSPAREN .)
+    GLOBAL_ID       reduce using rule 21 (array -> LSPAREN empty RSPAREN .)
+    DIVIDE          reduce using rule 21 (array -> LSPAREN empty RSPAREN .)
+    MINUS           reduce using rule 21 (array -> LSPAREN empty RSPAREN .)
+    MOD             reduce using rule 21 (array -> LSPAREN empty RSPAREN .)
+    PLUS            reduce using rule 21 (array -> LSPAREN empty RSPAREN .)
+    POW             reduce using rule 21 (array -> LSPAREN empty RSPAREN .)
+    SELECT          reduce using rule 21 (array -> LSPAREN empty RSPAREN .)
+    TIMES           reduce using rule 21 (array -> LSPAREN empty RSPAREN .)
+    COLON           reduce using rule 21 (array -> LSPAREN empty RSPAREN .)
+    SEMI_COLON      reduce using rule 21 (array -> LSPAREN empty RSPAREN .)
+    $end            reduce using rule 21 (array -> LSPAREN empty RSPAREN .)
+    RBRACE          reduce using rule 21 (array -> LSPAREN empty RSPAREN .)
+    RPAREN          reduce using rule 21 (array -> LSPAREN empty RSPAREN .)
+    COMMA           reduce using rule 21 (array -> LSPAREN empty RSPAREN .)
+    RSPAREN         reduce using rule 21 (array -> LSPAREN empty RSPAREN .)
+
+
+state 58
+
+    (8) assignment -> PRIVATE identifier EQUAL binaryexpression .
+    (10) binaryexpression -> binaryexpression . operator binaryexpression
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+    SEMI_COLON      reduce using rule 8 (assignment -> PRIVATE identifier EQUAL binaryexpression .)
+    $end            reduce using rule 8 (assignment -> PRIVATE identifier EQUAL binaryexpression .)
+    RBRACE          reduce using rule 8 (assignment -> PRIVATE identifier EQUAL binaryexpression .)
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+    identifier                     shift and go to state 39
+    operator                       shift and go to state 38
+    punctuation                    shift and go to state 28
+
+state 59
+
+    (20) array -> LSPAREN binaryexpression COMMA binaryexpression . COMMA binaryexpression COMMA binaryexpression RSPAREN
+    (10) binaryexpression -> binaryexpression . operator binaryexpression
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+    COMMA           shift and go to state 60
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+    operator                       shift and go to state 38
+    identifier                     shift and go to state 39
+    punctuation                    shift and go to state 28
+
+state 60
+
+    (20) array -> LSPAREN binaryexpression COMMA binaryexpression COMMA . binaryexpression COMMA binaryexpression RSPAREN
+    (10) binaryexpression -> . binaryexpression operator binaryexpression
+    (11) binaryexpression -> . primaryexpression
+    (12) primaryexpression -> . number
+    (13) primaryexpression -> . unaryexpression
+    (14) primaryexpression -> . nularexpression
+    (15) primaryexpression -> . variable
+    (16) primaryexpression -> . string
+    (17) primaryexpression -> . LBRACE code RBRACE
+    (18) primaryexpression -> . LPAREN binaryexpression RPAREN
+    (19) primaryexpression -> . array
+    (40) number -> . NUMBER_REAL
+    (41) number -> . NUMBER_HEX
+    (42) number -> . NUMBER_EXP
+    (24) unaryexpression -> . operator primaryexpression
+    (25) unaryexpression -> . NOT primaryexpression
+    (26) unaryexpression -> . empty
+    (22) nularexpression -> . operator
+    (23) nularexpression -> . empty
+    (29) variable -> . identifier
+    (43) string -> . STRING_SINGLE
+    (44) string -> . STRING_DOUBLE
+    (20) array -> . LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN
+    (21) array -> . LSPAREN empty RSPAREN
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (49) empty -> .
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+  ! shift/reduce conflict for PRIVATE_ID resolved as shift
+  ! shift/reduce conflict for GLOBAL_ID resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for POW resolved as shift
+  ! shift/reduce conflict for SELECT resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for COLON resolved as shift
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_HEX      shift and go to state 22
+    NUMBER_EXP      shift and go to state 23
+    NOT             shift and go to state 24
+    STRING_SINGLE   shift and go to state 25
+    STRING_DOUBLE   shift and go to state 26
+    LSPAREN         shift and go to state 27
+    COMMA           reduce using rule 49 (empty -> .)
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+  ! PRIVATE_ID      [ reduce using rule 49 (empty -> .) ]
+  ! GLOBAL_ID       [ reduce using rule 49 (empty -> .) ]
+  ! DIVIDE          [ reduce using rule 49 (empty -> .) ]
+  ! MINUS           [ reduce using rule 49 (empty -> .) ]
+  ! MOD             [ reduce using rule 49 (empty -> .) ]
+  ! PLUS            [ reduce using rule 49 (empty -> .) ]
+  ! POW             [ reduce using rule 49 (empty -> .) ]
+  ! SELECT          [ reduce using rule 49 (empty -> .) ]
+  ! TIMES           [ reduce using rule 49 (empty -> .) ]
+  ! COLON           [ reduce using rule 49 (empty -> .) ]
+
+    binaryexpression               shift and go to state 61
+    operator                       shift and go to state 9
+    primaryexpression              shift and go to state 10
+    number                         shift and go to state 13
+    unaryexpression                shift and go to state 14
+    nularexpression                shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    empty                          shift and go to state 43
+    identifier                     shift and go to state 44
+    punctuation                    shift and go to state 28
+
+state 61
+
+    (20) array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression . COMMA binaryexpression RSPAREN
+    (10) binaryexpression -> binaryexpression . operator binaryexpression
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+    COMMA           shift and go to state 62
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+    operator                       shift and go to state 38
+    identifier                     shift and go to state 39
+    punctuation                    shift and go to state 28
+
+state 62
+
+    (20) array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA . binaryexpression RSPAREN
+    (10) binaryexpression -> . binaryexpression operator binaryexpression
+    (11) binaryexpression -> . primaryexpression
+    (12) primaryexpression -> . number
+    (13) primaryexpression -> . unaryexpression
+    (14) primaryexpression -> . nularexpression
+    (15) primaryexpression -> . variable
+    (16) primaryexpression -> . string
+    (17) primaryexpression -> . LBRACE code RBRACE
+    (18) primaryexpression -> . LPAREN binaryexpression RPAREN
+    (19) primaryexpression -> . array
+    (40) number -> . NUMBER_REAL
+    (41) number -> . NUMBER_HEX
+    (42) number -> . NUMBER_EXP
+    (24) unaryexpression -> . operator primaryexpression
+    (25) unaryexpression -> . NOT primaryexpression
+    (26) unaryexpression -> . empty
+    (22) nularexpression -> . operator
+    (23) nularexpression -> . empty
+    (29) variable -> . identifier
+    (43) string -> . STRING_SINGLE
+    (44) string -> . STRING_DOUBLE
+    (20) array -> . LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN
+    (21) array -> . LSPAREN empty RSPAREN
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (49) empty -> .
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+  ! shift/reduce conflict for PRIVATE_ID resolved as shift
+  ! shift/reduce conflict for GLOBAL_ID resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for POW resolved as shift
+  ! shift/reduce conflict for SELECT resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for COLON resolved as shift
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_HEX      shift and go to state 22
+    NUMBER_EXP      shift and go to state 23
+    NOT             shift and go to state 24
+    STRING_SINGLE   shift and go to state 25
+    STRING_DOUBLE   shift and go to state 26
+    LSPAREN         shift and go to state 27
+    RSPAREN         reduce using rule 49 (empty -> .)
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+  ! PRIVATE_ID      [ reduce using rule 49 (empty -> .) ]
+  ! GLOBAL_ID       [ reduce using rule 49 (empty -> .) ]
+  ! DIVIDE          [ reduce using rule 49 (empty -> .) ]
+  ! MINUS           [ reduce using rule 49 (empty -> .) ]
+  ! MOD             [ reduce using rule 49 (empty -> .) ]
+  ! PLUS            [ reduce using rule 49 (empty -> .) ]
+  ! POW             [ reduce using rule 49 (empty -> .) ]
+  ! SELECT          [ reduce using rule 49 (empty -> .) ]
+  ! TIMES           [ reduce using rule 49 (empty -> .) ]
+  ! COLON           [ reduce using rule 49 (empty -> .) ]
+
+    binaryexpression               shift and go to state 63
+    operator                       shift and go to state 9
+    primaryexpression              shift and go to state 10
+    number                         shift and go to state 13
+    unaryexpression                shift and go to state 14
+    nularexpression                shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    empty                          shift and go to state 43
+    identifier                     shift and go to state 44
+    punctuation                    shift and go to state 28
+
+state 63
+
+    (20) array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression . RSPAREN
+    (10) binaryexpression -> binaryexpression . operator binaryexpression
+    (30) operator -> . identifier
+    (31) operator -> . punctuation
+    (27) identifier -> . PRIVATE_ID
+    (28) identifier -> . GLOBAL_ID
+    (32) punctuation -> . DIVIDE
+    (33) punctuation -> . MINUS
+    (34) punctuation -> . MOD
+    (35) punctuation -> . PLUS
+    (36) punctuation -> . POW
+    (37) punctuation -> . SELECT
+    (38) punctuation -> . TIMES
+    (39) punctuation -> . COLON
+
+    RSPAREN         shift and go to state 64
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    DIVIDE          shift and go to state 29
+    MINUS           shift and go to state 30
+    MOD             shift and go to state 31
+    PLUS            shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    TIMES           shift and go to state 35
+    COLON           shift and go to state 36
+
+    operator                       shift and go to state 38
+    identifier                     shift and go to state 39
+    punctuation                    shift and go to state 28
+
+state 64
+
+    (20) array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN .
+
+    PRIVATE_ID      reduce using rule 20 (array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN .)
+    GLOBAL_ID       reduce using rule 20 (array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN .)
+    DIVIDE          reduce using rule 20 (array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN .)
+    MINUS           reduce using rule 20 (array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN .)
+    MOD             reduce using rule 20 (array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN .)
+    PLUS            reduce using rule 20 (array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN .)
+    POW             reduce using rule 20 (array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN .)
+    SELECT          reduce using rule 20 (array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN .)
+    TIMES           reduce using rule 20 (array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN .)
+    COLON           reduce using rule 20 (array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN .)
+    SEMI_COLON      reduce using rule 20 (array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN .)
+    $end            reduce using rule 20 (array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN .)
+    RBRACE          reduce using rule 20 (array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN .)
+    RPAREN          reduce using rule 20 (array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN .)
+    COMMA           reduce using rule 20 (array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN .)
+    RSPAREN         reduce using rule 20 (array -> LSPAREN binaryexpression COMMA binaryexpression COMMA binaryexpression COMMA binaryexpression RSPAREN .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for PRIVATE_ID in state 0 resolved as shift
+WARNING: shift/reduce conflict for GLOBAL_ID in state 0 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 0 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 0 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 0 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 0 resolved as shift
+WARNING: shift/reduce conflict for POW in state 0 resolved as shift
+WARNING: shift/reduce conflict for SELECT in state 0 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 0 resolved as shift
+WARNING: shift/reduce conflict for COLON in state 0 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE_ID in state 9 resolved as shift
+WARNING: shift/reduce conflict for GLOBAL_ID in state 9 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 9 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 9 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 9 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 9 resolved as shift
+WARNING: shift/reduce conflict for POW in state 9 resolved as shift
+WARNING: shift/reduce conflict for SELECT in state 9 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 9 resolved as shift
+WARNING: shift/reduce conflict for COLON in state 9 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE_ID in state 18 resolved as shift
+WARNING: shift/reduce conflict for GLOBAL_ID in state 18 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 18 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 18 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 18 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 18 resolved as shift
+WARNING: shift/reduce conflict for POW in state 18 resolved as shift
+WARNING: shift/reduce conflict for SELECT in state 18 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 18 resolved as shift
+WARNING: shift/reduce conflict for COLON in state 18 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE_ID in state 19 resolved as shift
+WARNING: shift/reduce conflict for GLOBAL_ID in state 19 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 19 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 19 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 19 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 19 resolved as shift
+WARNING: shift/reduce conflict for POW in state 19 resolved as shift
+WARNING: shift/reduce conflict for SELECT in state 19 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 19 resolved as shift
+WARNING: shift/reduce conflict for COLON in state 19 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE_ID in state 24 resolved as shift
+WARNING: shift/reduce conflict for GLOBAL_ID in state 24 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 24 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 24 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 24 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 24 resolved as shift
+WARNING: shift/reduce conflict for POW in state 24 resolved as shift
+WARNING: shift/reduce conflict for SELECT in state 24 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 24 resolved as shift
+WARNING: shift/reduce conflict for COLON in state 24 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE_ID in state 27 resolved as shift
+WARNING: shift/reduce conflict for GLOBAL_ID in state 27 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 27 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 27 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 27 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 27 resolved as shift
+WARNING: shift/reduce conflict for POW in state 27 resolved as shift
+WARNING: shift/reduce conflict for SELECT in state 27 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 27 resolved as shift
+WARNING: shift/reduce conflict for COLON in state 27 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE_ID in state 37 resolved as shift
+WARNING: shift/reduce conflict for GLOBAL_ID in state 37 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 37 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 37 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 37 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 37 resolved as shift
+WARNING: shift/reduce conflict for POW in state 37 resolved as shift
+WARNING: shift/reduce conflict for SELECT in state 37 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 37 resolved as shift
+WARNING: shift/reduce conflict for COLON in state 37 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE_ID in state 38 resolved as shift
+WARNING: shift/reduce conflict for GLOBAL_ID in state 38 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 38 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 38 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 38 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 38 resolved as shift
+WARNING: shift/reduce conflict for POW in state 38 resolved as shift
+WARNING: shift/reduce conflict for SELECT in state 38 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 38 resolved as shift
+WARNING: shift/reduce conflict for COLON in state 38 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE_ID in state 41 resolved as shift
+WARNING: shift/reduce conflict for GLOBAL_ID in state 41 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 41 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 41 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 41 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 41 resolved as shift
+WARNING: shift/reduce conflict for POW in state 41 resolved as shift
+WARNING: shift/reduce conflict for SELECT in state 41 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 41 resolved as shift
+WARNING: shift/reduce conflict for COLON in state 41 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE_ID in state 51 resolved as shift
+WARNING: shift/reduce conflict for GLOBAL_ID in state 51 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 51 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 51 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 51 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 51 resolved as shift
+WARNING: shift/reduce conflict for POW in state 51 resolved as shift
+WARNING: shift/reduce conflict for SELECT in state 51 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 51 resolved as shift
+WARNING: shift/reduce conflict for COLON in state 51 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE_ID in state 52 resolved as shift
+WARNING: shift/reduce conflict for GLOBAL_ID in state 52 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 52 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 52 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 52 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 52 resolved as shift
+WARNING: shift/reduce conflict for POW in state 52 resolved as shift
+WARNING: shift/reduce conflict for SELECT in state 52 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 52 resolved as shift
+WARNING: shift/reduce conflict for COLON in state 52 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE_ID in state 56 resolved as shift
+WARNING: shift/reduce conflict for GLOBAL_ID in state 56 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 56 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 56 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 56 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 56 resolved as shift
+WARNING: shift/reduce conflict for POW in state 56 resolved as shift
+WARNING: shift/reduce conflict for SELECT in state 56 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 56 resolved as shift
+WARNING: shift/reduce conflict for COLON in state 56 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE_ID in state 60 resolved as shift
+WARNING: shift/reduce conflict for GLOBAL_ID in state 60 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 60 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 60 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 60 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 60 resolved as shift
+WARNING: shift/reduce conflict for POW in state 60 resolved as shift
+WARNING: shift/reduce conflict for SELECT in state 60 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 60 resolved as shift
+WARNING: shift/reduce conflict for COLON in state 60 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE_ID in state 62 resolved as shift
+WARNING: shift/reduce conflict for GLOBAL_ID in state 62 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 62 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 62 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 62 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 62 resolved as shift
+WARNING: shift/reduce conflict for POW in state 62 resolved as shift
+WARNING: shift/reduce conflict for SELECT in state 62 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 62 resolved as shift
+WARNING: shift/reduce conflict for COLON in state 62 resolved as shift
+WARNING: reduce/reduce conflict in state 3 resolved using rule (code -> statement)
+WARNING: rejected rule (statements -> statement) in state 3
+WARNING: reduce/reduce conflict in state 4 resolved using rule (statement -> empty)
+WARNING: rejected rule (unaryexpression -> empty) in state 4
+WARNING: reduce/reduce conflict in state 4 resolved using rule (nularexpression -> empty)
+WARNING: rejected rule (unaryexpression -> empty) in state 4
+WARNING: reduce/reduce conflict in state 4 resolved using rule (statement -> empty)
+WARNING: rejected rule (nularexpression -> empty) in state 4
+WARNING: reduce/reduce conflict in state 8 resolved using rule (variable -> identifier)
+WARNING: rejected rule (operator -> identifier) in state 8
+WARNING: reduce/reduce conflict in state 9 resolved using rule (nularexpression -> operator)
+WARNING: rejected rule (empty -> <empty>) in state 9
+WARNING: reduce/reduce conflict in state 43 resolved using rule (nularexpression -> empty)
+WARNING: rejected rule (unaryexpression -> empty) in state 43
+WARNING: reduce/reduce conflict in state 44 resolved using rule (variable -> identifier)
+WARNING: rejected rule (operator -> identifier) in state 44
+WARNING: reduce/reduce conflict in state 49 resolved using rule (nularexpression -> empty)
+WARNING: rejected rule (unaryexpression -> empty) in state 49
+WARNING: Rule (statements -> statement) is never reduced
+WARNING: Rule (unaryexpression -> empty) is never reduced

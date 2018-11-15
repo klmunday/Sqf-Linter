@@ -9,6 +9,8 @@ if __name__ == '__main__':
         with open(sys.argv[1], 'r') as f:
             data = f.read()
             lexer.input(data)
-            print('        (TYPE, VALUE, LINENO, LEXPOS)')
-            for tok in lexer:
-                print(tok)
+            parser = sqf_yacc.yacc()
+            parser.parse(lexer=lexer, debug=True)
+            #print('        (TYPE, VALUE, LINENO, LEXPOS)')
+            #for tok in lexer:
+            #    print(tok)

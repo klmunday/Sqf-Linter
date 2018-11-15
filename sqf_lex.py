@@ -6,17 +6,18 @@ reserved = {
     'with': 'WITH',
     'while': 'WHILE',
     'switch': 'SWITCH',
-    'this': 'THIS',
-    'thisList': 'THISLIST',
-    'thisTrigger': 'THISTRIGGER',
-    '_this': '_THIS',
-    '_x': '_X',
-    '_exception': '_EXCEPTION',
-    '_forEachIndex': '_FOREACHINDEX',
-    '_thisEventHandler': '_THISEVENTHANDLER',
-    '_thisFSM': '_THISFSM',
-    '_thisScript': '_THISSCRIPT',
     'private': 'PRIVATE',
+    'else': 'ELSE',
+#    'this': 'THIS',
+#    'thislist': 'THISLIST',
+#    'thistrigger': 'THISTRIGGER',
+#    '_this': '_THIS',
+#    '_x': '_X',
+#    '_exception': '_EXCEPTION',
+#    '_foreachindex': '_FOREACHINDEX',
+#    '_thiseventhandler': '_THISEVENTHANDLER',
+#    '_thisfsm': '_THISFSM',
+#    '_thisscript': '_THISSCRIPT',
 }
 
 tokens = [
@@ -52,6 +53,7 @@ tokens = [
     'NOT',
     'STRING_DOUBLE',
     'STRING_SINGLE',
+    'BOOL',
 ] + list(reserved.values())
 
 t_AND = r'&&'
@@ -76,6 +78,7 @@ t_SELECT = r'\#'
 t_SEMI_COLON = r';'
 t_COLON = r':'
 t_EQUAL = r'='
+t_BOOL = r'True|true|False|false'
 
 
 def t_STRING_DOUBLE(t):
@@ -104,13 +107,13 @@ def t_COMMENT_MULTI(t):
 
 def t_PRIVATE_ID(t):
     r'_[a-zA-Z_0-9]*'
-    t.type = reserved.get(t.value, 'PRIVATE_ID')
+    t.type = reserved.get(t.value.lower(), 'PRIVATE_ID')
     return t
 
 
 def t_GLOBAL_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
-    t.type = reserved.get(t.value, 'GLOBAL_ID')
+    t.type = reserved.get(t.value.lower(), 'GLOBAL_ID')
     return t
 
 
