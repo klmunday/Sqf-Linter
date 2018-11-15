@@ -1,2 +1,1 @@
-private _var = 5;
-hint str (5 + 5);
+($3 + 0x5 * $A) - 20.6

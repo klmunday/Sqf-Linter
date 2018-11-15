@@ -118,13 +118,13 @@ def t_GLOBAL_ID(t):
 
 
 def t_NUMBER_EXP(t):
-    r'([0-9]+\.)?[0-9]+e[-+]?[0-9]+'
+    r'([0-9]+\.)?[0-9]+[eE][-+]?[0-9]+'
     t.value = float(t.value)
     return t
 
 
 def t_NUMBER_HEX(t):
-    r'(\$|0x)[0-9a-f]+'
+    r'(\$|0x)[0-9a-fA-F]+'
     t.value = t.value.replace('$', '0x')
     t.value = int(t.value, base=16)
     return t

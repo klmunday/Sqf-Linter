@@ -10,7 +10,8 @@ if __name__ == '__main__':
             data = f.read()
             lexer.input(data)
             parser = sqf_yacc.yacc()
-            parser.parse(lexer=lexer, debug=True)
+            result = parser.parse(lexer=lexer, debug=False)
+            print(result)
             #print('        (TYPE, VALUE, LINENO, LEXPOS)')
             #for tok in lexer:
             #    print(tok)
