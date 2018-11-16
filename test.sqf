@@ -5,4 +5,4 @@
     this
     too
 */
-private _var = 3;
+_var = 3;
