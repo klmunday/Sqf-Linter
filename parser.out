@@ -9,25 +9,18 @@ Unused terminals:
     COMMENT_MULTI
     COMMENT_SINGLE
     ELSE
-    EQUAL
     FOR
-    GLOBAL_ID
     GT
     IF
     LBRACE
     LSPAREN
     LT
-    MOD
     NEWLINE
     NOT
     OR
-    POW
-    PRIVATE
-    PRIVATE_ID
     RBRACE
     RSPAREN
     SELECT
-    SEMI_COLON
     STRING_DOUBLE
     STRING_SINGLE
     SWITCH
@@ -36,18 +29,28 @@ Unused terminals:
 
 Grammar
 
-Rule 0     S' -> expression
-Rule 1     expression -> expression PLUS expression
-Rule 2     expression -> expression MINUS expression
-Rule 3     expression -> expression TIMES expression
-Rule 4     expression -> expression DIVIDE expression
-Rule 5     expression -> LPAREN expression RPAREN
-Rule 6     expression -> number
-Rule 7     expression -> MINUS expression
-Rule 8     number -> NUMBER_REAL
-Rule 9     number -> NUMBER_HEX
-Rule 10    number -> NUMBER_EXP
-Rule 11    empty -> <empty>
+Rule 0     S' -> expressions
+Rule 1     expressions -> expression SEMI_COLON expressions
+Rule 2     expressions -> expression SEMI_COLON
+Rule 3     expression -> LPAREN expression RPAREN
+Rule 4     expression -> expression PLUS expression
+Rule 5     expression -> expression MINUS expression
+Rule 6     expression -> expression TIMES expression
+Rule 7     expression -> expression DIVIDE expression
+Rule 8     expression -> expression MOD expression
+Rule 9     expression -> expression POW expression
+Rule 10    expression -> assignment
+Rule 11    expression -> number
+Rule 12    expression -> identifier
+Rule 13    expression -> MINUS expression
+Rule 14    assignment -> PRIVATE PRIVATE_ID EQUAL expression
+Rule 15    assignment -> GLOBAL_ID EQUAL expression
+Rule 16    identifier -> PRIVATE_ID
+Rule 17    identifier -> GLOBAL_ID
+Rule 18    number -> NUMBER_REAL
+Rule 19    number -> NUMBER_HEX
+Rule 20    number -> NUMBER_EXP
+Rule 21    empty -> <empty>
 
 Terminals, with rules where they appear
 
@@ -57,401 +60,953 @@ COLON                :
 COMMA                : 
 COMMENT_MULTI        : 
 COMMENT_SINGLE       : 
-DIVIDE               : 4
+DIVIDE               : 7
 ELSE                 : 
-EQUAL                : 
+EQUAL                : 14 15
 FOR                  : 
-GLOBAL_ID            : 
+GLOBAL_ID            : 15 17
 GT                   : 
 IF                   : 
 LBRACE               : 
-LPAREN               : 5
+LPAREN               : 3
 LSPAREN              : 
 LT                   : 
-MINUS                : 2 7
-MOD                  : 
+MINUS                : 5 13
+MOD                  : 8
 NEWLINE              : 
 NOT                  : 
-NUMBER_EXP           : 10
-NUMBER_HEX           : 9
-NUMBER_REAL          : 8
+NUMBER_EXP           : 20
+NUMBER_HEX           : 19
+NUMBER_REAL          : 18
 OR                   : 
-PLUS                 : 1
-POW                  : 
-PRIVATE              : 
-PRIVATE_ID           : 
+PLUS                 : 4
+POW                  : 9
+PRIVATE              : 14
+PRIVATE_ID           : 14 16
 RBRACE               : 
-RPAREN               : 5
+RPAREN               : 3
 RSPAREN              : 
 SELECT               : 
-SEMI_COLON           : 
+SEMI_COLON           : 1 2
 STRING_DOUBLE        : 
 STRING_SINGLE        : 
 SWITCH               : 
-TIMES                : 3
+TIMES                : 6
 WHILE                : 
 WITH                 : 
 error                : 
 
 Nonterminals, with rules where they appear
 
+assignment           : 10
 empty                : 
-expression           : 1 1 2 2 3 3 4 4 5 7 0
-number               : 6
+expression           : 1 2 3 4 4 5 5 6 6 7 7 8 8 9 9 13 14 15
+expressions          : 1 0
+identifier           : 12
+number               : 11
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . expression
-    (1) expression -> . expression PLUS expression
-    (2) expression -> . expression MINUS expression
-    (3) expression -> . expression TIMES expression
-    (4) expression -> . expression DIVIDE expression
-    (5) expression -> . LPAREN expression RPAREN
-    (6) expression -> . number
-    (7) expression -> . MINUS expression
-    (8) number -> . NUMBER_REAL
-    (9) number -> . NUMBER_HEX
-    (10) number -> . NUMBER_EXP
+    (0) S' -> . expressions
+    (1) expressions -> . expression SEMI_COLON expressions
+    (2) expressions -> . expression SEMI_COLON
+    (3) expression -> . LPAREN expression RPAREN
+    (4) expression -> . expression PLUS expression
+    (5) expression -> . expression MINUS expression
+    (6) expression -> . expression TIMES expression
+    (7) expression -> . expression DIVIDE expression
+    (8) expression -> . expression MOD expression
+    (9) expression -> . expression POW expression
+    (10) expression -> . assignment
+    (11) expression -> . number
+    (12) expression -> . identifier
+    (13) expression -> . MINUS expression
+    (14) assignment -> . PRIVATE PRIVATE_ID EQUAL expression
+    (15) assignment -> . GLOBAL_ID EQUAL expression
+    (18) number -> . NUMBER_REAL
+    (19) number -> . NUMBER_HEX
+    (20) number -> . NUMBER_EXP
+    (16) identifier -> . PRIVATE_ID
+    (17) identifier -> . GLOBAL_ID
 
     LPAREN          shift and go to state 3
-    MINUS           shift and go to state 2
-    NUMBER_REAL     shift and go to state 5
-    NUMBER_HEX      shift and go to state 6
-    NUMBER_EXP      shift and go to state 7
+    MINUS           shift and go to state 4
+    PRIVATE         shift and go to state 8
+    GLOBAL_ID       shift and go to state 10
+    NUMBER_REAL     shift and go to state 11
+    NUMBER_HEX      shift and go to state 12
+    NUMBER_EXP      shift and go to state 13
+    PRIVATE_ID      shift and go to state 9
 
-    expression                     shift and go to state 1
-    number                         shift and go to state 4
+    expressions                    shift and go to state 1
+    expression                     shift and go to state 2
+    assignment                     shift and go to state 5
+    number                         shift and go to state 6
+    identifier                     shift and go to state 7
 
 state 1
 
-    (0) S' -> expression .
-    (1) expression -> expression . PLUS expression
-    (2) expression -> expression . MINUS expression
-    (3) expression -> expression . TIMES expression
-    (4) expression -> expression . DIVIDE expression
+    (0) S' -> expressions .
 
-    PLUS            shift and go to state 8
-    MINUS           shift and go to state 9
-    TIMES           shift and go to state 10
-    DIVIDE          shift and go to state 11
 
 
 state 2
 
-    (7) expression -> MINUS . expression
-    (1) expression -> . expression PLUS expression
-    (2) expression -> . expression MINUS expression
-    (3) expression -> . expression TIMES expression
-    (4) expression -> . expression DIVIDE expression
-    (5) expression -> . LPAREN expression RPAREN
-    (6) expression -> . number
-    (7) expression -> . MINUS expression
-    (8) number -> . NUMBER_REAL
-    (9) number -> . NUMBER_HEX
-    (10) number -> . NUMBER_EXP
+    (1) expressions -> expression . SEMI_COLON expressions
+    (2) expressions -> expression . SEMI_COLON
+    (4) expression -> expression . PLUS expression
+    (5) expression -> expression . MINUS expression
+    (6) expression -> expression . TIMES expression
+    (7) expression -> expression . DIVIDE expression
+    (8) expression -> expression . MOD expression
+    (9) expression -> expression . POW expression
 
-    LPAREN          shift and go to state 3
-    MINUS           shift and go to state 2
-    NUMBER_REAL     shift and go to state 5
-    NUMBER_HEX      shift and go to state 6
-    NUMBER_EXP      shift and go to state 7
+    SEMI_COLON      shift and go to state 14
+    PLUS            shift and go to state 15
+    MINUS           shift and go to state 16
+    TIMES           shift and go to state 17
+    DIVIDE          shift and go to state 18
+    MOD             shift and go to state 19
+    POW             shift and go to state 20
 
-    expression                     shift and go to state 12
-    number                         shift and go to state 4
 
 state 3
 
-    (5) expression -> LPAREN . expression RPAREN
-    (1) expression -> . expression PLUS expression
-    (2) expression -> . expression MINUS expression
-    (3) expression -> . expression TIMES expression
-    (4) expression -> . expression DIVIDE expression
-    (5) expression -> . LPAREN expression RPAREN
-    (6) expression -> . number
-    (7) expression -> . MINUS expression
-    (8) number -> . NUMBER_REAL
-    (9) number -> . NUMBER_HEX
-    (10) number -> . NUMBER_EXP
+    (3) expression -> LPAREN . expression RPAREN
+    (3) expression -> . LPAREN expression RPAREN
+    (4) expression -> . expression PLUS expression
+    (5) expression -> . expression MINUS expression
+    (6) expression -> . expression TIMES expression
+    (7) expression -> . expression DIVIDE expression
+    (8) expression -> . expression MOD expression
+    (9) expression -> . expression POW expression
+    (10) expression -> . assignment
+    (11) expression -> . number
+    (12) expression -> . identifier
+    (13) expression -> . MINUS expression
+    (14) assignment -> . PRIVATE PRIVATE_ID EQUAL expression
+    (15) assignment -> . GLOBAL_ID EQUAL expression
+    (18) number -> . NUMBER_REAL
+    (19) number -> . NUMBER_HEX
+    (20) number -> . NUMBER_EXP
+    (16) identifier -> . PRIVATE_ID
+    (17) identifier -> . GLOBAL_ID
 
     LPAREN          shift and go to state 3
-    MINUS           shift and go to state 2
-    NUMBER_REAL     shift and go to state 5
-    NUMBER_HEX      shift and go to state 6
-    NUMBER_EXP      shift and go to state 7
+    MINUS           shift and go to state 4
+    PRIVATE         shift and go to state 8
+    GLOBAL_ID       shift and go to state 10
+    NUMBER_REAL     shift and go to state 11
+    NUMBER_HEX      shift and go to state 12
+    NUMBER_EXP      shift and go to state 13
+    PRIVATE_ID      shift and go to state 9
 
-    expression                     shift and go to state 13
-    number                         shift and go to state 4
+    expression                     shift and go to state 21
+    assignment                     shift and go to state 5
+    number                         shift and go to state 6
+    identifier                     shift and go to state 7
 
 state 4
 
-    (6) expression -> number .
+    (13) expression -> MINUS . expression
+    (3) expression -> . LPAREN expression RPAREN
+    (4) expression -> . expression PLUS expression
+    (5) expression -> . expression MINUS expression
+    (6) expression -> . expression TIMES expression
+    (7) expression -> . expression DIVIDE expression
+    (8) expression -> . expression MOD expression
+    (9) expression -> . expression POW expression
+    (10) expression -> . assignment
+    (11) expression -> . number
+    (12) expression -> . identifier
+    (13) expression -> . MINUS expression
+    (14) assignment -> . PRIVATE PRIVATE_ID EQUAL expression
+    (15) assignment -> . GLOBAL_ID EQUAL expression
+    (18) number -> . NUMBER_REAL
+    (19) number -> . NUMBER_HEX
+    (20) number -> . NUMBER_EXP
+    (16) identifier -> . PRIVATE_ID
+    (17) identifier -> . GLOBAL_ID
 
-    PLUS            reduce using rule 6 (expression -> number .)
-    MINUS           reduce using rule 6 (expression -> number .)
-    TIMES           reduce using rule 6 (expression -> number .)
-    DIVIDE          reduce using rule 6 (expression -> number .)
-    $end            reduce using rule 6 (expression -> number .)
-    RPAREN          reduce using rule 6 (expression -> number .)
+    LPAREN          shift and go to state 3
+    MINUS           shift and go to state 4
+    PRIVATE         shift and go to state 8
+    GLOBAL_ID       shift and go to state 10
+    NUMBER_REAL     shift and go to state 11
+    NUMBER_HEX      shift and go to state 12
+    NUMBER_EXP      shift and go to state 13
+    PRIVATE_ID      shift and go to state 9
 
+    expression                     shift and go to state 22
+    assignment                     shift and go to state 5
+    number                         shift and go to state 6
+    identifier                     shift and go to state 7
 
 state 5
 
-    (8) number -> NUMBER_REAL .
+    (10) expression -> assignment .
 
-    PLUS            reduce using rule 8 (number -> NUMBER_REAL .)
-    MINUS           reduce using rule 8 (number -> NUMBER_REAL .)
-    TIMES           reduce using rule 8 (number -> NUMBER_REAL .)
-    DIVIDE          reduce using rule 8 (number -> NUMBER_REAL .)
-    $end            reduce using rule 8 (number -> NUMBER_REAL .)
-    RPAREN          reduce using rule 8 (number -> NUMBER_REAL .)
+    SEMI_COLON      reduce using rule 10 (expression -> assignment .)
+    PLUS            reduce using rule 10 (expression -> assignment .)
+    MINUS           reduce using rule 10 (expression -> assignment .)
+    TIMES           reduce using rule 10 (expression -> assignment .)
+    DIVIDE          reduce using rule 10 (expression -> assignment .)
+    MOD             reduce using rule 10 (expression -> assignment .)
+    POW             reduce using rule 10 (expression -> assignment .)
+    RPAREN          reduce using rule 10 (expression -> assignment .)
 
 
 state 6
 
-    (9) number -> NUMBER_HEX .
+    (11) expression -> number .
 
-    PLUS            reduce using rule 9 (number -> NUMBER_HEX .)
-    MINUS           reduce using rule 9 (number -> NUMBER_HEX .)
-    TIMES           reduce using rule 9 (number -> NUMBER_HEX .)
-    DIVIDE          reduce using rule 9 (number -> NUMBER_HEX .)
-    $end            reduce using rule 9 (number -> NUMBER_HEX .)
-    RPAREN          reduce using rule 9 (number -> NUMBER_HEX .)
+    SEMI_COLON      reduce using rule 11 (expression -> number .)
+    PLUS            reduce using rule 11 (expression -> number .)
+    MINUS           reduce using rule 11 (expression -> number .)
+    TIMES           reduce using rule 11 (expression -> number .)
+    DIVIDE          reduce using rule 11 (expression -> number .)
+    MOD             reduce using rule 11 (expression -> number .)
+    POW             reduce using rule 11 (expression -> number .)
+    RPAREN          reduce using rule 11 (expression -> number .)
 
 
 state 7
 
-    (10) number -> NUMBER_EXP .
+    (12) expression -> identifier .
 
-    PLUS            reduce using rule 10 (number -> NUMBER_EXP .)
-    MINUS           reduce using rule 10 (number -> NUMBER_EXP .)
-    TIMES           reduce using rule 10 (number -> NUMBER_EXP .)
-    DIVIDE          reduce using rule 10 (number -> NUMBER_EXP .)
-    $end            reduce using rule 10 (number -> NUMBER_EXP .)
-    RPAREN          reduce using rule 10 (number -> NUMBER_EXP .)
+    SEMI_COLON      reduce using rule 12 (expression -> identifier .)
+    PLUS            reduce using rule 12 (expression -> identifier .)
+    MINUS           reduce using rule 12 (expression -> identifier .)
+    TIMES           reduce using rule 12 (expression -> identifier .)
+    DIVIDE          reduce using rule 12 (expression -> identifier .)
+    MOD             reduce using rule 12 (expression -> identifier .)
+    POW             reduce using rule 12 (expression -> identifier .)
+    RPAREN          reduce using rule 12 (expression -> identifier .)
 
 
 state 8
 
-    (1) expression -> expression PLUS . expression
-    (1) expression -> . expression PLUS expression
-    (2) expression -> . expression MINUS expression
-    (3) expression -> . expression TIMES expression
-    (4) expression -> . expression DIVIDE expression
-    (5) expression -> . LPAREN expression RPAREN
-    (6) expression -> . number
-    (7) expression -> . MINUS expression
-    (8) number -> . NUMBER_REAL
-    (9) number -> . NUMBER_HEX
-    (10) number -> . NUMBER_EXP
+    (14) assignment -> PRIVATE . PRIVATE_ID EQUAL expression
 
-    LPAREN          shift and go to state 3
-    MINUS           shift and go to state 2
-    NUMBER_REAL     shift and go to state 5
-    NUMBER_HEX      shift and go to state 6
-    NUMBER_EXP      shift and go to state 7
+    PRIVATE_ID      shift and go to state 23
 
-    expression                     shift and go to state 14
-    number                         shift and go to state 4
 
 state 9
 
-    (2) expression -> expression MINUS . expression
-    (1) expression -> . expression PLUS expression
-    (2) expression -> . expression MINUS expression
-    (3) expression -> . expression TIMES expression
-    (4) expression -> . expression DIVIDE expression
-    (5) expression -> . LPAREN expression RPAREN
-    (6) expression -> . number
-    (7) expression -> . MINUS expression
-    (8) number -> . NUMBER_REAL
-    (9) number -> . NUMBER_HEX
-    (10) number -> . NUMBER_EXP
+    (16) identifier -> PRIVATE_ID .
 
-    LPAREN          shift and go to state 3
-    MINUS           shift and go to state 2
-    NUMBER_REAL     shift and go to state 5
-    NUMBER_HEX      shift and go to state 6
-    NUMBER_EXP      shift and go to state 7
+    SEMI_COLON      reduce using rule 16 (identifier -> PRIVATE_ID .)
+    PLUS            reduce using rule 16 (identifier -> PRIVATE_ID .)
+    MINUS           reduce using rule 16 (identifier -> PRIVATE_ID .)
+    TIMES           reduce using rule 16 (identifier -> PRIVATE_ID .)
+    DIVIDE          reduce using rule 16 (identifier -> PRIVATE_ID .)
+    MOD             reduce using rule 16 (identifier -> PRIVATE_ID .)
+    POW             reduce using rule 16 (identifier -> PRIVATE_ID .)
+    RPAREN          reduce using rule 16 (identifier -> PRIVATE_ID .)
 
-    expression                     shift and go to state 15
-    number                         shift and go to state 4
 
 state 10
 
-    (3) expression -> expression TIMES . expression
-    (1) expression -> . expression PLUS expression
-    (2) expression -> . expression MINUS expression
-    (3) expression -> . expression TIMES expression
-    (4) expression -> . expression DIVIDE expression
-    (5) expression -> . LPAREN expression RPAREN
-    (6) expression -> . number
-    (7) expression -> . MINUS expression
-    (8) number -> . NUMBER_REAL
-    (9) number -> . NUMBER_HEX
-    (10) number -> . NUMBER_EXP
+    (15) assignment -> GLOBAL_ID . EQUAL expression
+    (17) identifier -> GLOBAL_ID .
 
-    LPAREN          shift and go to state 3
-    MINUS           shift and go to state 2
-    NUMBER_REAL     shift and go to state 5
-    NUMBER_HEX      shift and go to state 6
-    NUMBER_EXP      shift and go to state 7
+    EQUAL           shift and go to state 24
+    SEMI_COLON      reduce using rule 17 (identifier -> GLOBAL_ID .)
+    PLUS            reduce using rule 17 (identifier -> GLOBAL_ID .)
+    MINUS           reduce using rule 17 (identifier -> GLOBAL_ID .)
+    TIMES           reduce using rule 17 (identifier -> GLOBAL_ID .)
+    DIVIDE          reduce using rule 17 (identifier -> GLOBAL_ID .)
+    MOD             reduce using rule 17 (identifier -> GLOBAL_ID .)
+    POW             reduce using rule 17 (identifier -> GLOBAL_ID .)
+    RPAREN          reduce using rule 17 (identifier -> GLOBAL_ID .)
 
-    expression                     shift and go to state 16
-    number                         shift and go to state 4
 
 state 11
 
-    (4) expression -> expression DIVIDE . expression
-    (1) expression -> . expression PLUS expression
-    (2) expression -> . expression MINUS expression
-    (3) expression -> . expression TIMES expression
-    (4) expression -> . expression DIVIDE expression
-    (5) expression -> . LPAREN expression RPAREN
-    (6) expression -> . number
-    (7) expression -> . MINUS expression
-    (8) number -> . NUMBER_REAL
-    (9) number -> . NUMBER_HEX
-    (10) number -> . NUMBER_EXP
+    (18) number -> NUMBER_REAL .
 
-    LPAREN          shift and go to state 3
-    MINUS           shift and go to state 2
-    NUMBER_REAL     shift and go to state 5
-    NUMBER_HEX      shift and go to state 6
-    NUMBER_EXP      shift and go to state 7
+    SEMI_COLON      reduce using rule 18 (number -> NUMBER_REAL .)
+    PLUS            reduce using rule 18 (number -> NUMBER_REAL .)
+    MINUS           reduce using rule 18 (number -> NUMBER_REAL .)
+    TIMES           reduce using rule 18 (number -> NUMBER_REAL .)
+    DIVIDE          reduce using rule 18 (number -> NUMBER_REAL .)
+    MOD             reduce using rule 18 (number -> NUMBER_REAL .)
+    POW             reduce using rule 18 (number -> NUMBER_REAL .)
+    RPAREN          reduce using rule 18 (number -> NUMBER_REAL .)
 
-    expression                     shift and go to state 17
-    number                         shift and go to state 4
 
 state 12
 
-    (7) expression -> MINUS expression .
-    (1) expression -> expression . PLUS expression
-    (2) expression -> expression . MINUS expression
-    (3) expression -> expression . TIMES expression
-    (4) expression -> expression . DIVIDE expression
+    (19) number -> NUMBER_HEX .
 
-    PLUS            reduce using rule 7 (expression -> MINUS expression .)
-    MINUS           reduce using rule 7 (expression -> MINUS expression .)
-    TIMES           reduce using rule 7 (expression -> MINUS expression .)
-    DIVIDE          reduce using rule 7 (expression -> MINUS expression .)
-    $end            reduce using rule 7 (expression -> MINUS expression .)
-    RPAREN          reduce using rule 7 (expression -> MINUS expression .)
-
-  ! PLUS            [ shift and go to state 8 ]
-  ! MINUS           [ shift and go to state 9 ]
-  ! TIMES           [ shift and go to state 10 ]
-  ! DIVIDE          [ shift and go to state 11 ]
+    SEMI_COLON      reduce using rule 19 (number -> NUMBER_HEX .)
+    PLUS            reduce using rule 19 (number -> NUMBER_HEX .)
+    MINUS           reduce using rule 19 (number -> NUMBER_HEX .)
+    TIMES           reduce using rule 19 (number -> NUMBER_HEX .)
+    DIVIDE          reduce using rule 19 (number -> NUMBER_HEX .)
+    MOD             reduce using rule 19 (number -> NUMBER_HEX .)
+    POW             reduce using rule 19 (number -> NUMBER_HEX .)
+    RPAREN          reduce using rule 19 (number -> NUMBER_HEX .)
 
 
 state 13
 
-    (5) expression -> LPAREN expression . RPAREN
-    (1) expression -> expression . PLUS expression
-    (2) expression -> expression . MINUS expression
-    (3) expression -> expression . TIMES expression
-    (4) expression -> expression . DIVIDE expression
+    (20) number -> NUMBER_EXP .
 
-    RPAREN          shift and go to state 18
-    PLUS            shift and go to state 8
-    MINUS           shift and go to state 9
-    TIMES           shift and go to state 10
-    DIVIDE          shift and go to state 11
+    SEMI_COLON      reduce using rule 20 (number -> NUMBER_EXP .)
+    PLUS            reduce using rule 20 (number -> NUMBER_EXP .)
+    MINUS           reduce using rule 20 (number -> NUMBER_EXP .)
+    TIMES           reduce using rule 20 (number -> NUMBER_EXP .)
+    DIVIDE          reduce using rule 20 (number -> NUMBER_EXP .)
+    MOD             reduce using rule 20 (number -> NUMBER_EXP .)
+    POW             reduce using rule 20 (number -> NUMBER_EXP .)
+    RPAREN          reduce using rule 20 (number -> NUMBER_EXP .)
 
 
 state 14
 
-    (1) expression -> expression PLUS expression .
-    (1) expression -> expression . PLUS expression
-    (2) expression -> expression . MINUS expression
-    (3) expression -> expression . TIMES expression
-    (4) expression -> expression . DIVIDE expression
+    (1) expressions -> expression SEMI_COLON . expressions
+    (2) expressions -> expression SEMI_COLON .
+    (1) expressions -> . expression SEMI_COLON expressions
+    (2) expressions -> . expression SEMI_COLON
+    (3) expression -> . LPAREN expression RPAREN
+    (4) expression -> . expression PLUS expression
+    (5) expression -> . expression MINUS expression
+    (6) expression -> . expression TIMES expression
+    (7) expression -> . expression DIVIDE expression
+    (8) expression -> . expression MOD expression
+    (9) expression -> . expression POW expression
+    (10) expression -> . assignment
+    (11) expression -> . number
+    (12) expression -> . identifier
+    (13) expression -> . MINUS expression
+    (14) assignment -> . PRIVATE PRIVATE_ID EQUAL expression
+    (15) assignment -> . GLOBAL_ID EQUAL expression
+    (18) number -> . NUMBER_REAL
+    (19) number -> . NUMBER_HEX
+    (20) number -> . NUMBER_EXP
+    (16) identifier -> . PRIVATE_ID
+    (17) identifier -> . GLOBAL_ID
 
-    PLUS            reduce using rule 1 (expression -> expression PLUS expression .)
-    MINUS           reduce using rule 1 (expression -> expression PLUS expression .)
-    $end            reduce using rule 1 (expression -> expression PLUS expression .)
-    RPAREN          reduce using rule 1 (expression -> expression PLUS expression .)
-    TIMES           shift and go to state 10
-    DIVIDE          shift and go to state 11
+    $end            reduce using rule 2 (expressions -> expression SEMI_COLON .)
+    LPAREN          shift and go to state 3
+    MINUS           shift and go to state 4
+    PRIVATE         shift and go to state 8
+    GLOBAL_ID       shift and go to state 10
+    NUMBER_REAL     shift and go to state 11
+    NUMBER_HEX      shift and go to state 12
+    NUMBER_EXP      shift and go to state 13
+    PRIVATE_ID      shift and go to state 9
 
-  ! TIMES           [ reduce using rule 1 (expression -> expression PLUS expression .) ]
-  ! DIVIDE          [ reduce using rule 1 (expression -> expression PLUS expression .) ]
-  ! PLUS            [ shift and go to state 8 ]
-  ! MINUS           [ shift and go to state 9 ]
-
+    expression                     shift and go to state 2
+    expressions                    shift and go to state 25
+    assignment                     shift and go to state 5
+    number                         shift and go to state 6
+    identifier                     shift and go to state 7
 
 state 15
 
-    (2) expression -> expression MINUS expression .
-    (1) expression -> expression . PLUS expression
-    (2) expression -> expression . MINUS expression
-    (3) expression -> expression . TIMES expression
-    (4) expression -> expression . DIVIDE expression
+    (4) expression -> expression PLUS . expression
+    (3) expression -> . LPAREN expression RPAREN
+    (4) expression -> . expression PLUS expression
+    (5) expression -> . expression MINUS expression
+    (6) expression -> . expression TIMES expression
+    (7) expression -> . expression DIVIDE expression
+    (8) expression -> . expression MOD expression
+    (9) expression -> . expression POW expression
+    (10) expression -> . assignment
+    (11) expression -> . number
+    (12) expression -> . identifier
+    (13) expression -> . MINUS expression
+    (14) assignment -> . PRIVATE PRIVATE_ID EQUAL expression
+    (15) assignment -> . GLOBAL_ID EQUAL expression
+    (18) number -> . NUMBER_REAL
+    (19) number -> . NUMBER_HEX
+    (20) number -> . NUMBER_EXP
+    (16) identifier -> . PRIVATE_ID
+    (17) identifier -> . GLOBAL_ID
 
-    PLUS            reduce using rule 2 (expression -> expression MINUS expression .)
-    MINUS           reduce using rule 2 (expression -> expression MINUS expression .)
-    $end            reduce using rule 2 (expression -> expression MINUS expression .)
-    RPAREN          reduce using rule 2 (expression -> expression MINUS expression .)
-    TIMES           shift and go to state 10
-    DIVIDE          shift and go to state 11
+    LPAREN          shift and go to state 3
+    MINUS           shift and go to state 4
+    PRIVATE         shift and go to state 8
+    GLOBAL_ID       shift and go to state 10
+    NUMBER_REAL     shift and go to state 11
+    NUMBER_HEX      shift and go to state 12
+    NUMBER_EXP      shift and go to state 13
+    PRIVATE_ID      shift and go to state 9
 
-  ! TIMES           [ reduce using rule 2 (expression -> expression MINUS expression .) ]
-  ! DIVIDE          [ reduce using rule 2 (expression -> expression MINUS expression .) ]
-  ! PLUS            [ shift and go to state 8 ]
-  ! MINUS           [ shift and go to state 9 ]
-
+    expression                     shift and go to state 26
+    assignment                     shift and go to state 5
+    number                         shift and go to state 6
+    identifier                     shift and go to state 7
 
 state 16
 
-    (3) expression -> expression TIMES expression .
-    (1) expression -> expression . PLUS expression
-    (2) expression -> expression . MINUS expression
-    (3) expression -> expression . TIMES expression
-    (4) expression -> expression . DIVIDE expression
+    (5) expression -> expression MINUS . expression
+    (3) expression -> . LPAREN expression RPAREN
+    (4) expression -> . expression PLUS expression
+    (5) expression -> . expression MINUS expression
+    (6) expression -> . expression TIMES expression
+    (7) expression -> . expression DIVIDE expression
+    (8) expression -> . expression MOD expression
+    (9) expression -> . expression POW expression
+    (10) expression -> . assignment
+    (11) expression -> . number
+    (12) expression -> . identifier
+    (13) expression -> . MINUS expression
+    (14) assignment -> . PRIVATE PRIVATE_ID EQUAL expression
+    (15) assignment -> . GLOBAL_ID EQUAL expression
+    (18) number -> . NUMBER_REAL
+    (19) number -> . NUMBER_HEX
+    (20) number -> . NUMBER_EXP
+    (16) identifier -> . PRIVATE_ID
+    (17) identifier -> . GLOBAL_ID
 
-    PLUS            reduce using rule 3 (expression -> expression TIMES expression .)
-    MINUS           reduce using rule 3 (expression -> expression TIMES expression .)
-    TIMES           reduce using rule 3 (expression -> expression TIMES expression .)
-    DIVIDE          reduce using rule 3 (expression -> expression TIMES expression .)
-    $end            reduce using rule 3 (expression -> expression TIMES expression .)
-    RPAREN          reduce using rule 3 (expression -> expression TIMES expression .)
+    LPAREN          shift and go to state 3
+    MINUS           shift and go to state 4
+    PRIVATE         shift and go to state 8
+    GLOBAL_ID       shift and go to state 10
+    NUMBER_REAL     shift and go to state 11
+    NUMBER_HEX      shift and go to state 12
+    NUMBER_EXP      shift and go to state 13
+    PRIVATE_ID      shift and go to state 9
 
-  ! PLUS            [ shift and go to state 8 ]
-  ! MINUS           [ shift and go to state 9 ]
-  ! TIMES           [ shift and go to state 10 ]
-  ! DIVIDE          [ shift and go to state 11 ]
-
+    expression                     shift and go to state 27
+    assignment                     shift and go to state 5
+    number                         shift and go to state 6
+    identifier                     shift and go to state 7
 
 state 17
 
-    (4) expression -> expression DIVIDE expression .
-    (1) expression -> expression . PLUS expression
-    (2) expression -> expression . MINUS expression
-    (3) expression -> expression . TIMES expression
-    (4) expression -> expression . DIVIDE expression
+    (6) expression -> expression TIMES . expression
+    (3) expression -> . LPAREN expression RPAREN
+    (4) expression -> . expression PLUS expression
+    (5) expression -> . expression MINUS expression
+    (6) expression -> . expression TIMES expression
+    (7) expression -> . expression DIVIDE expression
+    (8) expression -> . expression MOD expression
+    (9) expression -> . expression POW expression
+    (10) expression -> . assignment
+    (11) expression -> . number
+    (12) expression -> . identifier
+    (13) expression -> . MINUS expression
+    (14) assignment -> . PRIVATE PRIVATE_ID EQUAL expression
+    (15) assignment -> . GLOBAL_ID EQUAL expression
+    (18) number -> . NUMBER_REAL
+    (19) number -> . NUMBER_HEX
+    (20) number -> . NUMBER_EXP
+    (16) identifier -> . PRIVATE_ID
+    (17) identifier -> . GLOBAL_ID
 
-    PLUS            reduce using rule 4 (expression -> expression DIVIDE expression .)
-    MINUS           reduce using rule 4 (expression -> expression DIVIDE expression .)
-    TIMES           reduce using rule 4 (expression -> expression DIVIDE expression .)
-    DIVIDE          reduce using rule 4 (expression -> expression DIVIDE expression .)
-    $end            reduce using rule 4 (expression -> expression DIVIDE expression .)
-    RPAREN          reduce using rule 4 (expression -> expression DIVIDE expression .)
+    LPAREN          shift and go to state 3
+    MINUS           shift and go to state 4
+    PRIVATE         shift and go to state 8
+    GLOBAL_ID       shift and go to state 10
+    NUMBER_REAL     shift and go to state 11
+    NUMBER_HEX      shift and go to state 12
+    NUMBER_EXP      shift and go to state 13
+    PRIVATE_ID      shift and go to state 9
 
-  ! PLUS            [ shift and go to state 8 ]
-  ! MINUS           [ shift and go to state 9 ]
-  ! TIMES           [ shift and go to state 10 ]
-  ! DIVIDE          [ shift and go to state 11 ]
-
+    expression                     shift and go to state 28
+    assignment                     shift and go to state 5
+    number                         shift and go to state 6
+    identifier                     shift and go to state 7
 
 state 18
 
-    (5) expression -> LPAREN expression RPAREN .
+    (7) expression -> expression DIVIDE . expression
+    (3) expression -> . LPAREN expression RPAREN
+    (4) expression -> . expression PLUS expression
+    (5) expression -> . expression MINUS expression
+    (6) expression -> . expression TIMES expression
+    (7) expression -> . expression DIVIDE expression
+    (8) expression -> . expression MOD expression
+    (9) expression -> . expression POW expression
+    (10) expression -> . assignment
+    (11) expression -> . number
+    (12) expression -> . identifier
+    (13) expression -> . MINUS expression
+    (14) assignment -> . PRIVATE PRIVATE_ID EQUAL expression
+    (15) assignment -> . GLOBAL_ID EQUAL expression
+    (18) number -> . NUMBER_REAL
+    (19) number -> . NUMBER_HEX
+    (20) number -> . NUMBER_EXP
+    (16) identifier -> . PRIVATE_ID
+    (17) identifier -> . GLOBAL_ID
 
-    PLUS            reduce using rule 5 (expression -> LPAREN expression RPAREN .)
-    MINUS           reduce using rule 5 (expression -> LPAREN expression RPAREN .)
-    TIMES           reduce using rule 5 (expression -> LPAREN expression RPAREN .)
-    DIVIDE          reduce using rule 5 (expression -> LPAREN expression RPAREN .)
-    $end            reduce using rule 5 (expression -> LPAREN expression RPAREN .)
-    RPAREN          reduce using rule 5 (expression -> LPAREN expression RPAREN .)
+    LPAREN          shift and go to state 3
+    MINUS           shift and go to state 4
+    PRIVATE         shift and go to state 8
+    GLOBAL_ID       shift and go to state 10
+    NUMBER_REAL     shift and go to state 11
+    NUMBER_HEX      shift and go to state 12
+    NUMBER_EXP      shift and go to state 13
+    PRIVATE_ID      shift and go to state 9
 
+    expression                     shift and go to state 29
+    assignment                     shift and go to state 5
+    number                         shift and go to state 6
+    identifier                     shift and go to state 7
+
+state 19
+
+    (8) expression -> expression MOD . expression
+    (3) expression -> . LPAREN expression RPAREN
+    (4) expression -> . expression PLUS expression
+    (5) expression -> . expression MINUS expression
+    (6) expression -> . expression TIMES expression
+    (7) expression -> . expression DIVIDE expression
+    (8) expression -> . expression MOD expression
+    (9) expression -> . expression POW expression
+    (10) expression -> . assignment
+    (11) expression -> . number
+    (12) expression -> . identifier
+    (13) expression -> . MINUS expression
+    (14) assignment -> . PRIVATE PRIVATE_ID EQUAL expression
+    (15) assignment -> . GLOBAL_ID EQUAL expression
+    (18) number -> . NUMBER_REAL
+    (19) number -> . NUMBER_HEX
+    (20) number -> . NUMBER_EXP
+    (16) identifier -> . PRIVATE_ID
+    (17) identifier -> . GLOBAL_ID
+
+    LPAREN          shift and go to state 3
+    MINUS           shift and go to state 4
+    PRIVATE         shift and go to state 8
+    GLOBAL_ID       shift and go to state 10
+    NUMBER_REAL     shift and go to state 11
+    NUMBER_HEX      shift and go to state 12
+    NUMBER_EXP      shift and go to state 13
+    PRIVATE_ID      shift and go to state 9
+
+    expression                     shift and go to state 30
+    assignment                     shift and go to state 5
+    number                         shift and go to state 6
+    identifier                     shift and go to state 7
+
+state 20
+
+    (9) expression -> expression POW . expression
+    (3) expression -> . LPAREN expression RPAREN
+    (4) expression -> . expression PLUS expression
+    (5) expression -> . expression MINUS expression
+    (6) expression -> . expression TIMES expression
+    (7) expression -> . expression DIVIDE expression
+    (8) expression -> . expression MOD expression
+    (9) expression -> . expression POW expression
+    (10) expression -> . assignment
+    (11) expression -> . number
+    (12) expression -> . identifier
+    (13) expression -> . MINUS expression
+    (14) assignment -> . PRIVATE PRIVATE_ID EQUAL expression
+    (15) assignment -> . GLOBAL_ID EQUAL expression
+    (18) number -> . NUMBER_REAL
+    (19) number -> . NUMBER_HEX
+    (20) number -> . NUMBER_EXP
+    (16) identifier -> . PRIVATE_ID
+    (17) identifier -> . GLOBAL_ID
+
+    LPAREN          shift and go to state 3
+    MINUS           shift and go to state 4
+    PRIVATE         shift and go to state 8
+    GLOBAL_ID       shift and go to state 10
+    NUMBER_REAL     shift and go to state 11
+    NUMBER_HEX      shift and go to state 12
+    NUMBER_EXP      shift and go to state 13
+    PRIVATE_ID      shift and go to state 9
+
+    expression                     shift and go to state 31
+    assignment                     shift and go to state 5
+    number                         shift and go to state 6
+    identifier                     shift and go to state 7
+
+state 21
+
+    (3) expression -> LPAREN expression . RPAREN
+    (4) expression -> expression . PLUS expression
+    (5) expression -> expression . MINUS expression
+    (6) expression -> expression . TIMES expression
+    (7) expression -> expression . DIVIDE expression
+    (8) expression -> expression . MOD expression
+    (9) expression -> expression . POW expression
+
+    RPAREN          shift and go to state 32
+    PLUS            shift and go to state 15
+    MINUS           shift and go to state 16
+    TIMES           shift and go to state 17
+    DIVIDE          shift and go to state 18
+    MOD             shift and go to state 19
+    POW             shift and go to state 20
+
+
+state 22
+
+    (13) expression -> MINUS expression .
+    (4) expression -> expression . PLUS expression
+    (5) expression -> expression . MINUS expression
+    (6) expression -> expression . TIMES expression
+    (7) expression -> expression . DIVIDE expression
+    (8) expression -> expression . MOD expression
+    (9) expression -> expression . POW expression
+
+    SEMI_COLON      reduce using rule 13 (expression -> MINUS expression .)
+    PLUS            reduce using rule 13 (expression -> MINUS expression .)
+    MINUS           reduce using rule 13 (expression -> MINUS expression .)
+    TIMES           reduce using rule 13 (expression -> MINUS expression .)
+    DIVIDE          reduce using rule 13 (expression -> MINUS expression .)
+    MOD             reduce using rule 13 (expression -> MINUS expression .)
+    POW             reduce using rule 13 (expression -> MINUS expression .)
+    RPAREN          reduce using rule 13 (expression -> MINUS expression .)
+
+  ! PLUS            [ shift and go to state 15 ]
+  ! MINUS           [ shift and go to state 16 ]
+  ! TIMES           [ shift and go to state 17 ]
+  ! DIVIDE          [ shift and go to state 18 ]
+  ! MOD             [ shift and go to state 19 ]
+  ! POW             [ shift and go to state 20 ]
+
+
+state 23
+
+    (14) assignment -> PRIVATE PRIVATE_ID . EQUAL expression
+
+    EQUAL           shift and go to state 33
+
+
+state 24
+
+    (15) assignment -> GLOBAL_ID EQUAL . expression
+    (3) expression -> . LPAREN expression RPAREN
+    (4) expression -> . expression PLUS expression
+    (5) expression -> . expression MINUS expression
+    (6) expression -> . expression TIMES expression
+    (7) expression -> . expression DIVIDE expression
+    (8) expression -> . expression MOD expression
+    (9) expression -> . expression POW expression
+    (10) expression -> . assignment
+    (11) expression -> . number
+    (12) expression -> . identifier
+    (13) expression -> . MINUS expression
+    (14) assignment -> . PRIVATE PRIVATE_ID EQUAL expression
+    (15) assignment -> . GLOBAL_ID EQUAL expression
+    (18) number -> . NUMBER_REAL
+    (19) number -> . NUMBER_HEX
+    (20) number -> . NUMBER_EXP
+    (16) identifier -> . PRIVATE_ID
+    (17) identifier -> . GLOBAL_ID
+
+    LPAREN          shift and go to state 3
+    MINUS           shift and go to state 4
+    PRIVATE         shift and go to state 8
+    GLOBAL_ID       shift and go to state 10
+    NUMBER_REAL     shift and go to state 11
+    NUMBER_HEX      shift and go to state 12
+    NUMBER_EXP      shift and go to state 13
+    PRIVATE_ID      shift and go to state 9
+
+    expression                     shift and go to state 34
+    assignment                     shift and go to state 5
+    number                         shift and go to state 6
+    identifier                     shift and go to state 7
+
+state 25
+
+    (1) expressions -> expression SEMI_COLON expressions .
+
+    $end            reduce using rule 1 (expressions -> expression SEMI_COLON expressions .)
+
+
+state 26
+
+    (4) expression -> expression PLUS expression .
+    (4) expression -> expression . PLUS expression
+    (5) expression -> expression . MINUS expression
+    (6) expression -> expression . TIMES expression
+    (7) expression -> expression . DIVIDE expression
+    (8) expression -> expression . MOD expression
+    (9) expression -> expression . POW expression
+
+    SEMI_COLON      reduce using rule 4 (expression -> expression PLUS expression .)
+    PLUS            reduce using rule 4 (expression -> expression PLUS expression .)
+    MINUS           reduce using rule 4 (expression -> expression PLUS expression .)
+    RPAREN          reduce using rule 4 (expression -> expression PLUS expression .)
+    TIMES           shift and go to state 17
+    DIVIDE          shift and go to state 18
+    MOD             shift and go to state 19
+    POW             shift and go to state 20
+
+  ! TIMES           [ reduce using rule 4 (expression -> expression PLUS expression .) ]
+  ! DIVIDE          [ reduce using rule 4 (expression -> expression PLUS expression .) ]
+  ! MOD             [ reduce using rule 4 (expression -> expression PLUS expression .) ]
+  ! POW             [ reduce using rule 4 (expression -> expression PLUS expression .) ]
+  ! PLUS            [ shift and go to state 15 ]
+  ! MINUS           [ shift and go to state 16 ]
+
+
+state 27
+
+    (5) expression -> expression MINUS expression .
+    (4) expression -> expression . PLUS expression
+    (5) expression -> expression . MINUS expression
+    (6) expression -> expression . TIMES expression
+    (7) expression -> expression . DIVIDE expression
+    (8) expression -> expression . MOD expression
+    (9) expression -> expression . POW expression
+
+    SEMI_COLON      reduce using rule 5 (expression -> expression MINUS expression .)
+    PLUS            reduce using rule 5 (expression -> expression MINUS expression .)
+    MINUS           reduce using rule 5 (expression -> expression MINUS expression .)
+    RPAREN          reduce using rule 5 (expression -> expression MINUS expression .)
+    TIMES           shift and go to state 17
+    DIVIDE          shift and go to state 18
+    MOD             shift and go to state 19
+    POW             shift and go to state 20
+
+  ! TIMES           [ reduce using rule 5 (expression -> expression MINUS expression .) ]
+  ! DIVIDE          [ reduce using rule 5 (expression -> expression MINUS expression .) ]
+  ! MOD             [ reduce using rule 5 (expression -> expression MINUS expression .) ]
+  ! POW             [ reduce using rule 5 (expression -> expression MINUS expression .) ]
+  ! PLUS            [ shift and go to state 15 ]
+  ! MINUS           [ shift and go to state 16 ]
+
+
+state 28
+
+    (6) expression -> expression TIMES expression .
+    (4) expression -> expression . PLUS expression
+    (5) expression -> expression . MINUS expression
+    (6) expression -> expression . TIMES expression
+    (7) expression -> expression . DIVIDE expression
+    (8) expression -> expression . MOD expression
+    (9) expression -> expression . POW expression
+
+    SEMI_COLON      reduce using rule 6 (expression -> expression TIMES expression .)
+    PLUS            reduce using rule 6 (expression -> expression TIMES expression .)
+    MINUS           reduce using rule 6 (expression -> expression TIMES expression .)
+    TIMES           reduce using rule 6 (expression -> expression TIMES expression .)
+    DIVIDE          reduce using rule 6 (expression -> expression TIMES expression .)
+    MOD             reduce using rule 6 (expression -> expression TIMES expression .)
+    RPAREN          reduce using rule 6 (expression -> expression TIMES expression .)
+    POW             shift and go to state 20
+
+  ! POW             [ reduce using rule 6 (expression -> expression TIMES expression .) ]
+  ! PLUS            [ shift and go to state 15 ]
+  ! MINUS           [ shift and go to state 16 ]
+  ! TIMES           [ shift and go to state 17 ]
+  ! DIVIDE          [ shift and go to state 18 ]
+  ! MOD             [ shift and go to state 19 ]
+
+
+state 29
+
+    (7) expression -> expression DIVIDE expression .
+    (4) expression -> expression . PLUS expression
+    (5) expression -> expression . MINUS expression
+    (6) expression -> expression . TIMES expression
+    (7) expression -> expression . DIVIDE expression
+    (8) expression -> expression . MOD expression
+    (9) expression -> expression . POW expression
+
+    SEMI_COLON      reduce using rule 7 (expression -> expression DIVIDE expression .)
+    PLUS            reduce using rule 7 (expression -> expression DIVIDE expression .)
+    MINUS           reduce using rule 7 (expression -> expression DIVIDE expression .)
+    TIMES           reduce using rule 7 (expression -> expression DIVIDE expression .)
+    DIVIDE          reduce using rule 7 (expression -> expression DIVIDE expression .)
+    MOD             reduce using rule 7 (expression -> expression DIVIDE expression .)
+    RPAREN          reduce using rule 7 (expression -> expression DIVIDE expression .)
+    POW             shift and go to state 20
+
+  ! POW             [ reduce using rule 7 (expression -> expression DIVIDE expression .) ]
+  ! PLUS            [ shift and go to state 15 ]
+  ! MINUS           [ shift and go to state 16 ]
+  ! TIMES           [ shift and go to state 17 ]
+  ! DIVIDE          [ shift and go to state 18 ]
+  ! MOD             [ shift and go to state 19 ]
+
+
+state 30
+
+    (8) expression -> expression MOD expression .
+    (4) expression -> expression . PLUS expression
+    (5) expression -> expression . MINUS expression
+    (6) expression -> expression . TIMES expression
+    (7) expression -> expression . DIVIDE expression
+    (8) expression -> expression . MOD expression
+    (9) expression -> expression . POW expression
+
+    SEMI_COLON      reduce using rule 8 (expression -> expression MOD expression .)
+    PLUS            reduce using rule 8 (expression -> expression MOD expression .)
+    MINUS           reduce using rule 8 (expression -> expression MOD expression .)
+    TIMES           reduce using rule 8 (expression -> expression MOD expression .)
+    DIVIDE          reduce using rule 8 (expression -> expression MOD expression .)
+    MOD             reduce using rule 8 (expression -> expression MOD expression .)
+    RPAREN          reduce using rule 8 (expression -> expression MOD expression .)
+    POW             shift and go to state 20
+
+  ! POW             [ reduce using rule 8 (expression -> expression MOD expression .) ]
+  ! PLUS            [ shift and go to state 15 ]
+  ! MINUS           [ shift and go to state 16 ]
+  ! TIMES           [ shift and go to state 17 ]
+  ! DIVIDE          [ shift and go to state 18 ]
+  ! MOD             [ shift and go to state 19 ]
+
+
+state 31
+
+    (9) expression -> expression POW expression .
+    (4) expression -> expression . PLUS expression
+    (5) expression -> expression . MINUS expression
+    (6) expression -> expression . TIMES expression
+    (7) expression -> expression . DIVIDE expression
+    (8) expression -> expression . MOD expression
+    (9) expression -> expression . POW expression
+
+    SEMI_COLON      reduce using rule 9 (expression -> expression POW expression .)
+    PLUS            reduce using rule 9 (expression -> expression POW expression .)
+    MINUS           reduce using rule 9 (expression -> expression POW expression .)
+    TIMES           reduce using rule 9 (expression -> expression POW expression .)
+    DIVIDE          reduce using rule 9 (expression -> expression POW expression .)
+    MOD             reduce using rule 9 (expression -> expression POW expression .)
+    POW             reduce using rule 9 (expression -> expression POW expression .)
+    RPAREN          reduce using rule 9 (expression -> expression POW expression .)
+
+  ! PLUS            [ shift and go to state 15 ]
+  ! MINUS           [ shift and go to state 16 ]
+  ! TIMES           [ shift and go to state 17 ]
+  ! DIVIDE          [ shift and go to state 18 ]
+  ! MOD             [ shift and go to state 19 ]
+  ! POW             [ shift and go to state 20 ]
+
+
+state 32
+
+    (3) expression -> LPAREN expression RPAREN .
+
+    SEMI_COLON      reduce using rule 3 (expression -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 3 (expression -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 3 (expression -> LPAREN expression RPAREN .)
+    TIMES           reduce using rule 3 (expression -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 3 (expression -> LPAREN expression RPAREN .)
+    MOD             reduce using rule 3 (expression -> LPAREN expression RPAREN .)
+    POW             reduce using rule 3 (expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 3 (expression -> LPAREN expression RPAREN .)
+
+
+state 33
+
+    (14) assignment -> PRIVATE PRIVATE_ID EQUAL . expression
+    (3) expression -> . LPAREN expression RPAREN
+    (4) expression -> . expression PLUS expression
+    (5) expression -> . expression MINUS expression
+    (6) expression -> . expression TIMES expression
+    (7) expression -> . expression DIVIDE expression
+    (8) expression -> . expression MOD expression
+    (9) expression -> . expression POW expression
+    (10) expression -> . assignment
+    (11) expression -> . number
+    (12) expression -> . identifier
+    (13) expression -> . MINUS expression
+    (14) assignment -> . PRIVATE PRIVATE_ID EQUAL expression
+    (15) assignment -> . GLOBAL_ID EQUAL expression
+    (18) number -> . NUMBER_REAL
+    (19) number -> . NUMBER_HEX
+    (20) number -> . NUMBER_EXP
+    (16) identifier -> . PRIVATE_ID
+    (17) identifier -> . GLOBAL_ID
+
+    LPAREN          shift and go to state 3
+    MINUS           shift and go to state 4
+    PRIVATE         shift and go to state 8
+    GLOBAL_ID       shift and go to state 10
+    NUMBER_REAL     shift and go to state 11
+    NUMBER_HEX      shift and go to state 12
+    NUMBER_EXP      shift and go to state 13
+    PRIVATE_ID      shift and go to state 9
+
+    expression                     shift and go to state 35
+    assignment                     shift and go to state 5
+    number                         shift and go to state 6
+    identifier                     shift and go to state 7
+
+state 34
+
+    (15) assignment -> GLOBAL_ID EQUAL expression .
+    (4) expression -> expression . PLUS expression
+    (5) expression -> expression . MINUS expression
+    (6) expression -> expression . TIMES expression
+    (7) expression -> expression . DIVIDE expression
+    (8) expression -> expression . MOD expression
+    (9) expression -> expression . POW expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for POW resolved as shift
+    SEMI_COLON      reduce using rule 15 (assignment -> GLOBAL_ID EQUAL expression .)
+    RPAREN          reduce using rule 15 (assignment -> GLOBAL_ID EQUAL expression .)
+    PLUS            shift and go to state 15
+    MINUS           shift and go to state 16
+    TIMES           shift and go to state 17
+    DIVIDE          shift and go to state 18
+    MOD             shift and go to state 19
+    POW             shift and go to state 20
+
+  ! PLUS            [ reduce using rule 15 (assignment -> GLOBAL_ID EQUAL expression .) ]
+  ! MINUS           [ reduce using rule 15 (assignment -> GLOBAL_ID EQUAL expression .) ]
+  ! TIMES           [ reduce using rule 15 (assignment -> GLOBAL_ID EQUAL expression .) ]
+  ! DIVIDE          [ reduce using rule 15 (assignment -> GLOBAL_ID EQUAL expression .) ]
+  ! MOD             [ reduce using rule 15 (assignment -> GLOBAL_ID EQUAL expression .) ]
+  ! POW             [ reduce using rule 15 (assignment -> GLOBAL_ID EQUAL expression .) ]
+
+
+state 35
+
+    (14) assignment -> PRIVATE PRIVATE_ID EQUAL expression .
+    (4) expression -> expression . PLUS expression
+    (5) expression -> expression . MINUS expression
+    (6) expression -> expression . TIMES expression
+    (7) expression -> expression . DIVIDE expression
+    (8) expression -> expression . MOD expression
+    (9) expression -> expression . POW expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for POW resolved as shift
+    SEMI_COLON      reduce using rule 14 (assignment -> PRIVATE PRIVATE_ID EQUAL expression .)
+    RPAREN          reduce using rule 14 (assignment -> PRIVATE PRIVATE_ID EQUAL expression .)
+    PLUS            shift and go to state 15
+    MINUS           shift and go to state 16
+    TIMES           shift and go to state 17
+    DIVIDE          shift and go to state 18
+    MOD             shift and go to state 19
+    POW             shift and go to state 20
+
+  ! PLUS            [ reduce using rule 14 (assignment -> PRIVATE PRIVATE_ID EQUAL expression .) ]
+  ! MINUS           [ reduce using rule 14 (assignment -> PRIVATE PRIVATE_ID EQUAL expression .) ]
+  ! TIMES           [ reduce using rule 14 (assignment -> PRIVATE PRIVATE_ID EQUAL expression .) ]
+  ! DIVIDE          [ reduce using rule 14 (assignment -> PRIVATE PRIVATE_ID EQUAL expression .) ]
+  ! MOD             [ reduce using rule 14 (assignment -> PRIVATE PRIVATE_ID EQUAL expression .) ]
+  ! POW             [ reduce using rule 14 (assignment -> PRIVATE PRIVATE_ID EQUAL expression .) ]
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for PLUS in state 34 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 34 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 34 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 34 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 34 resolved as shift
+WARNING: shift/reduce conflict for POW in state 34 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 35 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 35 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 35 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 35 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 35 resolved as shift
+WARNING: shift/reduce conflict for POW in state 35 resolved as shift

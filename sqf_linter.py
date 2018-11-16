@@ -12,6 +12,3 @@ if __name__ == '__main__':
             parser = sqf_yacc.yacc()
             result = parser.parse(lexer=lexer, debug=False)
             print(result)
-            #print('        (TYPE, VALUE, LINENO, LEXPOS)')
-            #for tok in lexer:
-            #    print(tok)

@@ -96,13 +96,11 @@ def t_STRING_SINGLE(t):
 def t_COMMENT_SINGLE(t):
     r'//.*[\n\r]?'
     t.lexer.lineno += 1
-    return t
 
 
 def t_COMMENT_MULTI(t):
     r'/\*[\w\W]*?\*/'
     t.lexer.lineno += t.value.count('\n')
-    return t
 
 
 def t_PRIVATE_ID(t):
