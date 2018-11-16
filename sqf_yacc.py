@@ -52,7 +52,10 @@ def p_assignment(p):
                 | GLOBAL_ID EQUAL expression
     """
     print(f'ASSIGNMENT: {" ".join(map(str, p))}')
-    p[0] = p[-1]
+    if len(p) > 4:
+        p[0] = p[4]
+    else:
+        p[0] = p[3]
 
 
 def p_identifier(p):
@@ -61,6 +64,7 @@ def p_identifier(p):
                 | GLOBAL_ID
     """
     variables.add(p[1])
+    print(variables)
     p[0] = p[1]
 
 
