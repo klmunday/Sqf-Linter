@@ -1,6 +1,6 @@
 import sys
 import sqf_lex
-import sqf_yacc
+import sqf_yacc_fh
 
 
 if __name__ == '__main__':
@@ -8,7 +8,7 @@ if __name__ == '__main__':
         lexer = sqf_lex.lex()
         with open(sys.argv[1], 'r') as f:
             data = f.read()
-            lexer.input(data)
-            parser = sqf_yacc.yacc()
-            result = parser.parse(lexer=lexer, debug=False)
-            print(result)
+        lexer.input(data)
+        parser = sqf_yacc_fh.yacc()
+        result = parser.parse(lexer=lexer, debug=False)
+        print(result)

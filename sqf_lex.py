@@ -1,13 +1,13 @@
 import ply.lex as plex
 
 reserved = {
-    'for': 'FOR',
-    'if': 'IF',
-    'with': 'WITH',
-    'while': 'WHILE',
-    'switch': 'SWITCH',
+#    'for': 'FOR',
+#    'if': 'IF',
+#    'with': 'WITH',
+#    'while': 'WHILE',
+#    'switch': 'SWITCH',
     'private': 'PRIVATE',
-    'else': 'ELSE',
+#    'else': 'ELSE',
 #    'this': 'THIS',
 #    'thislist': 'THISLIST',
 #    'thistrigger': 'THISTRIGGER',
@@ -78,7 +78,6 @@ t_SELECT = r'\#'
 t_SEMI_COLON = r';'
 t_COLON = r':'
 t_EQUAL = r'='
-t_BOOL = r'True|true|False|false'
 
 
 def t_STRING_DOUBLE(t):

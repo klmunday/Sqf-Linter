@@ -1,8 +1,15 @@
-// this is a test comment
-0x3 * ($2 - 2e1);
-4 + 3;
 /*
-    this
-    too
+    test file for SQF Linter
 */
-_var = 3;
+
+private _a = "a";
+private _b = 3;
+
+hint _a;
+systemChat (3 * (2 + _b));
+
+if ((0xA == 10) && {10 == $A}) then {
+    hint "equal";
+} else {
+    hint "not equal";
+};
