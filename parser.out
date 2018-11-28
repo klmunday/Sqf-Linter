@@ -7,6 +7,7 @@ Unused terminals:
     COMMENT_MULTI
     COMMENT_SINGLE
     NEWLINE
+    NOT
 
 Grammar
 
@@ -53,10 +54,10 @@ Rule 39    punctuation -> OR
 Rule 40    punctuation -> configaccessor
 Rule 41    comparisonoperator -> LT
 Rule 42    comparisonoperator -> GT
-Rule 43    comparisonoperator -> LT EQUAL
-Rule 44    comparisonoperator -> GT EQUAL
-Rule 45    comparisonoperator -> EQUAL EQUAL
-Rule 46    comparisonoperator -> NOT EQUAL
+Rule 43    comparisonoperator -> LTE
+Rule 44    comparisonoperator -> GTE
+Rule 45    comparisonoperator -> EQUALITY
+Rule 46    comparisonoperator -> INEQUALITY
 Rule 47    configaccessor -> GT GT
 Rule 48    configaccessor -> DIVIDE
 Rule 49    identifier -> PRIVATE_ID
@@ -77,17 +78,21 @@ COMMA                : 22
 COMMENT_MULTI        : 
 COMMENT_SINGLE       : 
 DIVIDE               : 33 48
-EQUAL                : 6 7 43 44 45 45 46
+EQUAL                : 6 7
+EQUALITY             : 45
 GLOBAL_ID            : 50
-GT                   : 42 44 47 47
+GT                   : 42 47 47
+GTE                  : 44
+INEQUALITY           : 46
 LBRACE               : 16
 LPAREN               : 17
 LSPAREN              : 19 20
-LT                   : 41 43
+LT                   : 41
+LTE                  : 43
 MINUS                : 25 31
 MOD                  : 34
 NEWLINE              : 
-NOT                  : 46
+NOT                  : 
 NUMBER_EXP           : 52
 NUMBER_HEX           : 53
 NUMBER_REAL          : 51
@@ -181,38 +186,40 @@ state 0
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
     $end            reduce using rule 56 (empty -> .)
-    PRIVATE         shift and go to state 11
-    PRIVATE_ID      shift and go to state 12
-    GLOBAL_ID       shift and go to state 13
-    LBRACE          shift and go to state 19
-    LPAREN          shift and go to state 20
-    NUMBER_REAL     shift and go to state 22
-    NUMBER_EXP      shift and go to state 23
-    NUMBER_HEX      shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    STRING_SINGLE   shift and go to state 27
-    STRING_DOUBLE   shift and go to state 28
-    LSPAREN         shift and go to state 29
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
-    AND             shift and go to state 37
-    OR              shift and go to state 38
-    LT              shift and go to state 40
-    GT              shift and go to state 41
-    EQUAL           shift and go to state 7
-    NOT             shift and go to state 42
+    PRIVATE         shift and go to state 10
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_EXP      shift and go to state 22
+    NUMBER_HEX      shift and go to state 23
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
+    STRING_SINGLE   shift and go to state 26
+    STRING_DOUBLE   shift and go to state 27
+    LSPAREN         shift and go to state 28
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    AND             shift and go to state 36
+    OR              shift and go to state 37
+    LT              shift and go to state 39
+    GT              shift and go to state 40
+    LTE             shift and go to state 41
+    GTE             shift and go to state 42
+    EQUALITY        shift and go to state 43
+    INEQUALITY      shift and go to state 44
 
     code                           shift and go to state 1
     empty                          shift and go to state 2
@@ -220,18 +227,18 @@ state 0
     assignment                     shift and go to state 4
     binaryexp                      shift and go to state 5
     definition                     shift and go to state 6
-    identifier                     shift and go to state 8
-    operator                       shift and go to state 9
-    primaryexp                     shift and go to state 10
-    number                         shift and go to state 14
-    unaryexp                       shift and go to state 15
-    nularexp                       shift and go to state 16
-    variable                       shift and go to state 17
-    string                         shift and go to state 18
-    array                          shift and go to state 21
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
+    identifier                     shift and go to state 7
+    operator                       shift and go to state 8
+    primaryexp                     shift and go to state 9
+    number                         shift and go to state 13
+    unaryexp                       shift and go to state 14
+    nularexp                       shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
 state 1
 
@@ -254,7 +261,7 @@ state 3
 
     $end            reduce using rule 2 (code -> statement .)
     RBRACE          reduce using rule 2 (code -> statement .)
-    SEMI_COLON      shift and go to state 43
+    SEMI_COLON      shift and go to state 45
 
 
 state 4
@@ -287,53 +294,48 @@ state 5
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
     SEMI_COLON      reduce using rule 5 (statement -> binaryexp .)
     $end            reduce using rule 5 (statement -> binaryexp .)
     RBRACE          reduce using rule 5 (statement -> binaryexp .)
-    PRIVATE_ID      shift and go to state 12
-    GLOBAL_ID       shift and go to state 13
-    PLUS            shift and go to state 46
-    MINUS           shift and go to state 47
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
-    AND             shift and go to state 37
-    OR              shift and go to state 38
-    LT              shift and go to state 40
-    GT              shift and go to state 41
-    EQUAL           shift and go to state 7
-    NOT             shift and go to state 42
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    PLUS            shift and go to state 48
+    MINUS           shift and go to state 49
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    AND             shift and go to state 36
+    OR              shift and go to state 37
+    LT              shift and go to state 39
+    GT              shift and go to state 40
+    LTE             shift and go to state 41
+    GTE             shift and go to state 42
+    EQUALITY        shift and go to state 43
+    INEQUALITY      shift and go to state 44
 
-    operator                       shift and go to state 44
-    identifier                     shift and go to state 45
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
+    operator                       shift and go to state 46
+    identifier                     shift and go to state 47
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
 state 6
 
     (6) assignment -> definition . EQUAL binaryexp
 
-    EQUAL           shift and go to state 48
+    EQUAL           shift and go to state 50
 
 
 state 7
-
-    (45) comparisonoperator -> EQUAL . EQUAL
-
-    EQUAL           shift and go to state 49
-
-
-state 8
 
     (7) assignment -> identifier . EQUAL binaryexp
     (26) unaryexp -> identifier . primaryexp
@@ -376,14 +378,13 @@ state 8
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
-  ! shift/reduce conflict for EQUAL resolved as shift
   ! reduce/reduce conflict for PRIVATE_ID resolved using rule 27 (variable -> identifier .)
   ! reduce/reduce conflict for GLOBAL_ID resolved using rule 27 (variable -> identifier .)
   ! reduce/reduce conflict for PLUS resolved using rule 27 (variable -> identifier .)
@@ -397,8 +398,10 @@ state 8
   ! reduce/reduce conflict for OR resolved using rule 27 (variable -> identifier .)
   ! reduce/reduce conflict for LT resolved using rule 27 (variable -> identifier .)
   ! reduce/reduce conflict for GT resolved using rule 27 (variable -> identifier .)
-  ! shift/reduce conflict for EQUAL resolved as shift
-  ! reduce/reduce conflict for NOT resolved using rule 27 (variable -> identifier .)
+  ! reduce/reduce conflict for LTE resolved using rule 27 (variable -> identifier .)
+  ! reduce/reduce conflict for GTE resolved using rule 27 (variable -> identifier .)
+  ! reduce/reduce conflict for EQUALITY resolved using rule 27 (variable -> identifier .)
+  ! reduce/reduce conflict for INEQUALITY resolved using rule 27 (variable -> identifier .)
   ! reduce/reduce conflict for SEMI_COLON resolved using rule 27 (variable -> identifier .)
   ! reduce/reduce conflict for $end resolved using rule 27 (variable -> identifier .)
   ! reduce/reduce conflict for RBRACE resolved using rule 27 (variable -> identifier .)
@@ -415,33 +418,39 @@ state 8
   ! shift/reduce conflict for OR resolved as shift
   ! shift/reduce conflict for LT resolved as shift
   ! shift/reduce conflict for GT resolved as shift
-  ! shift/reduce conflict for NOT resolved as shift
-    EQUAL           shift and go to state 51
+  ! shift/reduce conflict for LTE resolved as shift
+  ! shift/reduce conflict for GTE resolved as shift
+  ! shift/reduce conflict for EQUALITY resolved as shift
+  ! shift/reduce conflict for INEQUALITY resolved as shift
+    EQUAL           shift and go to state 52
     SEMI_COLON      reduce using rule 27 (variable -> identifier .)
     $end            reduce using rule 27 (variable -> identifier .)
     RBRACE          reduce using rule 27 (variable -> identifier .)
-    LBRACE          shift and go to state 19
-    LPAREN          shift and go to state 20
-    NUMBER_REAL     shift and go to state 22
-    NUMBER_EXP      shift and go to state 23
-    NUMBER_HEX      shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    STRING_SINGLE   shift and go to state 27
-    STRING_DOUBLE   shift and go to state 28
-    LSPAREN         shift and go to state 29
-    PRIVATE_ID      shift and go to state 12
-    GLOBAL_ID       shift and go to state 13
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
-    AND             shift and go to state 37
-    OR              shift and go to state 38
-    LT              shift and go to state 40
-    GT              shift and go to state 41
-    NOT             shift and go to state 42
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_EXP      shift and go to state 22
+    NUMBER_HEX      shift and go to state 23
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
+    STRING_SINGLE   shift and go to state 26
+    STRING_DOUBLE   shift and go to state 27
+    LSPAREN         shift and go to state 28
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    AND             shift and go to state 36
+    OR              shift and go to state 37
+    LT              shift and go to state 39
+    GT              shift and go to state 40
+    LTE             shift and go to state 41
+    GTE             shift and go to state 42
+    EQUALITY        shift and go to state 43
+    INEQUALITY      shift and go to state 44
 
   ! PRIVATE_ID      [ reduce using rule 27 (variable -> identifier .) ]
   ! GLOBAL_ID       [ reduce using rule 27 (variable -> identifier .) ]
@@ -456,8 +465,10 @@ state 8
   ! OR              [ reduce using rule 27 (variable -> identifier .) ]
   ! LT              [ reduce using rule 27 (variable -> identifier .) ]
   ! GT              [ reduce using rule 27 (variable -> identifier .) ]
-  ! EQUAL           [ reduce using rule 27 (variable -> identifier .) ]
-  ! NOT             [ reduce using rule 27 (variable -> identifier .) ]
+  ! LTE             [ reduce using rule 27 (variable -> identifier .) ]
+  ! GTE             [ reduce using rule 27 (variable -> identifier .) ]
+  ! EQUALITY        [ reduce using rule 27 (variable -> identifier .) ]
+  ! INEQUALITY      [ reduce using rule 27 (variable -> identifier .) ]
   ! PRIVATE_ID      [ reduce using rule 28 (operator -> identifier .) ]
   ! GLOBAL_ID       [ reduce using rule 28 (operator -> identifier .) ]
   ! PLUS            [ reduce using rule 28 (operator -> identifier .) ]
@@ -471,26 +482,28 @@ state 8
   ! OR              [ reduce using rule 28 (operator -> identifier .) ]
   ! LT              [ reduce using rule 28 (operator -> identifier .) ]
   ! GT              [ reduce using rule 28 (operator -> identifier .) ]
-  ! EQUAL           [ reduce using rule 28 (operator -> identifier .) ]
-  ! NOT             [ reduce using rule 28 (operator -> identifier .) ]
+  ! LTE             [ reduce using rule 28 (operator -> identifier .) ]
+  ! GTE             [ reduce using rule 28 (operator -> identifier .) ]
+  ! EQUALITY        [ reduce using rule 28 (operator -> identifier .) ]
+  ! INEQUALITY      [ reduce using rule 28 (operator -> identifier .) ]
   ! SEMI_COLON      [ reduce using rule 28 (operator -> identifier .) ]
   ! $end            [ reduce using rule 28 (operator -> identifier .) ]
   ! RBRACE          [ reduce using rule 28 (operator -> identifier .) ]
 
-    identifier                     shift and go to state 50
-    primaryexp                     shift and go to state 52
-    number                         shift and go to state 14
-    unaryexp                       shift and go to state 15
-    nularexp                       shift and go to state 16
-    variable                       shift and go to state 17
-    string                         shift and go to state 18
-    array                          shift and go to state 21
-    operator                       shift and go to state 9
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
+    identifier                     shift and go to state 51
+    primaryexp                     shift and go to state 53
+    number                         shift and go to state 13
+    unaryexp                       shift and go to state 14
+    nularexp                       shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    operator                       shift and go to state 8
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
-state 9
+state 8
 
     (23) nularexp -> operator .
 
@@ -507,8 +520,10 @@ state 9
     OR              reduce using rule 23 (nularexp -> operator .)
     LT              reduce using rule 23 (nularexp -> operator .)
     GT              reduce using rule 23 (nularexp -> operator .)
-    EQUAL           reduce using rule 23 (nularexp -> operator .)
-    NOT             reduce using rule 23 (nularexp -> operator .)
+    LTE             reduce using rule 23 (nularexp -> operator .)
+    GTE             reduce using rule 23 (nularexp -> operator .)
+    EQUALITY        reduce using rule 23 (nularexp -> operator .)
+    INEQUALITY      reduce using rule 23 (nularexp -> operator .)
     SEMI_COLON      reduce using rule 23 (nularexp -> operator .)
     $end            reduce using rule 23 (nularexp -> operator .)
     RBRACE          reduce using rule 23 (nularexp -> operator .)
@@ -517,7 +532,7 @@ state 9
     RSPAREN         reduce using rule 23 (nularexp -> operator .)
 
 
-state 10
+state 9
 
     (10) binaryexp -> primaryexp .
 
@@ -534,8 +549,10 @@ state 10
     OR              reduce using rule 10 (binaryexp -> primaryexp .)
     LT              reduce using rule 10 (binaryexp -> primaryexp .)
     GT              reduce using rule 10 (binaryexp -> primaryexp .)
-    EQUAL           reduce using rule 10 (binaryexp -> primaryexp .)
-    NOT             reduce using rule 10 (binaryexp -> primaryexp .)
+    LTE             reduce using rule 10 (binaryexp -> primaryexp .)
+    GTE             reduce using rule 10 (binaryexp -> primaryexp .)
+    EQUALITY        reduce using rule 10 (binaryexp -> primaryexp .)
+    INEQUALITY      reduce using rule 10 (binaryexp -> primaryexp .)
     SEMI_COLON      reduce using rule 10 (binaryexp -> primaryexp .)
     $end            reduce using rule 10 (binaryexp -> primaryexp .)
     RBRACE          reduce using rule 10 (binaryexp -> primaryexp .)
@@ -544,14 +561,14 @@ state 10
     RSPAREN         reduce using rule 10 (binaryexp -> primaryexp .)
 
 
-state 11
+state 10
 
     (8) definition -> PRIVATE . PRIVATE_ID
 
-    PRIVATE_ID      shift and go to state 53
+    PRIVATE_ID      shift and go to state 54
 
 
-state 12
+state 11
 
     (49) identifier -> PRIVATE_ID .
 
@@ -577,7 +594,10 @@ state 12
     OR              reduce using rule 49 (identifier -> PRIVATE_ID .)
     LT              reduce using rule 49 (identifier -> PRIVATE_ID .)
     GT              reduce using rule 49 (identifier -> PRIVATE_ID .)
-    NOT             reduce using rule 49 (identifier -> PRIVATE_ID .)
+    LTE             reduce using rule 49 (identifier -> PRIVATE_ID .)
+    GTE             reduce using rule 49 (identifier -> PRIVATE_ID .)
+    EQUALITY        reduce using rule 49 (identifier -> PRIVATE_ID .)
+    INEQUALITY      reduce using rule 49 (identifier -> PRIVATE_ID .)
     SEMI_COLON      reduce using rule 49 (identifier -> PRIVATE_ID .)
     $end            reduce using rule 49 (identifier -> PRIVATE_ID .)
     RBRACE          reduce using rule 49 (identifier -> PRIVATE_ID .)
@@ -586,7 +606,7 @@ state 12
     RSPAREN         reduce using rule 49 (identifier -> PRIVATE_ID .)
 
 
-state 13
+state 12
 
     (50) identifier -> GLOBAL_ID .
 
@@ -612,7 +632,10 @@ state 13
     OR              reduce using rule 50 (identifier -> GLOBAL_ID .)
     LT              reduce using rule 50 (identifier -> GLOBAL_ID .)
     GT              reduce using rule 50 (identifier -> GLOBAL_ID .)
-    NOT             reduce using rule 50 (identifier -> GLOBAL_ID .)
+    LTE             reduce using rule 50 (identifier -> GLOBAL_ID .)
+    GTE             reduce using rule 50 (identifier -> GLOBAL_ID .)
+    EQUALITY        reduce using rule 50 (identifier -> GLOBAL_ID .)
+    INEQUALITY      reduce using rule 50 (identifier -> GLOBAL_ID .)
     SEMI_COLON      reduce using rule 50 (identifier -> GLOBAL_ID .)
     $end            reduce using rule 50 (identifier -> GLOBAL_ID .)
     RBRACE          reduce using rule 50 (identifier -> GLOBAL_ID .)
@@ -621,7 +644,7 @@ state 13
     RSPAREN         reduce using rule 50 (identifier -> GLOBAL_ID .)
 
 
-state 14
+state 13
 
     (11) primaryexp -> number .
 
@@ -638,8 +661,10 @@ state 14
     OR              reduce using rule 11 (primaryexp -> number .)
     LT              reduce using rule 11 (primaryexp -> number .)
     GT              reduce using rule 11 (primaryexp -> number .)
-    EQUAL           reduce using rule 11 (primaryexp -> number .)
-    NOT             reduce using rule 11 (primaryexp -> number .)
+    LTE             reduce using rule 11 (primaryexp -> number .)
+    GTE             reduce using rule 11 (primaryexp -> number .)
+    EQUALITY        reduce using rule 11 (primaryexp -> number .)
+    INEQUALITY      reduce using rule 11 (primaryexp -> number .)
     SEMI_COLON      reduce using rule 11 (primaryexp -> number .)
     $end            reduce using rule 11 (primaryexp -> number .)
     RBRACE          reduce using rule 11 (primaryexp -> number .)
@@ -648,7 +673,7 @@ state 14
     RSPAREN         reduce using rule 11 (primaryexp -> number .)
 
 
-state 15
+state 14
 
     (12) primaryexp -> unaryexp .
 
@@ -665,8 +690,10 @@ state 15
     OR              reduce using rule 12 (primaryexp -> unaryexp .)
     LT              reduce using rule 12 (primaryexp -> unaryexp .)
     GT              reduce using rule 12 (primaryexp -> unaryexp .)
-    EQUAL           reduce using rule 12 (primaryexp -> unaryexp .)
-    NOT             reduce using rule 12 (primaryexp -> unaryexp .)
+    LTE             reduce using rule 12 (primaryexp -> unaryexp .)
+    GTE             reduce using rule 12 (primaryexp -> unaryexp .)
+    EQUALITY        reduce using rule 12 (primaryexp -> unaryexp .)
+    INEQUALITY      reduce using rule 12 (primaryexp -> unaryexp .)
     SEMI_COLON      reduce using rule 12 (primaryexp -> unaryexp .)
     $end            reduce using rule 12 (primaryexp -> unaryexp .)
     RBRACE          reduce using rule 12 (primaryexp -> unaryexp .)
@@ -675,7 +702,7 @@ state 15
     RSPAREN         reduce using rule 12 (primaryexp -> unaryexp .)
 
 
-state 16
+state 15
 
     (13) primaryexp -> nularexp .
 
@@ -692,8 +719,10 @@ state 16
     OR              reduce using rule 13 (primaryexp -> nularexp .)
     LT              reduce using rule 13 (primaryexp -> nularexp .)
     GT              reduce using rule 13 (primaryexp -> nularexp .)
-    EQUAL           reduce using rule 13 (primaryexp -> nularexp .)
-    NOT             reduce using rule 13 (primaryexp -> nularexp .)
+    LTE             reduce using rule 13 (primaryexp -> nularexp .)
+    GTE             reduce using rule 13 (primaryexp -> nularexp .)
+    EQUALITY        reduce using rule 13 (primaryexp -> nularexp .)
+    INEQUALITY      reduce using rule 13 (primaryexp -> nularexp .)
     SEMI_COLON      reduce using rule 13 (primaryexp -> nularexp .)
     $end            reduce using rule 13 (primaryexp -> nularexp .)
     RBRACE          reduce using rule 13 (primaryexp -> nularexp .)
@@ -702,7 +731,7 @@ state 16
     RSPAREN         reduce using rule 13 (primaryexp -> nularexp .)
 
 
-state 17
+state 16
 
     (14) primaryexp -> variable .
 
@@ -719,8 +748,10 @@ state 17
     OR              reduce using rule 14 (primaryexp -> variable .)
     LT              reduce using rule 14 (primaryexp -> variable .)
     GT              reduce using rule 14 (primaryexp -> variable .)
-    EQUAL           reduce using rule 14 (primaryexp -> variable .)
-    NOT             reduce using rule 14 (primaryexp -> variable .)
+    LTE             reduce using rule 14 (primaryexp -> variable .)
+    GTE             reduce using rule 14 (primaryexp -> variable .)
+    EQUALITY        reduce using rule 14 (primaryexp -> variable .)
+    INEQUALITY      reduce using rule 14 (primaryexp -> variable .)
     SEMI_COLON      reduce using rule 14 (primaryexp -> variable .)
     $end            reduce using rule 14 (primaryexp -> variable .)
     RBRACE          reduce using rule 14 (primaryexp -> variable .)
@@ -729,7 +760,7 @@ state 17
     RSPAREN         reduce using rule 14 (primaryexp -> variable .)
 
 
-state 18
+state 17
 
     (15) primaryexp -> string .
 
@@ -746,8 +777,10 @@ state 18
     OR              reduce using rule 15 (primaryexp -> string .)
     LT              reduce using rule 15 (primaryexp -> string .)
     GT              reduce using rule 15 (primaryexp -> string .)
-    EQUAL           reduce using rule 15 (primaryexp -> string .)
-    NOT             reduce using rule 15 (primaryexp -> string .)
+    LTE             reduce using rule 15 (primaryexp -> string .)
+    GTE             reduce using rule 15 (primaryexp -> string .)
+    EQUALITY        reduce using rule 15 (primaryexp -> string .)
+    INEQUALITY      reduce using rule 15 (primaryexp -> string .)
     SEMI_COLON      reduce using rule 15 (primaryexp -> string .)
     $end            reduce using rule 15 (primaryexp -> string .)
     RBRACE          reduce using rule 15 (primaryexp -> string .)
@@ -756,7 +789,7 @@ state 18
     RSPAREN         reduce using rule 15 (primaryexp -> string .)
 
 
-state 19
+state 18
 
     (16) primaryexp -> LBRACE . code RBRACE
     (1) code -> . empty
@@ -807,59 +840,61 @@ state 19
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
     RBRACE          reduce using rule 56 (empty -> .)
-    PRIVATE         shift and go to state 11
-    PRIVATE_ID      shift and go to state 12
-    GLOBAL_ID       shift and go to state 13
-    LBRACE          shift and go to state 19
-    LPAREN          shift and go to state 20
-    NUMBER_REAL     shift and go to state 22
-    NUMBER_EXP      shift and go to state 23
-    NUMBER_HEX      shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    STRING_SINGLE   shift and go to state 27
-    STRING_DOUBLE   shift and go to state 28
-    LSPAREN         shift and go to state 29
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
-    AND             shift and go to state 37
-    OR              shift and go to state 38
-    LT              shift and go to state 40
-    GT              shift and go to state 41
-    EQUAL           shift and go to state 7
-    NOT             shift and go to state 42
+    PRIVATE         shift and go to state 10
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_EXP      shift and go to state 22
+    NUMBER_HEX      shift and go to state 23
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
+    STRING_SINGLE   shift and go to state 26
+    STRING_DOUBLE   shift and go to state 27
+    LSPAREN         shift and go to state 28
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    AND             shift and go to state 36
+    OR              shift and go to state 37
+    LT              shift and go to state 39
+    GT              shift and go to state 40
+    LTE             shift and go to state 41
+    GTE             shift and go to state 42
+    EQUALITY        shift and go to state 43
+    INEQUALITY      shift and go to state 44
 
-    code                           shift and go to state 54
+    code                           shift and go to state 55
     empty                          shift and go to state 2
     statement                      shift and go to state 3
     assignment                     shift and go to state 4
     binaryexp                      shift and go to state 5
     definition                     shift and go to state 6
-    identifier                     shift and go to state 8
-    operator                       shift and go to state 9
-    primaryexp                     shift and go to state 10
-    number                         shift and go to state 14
-    unaryexp                       shift and go to state 15
-    nularexp                       shift and go to state 16
-    variable                       shift and go to state 17
-    string                         shift and go to state 18
-    array                          shift and go to state 21
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
+    identifier                     shift and go to state 7
+    operator                       shift and go to state 8
+    primaryexp                     shift and go to state 9
+    number                         shift and go to state 13
+    unaryexp                       shift and go to state 14
+    nularexp                       shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
-state 20
+state 19
 
     (17) primaryexp -> LPAREN . binaryexp RPAREN
     (9) binaryexp -> . binaryexp operator binaryexp
@@ -901,52 +936,54 @@ state 20
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
-    LBRACE          shift and go to state 19
-    LPAREN          shift and go to state 20
-    NUMBER_REAL     shift and go to state 22
-    NUMBER_EXP      shift and go to state 23
-    NUMBER_HEX      shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    STRING_SINGLE   shift and go to state 27
-    STRING_DOUBLE   shift and go to state 28
-    LSPAREN         shift and go to state 29
-    PRIVATE_ID      shift and go to state 12
-    GLOBAL_ID       shift and go to state 13
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
-    AND             shift and go to state 37
-    OR              shift and go to state 38
-    LT              shift and go to state 40
-    GT              shift and go to state 41
-    EQUAL           shift and go to state 7
-    NOT             shift and go to state 42
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_EXP      shift and go to state 22
+    NUMBER_HEX      shift and go to state 23
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
+    STRING_SINGLE   shift and go to state 26
+    STRING_DOUBLE   shift and go to state 27
+    LSPAREN         shift and go to state 28
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    AND             shift and go to state 36
+    OR              shift and go to state 37
+    LT              shift and go to state 39
+    GT              shift and go to state 40
+    LTE             shift and go to state 41
+    GTE             shift and go to state 42
+    EQUALITY        shift and go to state 43
+    INEQUALITY      shift and go to state 44
 
-    binaryexp                      shift and go to state 55
-    operator                       shift and go to state 9
-    primaryexp                     shift and go to state 10
-    number                         shift and go to state 14
-    unaryexp                       shift and go to state 15
-    nularexp                       shift and go to state 16
-    variable                       shift and go to state 17
-    string                         shift and go to state 18
-    array                          shift and go to state 21
-    identifier                     shift and go to state 50
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
+    binaryexp                      shift and go to state 56
+    operator                       shift and go to state 8
+    primaryexp                     shift and go to state 9
+    number                         shift and go to state 13
+    unaryexp                       shift and go to state 14
+    nularexp                       shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    identifier                     shift and go to state 51
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
-state 21
+state 20
 
     (18) primaryexp -> array .
 
@@ -963,8 +1000,10 @@ state 21
     OR              reduce using rule 18 (primaryexp -> array .)
     LT              reduce using rule 18 (primaryexp -> array .)
     GT              reduce using rule 18 (primaryexp -> array .)
-    EQUAL           reduce using rule 18 (primaryexp -> array .)
-    NOT             reduce using rule 18 (primaryexp -> array .)
+    LTE             reduce using rule 18 (primaryexp -> array .)
+    GTE             reduce using rule 18 (primaryexp -> array .)
+    EQUALITY        reduce using rule 18 (primaryexp -> array .)
+    INEQUALITY      reduce using rule 18 (primaryexp -> array .)
     SEMI_COLON      reduce using rule 18 (primaryexp -> array .)
     $end            reduce using rule 18 (primaryexp -> array .)
     RBRACE          reduce using rule 18 (primaryexp -> array .)
@@ -973,7 +1012,7 @@ state 21
     RSPAREN         reduce using rule 18 (primaryexp -> array .)
 
 
-state 22
+state 21
 
     (51) number -> NUMBER_REAL .
 
@@ -990,8 +1029,10 @@ state 22
     OR              reduce using rule 51 (number -> NUMBER_REAL .)
     LT              reduce using rule 51 (number -> NUMBER_REAL .)
     GT              reduce using rule 51 (number -> NUMBER_REAL .)
-    EQUAL           reduce using rule 51 (number -> NUMBER_REAL .)
-    NOT             reduce using rule 51 (number -> NUMBER_REAL .)
+    LTE             reduce using rule 51 (number -> NUMBER_REAL .)
+    GTE             reduce using rule 51 (number -> NUMBER_REAL .)
+    EQUALITY        reduce using rule 51 (number -> NUMBER_REAL .)
+    INEQUALITY      reduce using rule 51 (number -> NUMBER_REAL .)
     SEMI_COLON      reduce using rule 51 (number -> NUMBER_REAL .)
     $end            reduce using rule 51 (number -> NUMBER_REAL .)
     RBRACE          reduce using rule 51 (number -> NUMBER_REAL .)
@@ -1000,7 +1041,7 @@ state 22
     RSPAREN         reduce using rule 51 (number -> NUMBER_REAL .)
 
 
-state 23
+state 22
 
     (52) number -> NUMBER_EXP .
 
@@ -1017,8 +1058,10 @@ state 23
     OR              reduce using rule 52 (number -> NUMBER_EXP .)
     LT              reduce using rule 52 (number -> NUMBER_EXP .)
     GT              reduce using rule 52 (number -> NUMBER_EXP .)
-    EQUAL           reduce using rule 52 (number -> NUMBER_EXP .)
-    NOT             reduce using rule 52 (number -> NUMBER_EXP .)
+    LTE             reduce using rule 52 (number -> NUMBER_EXP .)
+    GTE             reduce using rule 52 (number -> NUMBER_EXP .)
+    EQUALITY        reduce using rule 52 (number -> NUMBER_EXP .)
+    INEQUALITY      reduce using rule 52 (number -> NUMBER_EXP .)
     SEMI_COLON      reduce using rule 52 (number -> NUMBER_EXP .)
     $end            reduce using rule 52 (number -> NUMBER_EXP .)
     RBRACE          reduce using rule 52 (number -> NUMBER_EXP .)
@@ -1027,7 +1070,7 @@ state 23
     RSPAREN         reduce using rule 52 (number -> NUMBER_EXP .)
 
 
-state 24
+state 23
 
     (53) number -> NUMBER_HEX .
 
@@ -1044,8 +1087,10 @@ state 24
     OR              reduce using rule 53 (number -> NUMBER_HEX .)
     LT              reduce using rule 53 (number -> NUMBER_HEX .)
     GT              reduce using rule 53 (number -> NUMBER_HEX .)
-    EQUAL           reduce using rule 53 (number -> NUMBER_HEX .)
-    NOT             reduce using rule 53 (number -> NUMBER_HEX .)
+    LTE             reduce using rule 53 (number -> NUMBER_HEX .)
+    GTE             reduce using rule 53 (number -> NUMBER_HEX .)
+    EQUALITY        reduce using rule 53 (number -> NUMBER_HEX .)
+    INEQUALITY      reduce using rule 53 (number -> NUMBER_HEX .)
     SEMI_COLON      reduce using rule 53 (number -> NUMBER_HEX .)
     $end            reduce using rule 53 (number -> NUMBER_HEX .)
     RBRACE          reduce using rule 53 (number -> NUMBER_HEX .)
@@ -1054,7 +1099,7 @@ state 24
     RSPAREN         reduce using rule 53 (number -> NUMBER_HEX .)
 
 
-state 25
+state 24
 
     (24) unaryexp -> PLUS . primaryexp
     (30) punctuation -> PLUS .
@@ -1095,10 +1140,10 @@ state 25
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
@@ -1110,58 +1155,62 @@ state 25
     OR              reduce using rule 30 (punctuation -> PLUS .)
     LT              reduce using rule 30 (punctuation -> PLUS .)
     GT              reduce using rule 30 (punctuation -> PLUS .)
-    EQUAL           reduce using rule 30 (punctuation -> PLUS .)
-    NOT             reduce using rule 30 (punctuation -> PLUS .)
+    LTE             reduce using rule 30 (punctuation -> PLUS .)
+    GTE             reduce using rule 30 (punctuation -> PLUS .)
+    EQUALITY        reduce using rule 30 (punctuation -> PLUS .)
+    INEQUALITY      reduce using rule 30 (punctuation -> PLUS .)
     SEMI_COLON      reduce using rule 30 (punctuation -> PLUS .)
     $end            reduce using rule 30 (punctuation -> PLUS .)
     RBRACE          reduce using rule 30 (punctuation -> PLUS .)
     RPAREN          reduce using rule 30 (punctuation -> PLUS .)
     COMMA           reduce using rule 30 (punctuation -> PLUS .)
     RSPAREN         reduce using rule 30 (punctuation -> PLUS .)
-    LBRACE          shift and go to state 19
-    LPAREN          shift and go to state 20
-    NUMBER_REAL     shift and go to state 22
-    NUMBER_EXP      shift and go to state 23
-    NUMBER_HEX      shift and go to state 24
-    STRING_SINGLE   shift and go to state 27
-    STRING_DOUBLE   shift and go to state 28
-    LSPAREN         shift and go to state 29
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_EXP      shift and go to state 22
+    NUMBER_HEX      shift and go to state 23
+    STRING_SINGLE   shift and go to state 26
+    STRING_DOUBLE   shift and go to state 27
+    LSPAREN         shift and go to state 28
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
 
   ! TIMES           [ reduce using rule 30 (punctuation -> PLUS .) ]
   ! DIVIDE          [ reduce using rule 30 (punctuation -> PLUS .) ]
   ! MOD             [ reduce using rule 30 (punctuation -> PLUS .) ]
   ! POW             [ reduce using rule 30 (punctuation -> PLUS .) ]
   ! SELECT          [ reduce using rule 30 (punctuation -> PLUS .) ]
-  ! PLUS            [ shift and go to state 25 ]
-  ! MINUS           [ shift and go to state 26 ]
-  ! PRIVATE_ID      [ shift and go to state 12 ]
-  ! GLOBAL_ID       [ shift and go to state 13 ]
-  ! AND             [ shift and go to state 37 ]
-  ! OR              [ shift and go to state 38 ]
-  ! LT              [ shift and go to state 40 ]
-  ! GT              [ shift and go to state 41 ]
-  ! EQUAL           [ shift and go to state 7 ]
-  ! NOT             [ shift and go to state 42 ]
+  ! PLUS            [ shift and go to state 24 ]
+  ! MINUS           [ shift and go to state 25 ]
+  ! PRIVATE_ID      [ shift and go to state 11 ]
+  ! GLOBAL_ID       [ shift and go to state 12 ]
+  ! AND             [ shift and go to state 36 ]
+  ! OR              [ shift and go to state 37 ]
+  ! LT              [ shift and go to state 39 ]
+  ! GT              [ shift and go to state 40 ]
+  ! LTE             [ shift and go to state 41 ]
+  ! GTE             [ shift and go to state 42 ]
+  ! EQUALITY        [ shift and go to state 43 ]
+  ! INEQUALITY      [ shift and go to state 44 ]
 
-    primaryexp                     shift and go to state 56
-    number                         shift and go to state 14
-    unaryexp                       shift and go to state 15
-    nularexp                       shift and go to state 16
-    variable                       shift and go to state 17
-    string                         shift and go to state 18
-    array                          shift and go to state 21
-    identifier                     shift and go to state 50
-    operator                       shift and go to state 9
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
+    primaryexp                     shift and go to state 57
+    number                         shift and go to state 13
+    unaryexp                       shift and go to state 14
+    nularexp                       shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    identifier                     shift and go to state 51
+    operator                       shift and go to state 8
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
-state 26
+state 25
 
     (25) unaryexp -> MINUS . primaryexp
     (31) punctuation -> MINUS .
@@ -1202,10 +1251,10 @@ state 26
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
@@ -1217,58 +1266,62 @@ state 26
     OR              reduce using rule 31 (punctuation -> MINUS .)
     LT              reduce using rule 31 (punctuation -> MINUS .)
     GT              reduce using rule 31 (punctuation -> MINUS .)
-    EQUAL           reduce using rule 31 (punctuation -> MINUS .)
-    NOT             reduce using rule 31 (punctuation -> MINUS .)
+    LTE             reduce using rule 31 (punctuation -> MINUS .)
+    GTE             reduce using rule 31 (punctuation -> MINUS .)
+    EQUALITY        reduce using rule 31 (punctuation -> MINUS .)
+    INEQUALITY      reduce using rule 31 (punctuation -> MINUS .)
     SEMI_COLON      reduce using rule 31 (punctuation -> MINUS .)
     $end            reduce using rule 31 (punctuation -> MINUS .)
     RBRACE          reduce using rule 31 (punctuation -> MINUS .)
     RPAREN          reduce using rule 31 (punctuation -> MINUS .)
     COMMA           reduce using rule 31 (punctuation -> MINUS .)
     RSPAREN         reduce using rule 31 (punctuation -> MINUS .)
-    LBRACE          shift and go to state 19
-    LPAREN          shift and go to state 20
-    NUMBER_REAL     shift and go to state 22
-    NUMBER_EXP      shift and go to state 23
-    NUMBER_HEX      shift and go to state 24
-    STRING_SINGLE   shift and go to state 27
-    STRING_DOUBLE   shift and go to state 28
-    LSPAREN         shift and go to state 29
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_EXP      shift and go to state 22
+    NUMBER_HEX      shift and go to state 23
+    STRING_SINGLE   shift and go to state 26
+    STRING_DOUBLE   shift and go to state 27
+    LSPAREN         shift and go to state 28
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
 
   ! TIMES           [ reduce using rule 31 (punctuation -> MINUS .) ]
   ! DIVIDE          [ reduce using rule 31 (punctuation -> MINUS .) ]
   ! MOD             [ reduce using rule 31 (punctuation -> MINUS .) ]
   ! POW             [ reduce using rule 31 (punctuation -> MINUS .) ]
   ! SELECT          [ reduce using rule 31 (punctuation -> MINUS .) ]
-  ! PLUS            [ shift and go to state 25 ]
-  ! MINUS           [ shift and go to state 26 ]
-  ! PRIVATE_ID      [ shift and go to state 12 ]
-  ! GLOBAL_ID       [ shift and go to state 13 ]
-  ! AND             [ shift and go to state 37 ]
-  ! OR              [ shift and go to state 38 ]
-  ! LT              [ shift and go to state 40 ]
-  ! GT              [ shift and go to state 41 ]
-  ! EQUAL           [ shift and go to state 7 ]
-  ! NOT             [ shift and go to state 42 ]
+  ! PLUS            [ shift and go to state 24 ]
+  ! MINUS           [ shift and go to state 25 ]
+  ! PRIVATE_ID      [ shift and go to state 11 ]
+  ! GLOBAL_ID       [ shift and go to state 12 ]
+  ! AND             [ shift and go to state 36 ]
+  ! OR              [ shift and go to state 37 ]
+  ! LT              [ shift and go to state 39 ]
+  ! GT              [ shift and go to state 40 ]
+  ! LTE             [ shift and go to state 41 ]
+  ! GTE             [ shift and go to state 42 ]
+  ! EQUALITY        [ shift and go to state 43 ]
+  ! INEQUALITY      [ shift and go to state 44 ]
 
-    primaryexp                     shift and go to state 57
-    number                         shift and go to state 14
-    unaryexp                       shift and go to state 15
-    nularexp                       shift and go to state 16
-    variable                       shift and go to state 17
-    string                         shift and go to state 18
-    array                          shift and go to state 21
-    identifier                     shift and go to state 50
-    operator                       shift and go to state 9
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
+    primaryexp                     shift and go to state 58
+    number                         shift and go to state 13
+    unaryexp                       shift and go to state 14
+    nularexp                       shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    identifier                     shift and go to state 51
+    operator                       shift and go to state 8
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
-state 27
+state 26
 
     (54) string -> STRING_SINGLE .
 
@@ -1285,8 +1338,10 @@ state 27
     OR              reduce using rule 54 (string -> STRING_SINGLE .)
     LT              reduce using rule 54 (string -> STRING_SINGLE .)
     GT              reduce using rule 54 (string -> STRING_SINGLE .)
-    EQUAL           reduce using rule 54 (string -> STRING_SINGLE .)
-    NOT             reduce using rule 54 (string -> STRING_SINGLE .)
+    LTE             reduce using rule 54 (string -> STRING_SINGLE .)
+    GTE             reduce using rule 54 (string -> STRING_SINGLE .)
+    EQUALITY        reduce using rule 54 (string -> STRING_SINGLE .)
+    INEQUALITY      reduce using rule 54 (string -> STRING_SINGLE .)
     SEMI_COLON      reduce using rule 54 (string -> STRING_SINGLE .)
     $end            reduce using rule 54 (string -> STRING_SINGLE .)
     RBRACE          reduce using rule 54 (string -> STRING_SINGLE .)
@@ -1295,7 +1350,7 @@ state 27
     RSPAREN         reduce using rule 54 (string -> STRING_SINGLE .)
 
 
-state 28
+state 27
 
     (55) string -> STRING_DOUBLE .
 
@@ -1312,8 +1367,10 @@ state 28
     OR              reduce using rule 55 (string -> STRING_DOUBLE .)
     LT              reduce using rule 55 (string -> STRING_DOUBLE .)
     GT              reduce using rule 55 (string -> STRING_DOUBLE .)
-    EQUAL           reduce using rule 55 (string -> STRING_DOUBLE .)
-    NOT             reduce using rule 55 (string -> STRING_DOUBLE .)
+    LTE             reduce using rule 55 (string -> STRING_DOUBLE .)
+    GTE             reduce using rule 55 (string -> STRING_DOUBLE .)
+    EQUALITY        reduce using rule 55 (string -> STRING_DOUBLE .)
+    INEQUALITY      reduce using rule 55 (string -> STRING_DOUBLE .)
     SEMI_COLON      reduce using rule 55 (string -> STRING_DOUBLE .)
     $end            reduce using rule 55 (string -> STRING_DOUBLE .)
     RBRACE          reduce using rule 55 (string -> STRING_DOUBLE .)
@@ -1322,7 +1379,7 @@ state 28
     RSPAREN         reduce using rule 55 (string -> STRING_DOUBLE .)
 
 
-state 29
+state 28
 
     (19) array -> LSPAREN . RSPAREN
     (20) array -> LSPAREN . arrayelement RSPAREN
@@ -1367,54 +1424,56 @@ state 29
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
-    RSPAREN         shift and go to state 58
-    LBRACE          shift and go to state 19
-    LPAREN          shift and go to state 20
-    NUMBER_REAL     shift and go to state 22
-    NUMBER_EXP      shift and go to state 23
-    NUMBER_HEX      shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    STRING_SINGLE   shift and go to state 27
-    STRING_DOUBLE   shift and go to state 28
-    LSPAREN         shift and go to state 29
-    PRIVATE_ID      shift and go to state 12
-    GLOBAL_ID       shift and go to state 13
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
-    AND             shift and go to state 37
-    OR              shift and go to state 38
-    LT              shift and go to state 40
-    GT              shift and go to state 41
-    EQUAL           shift and go to state 7
-    NOT             shift and go to state 42
+    RSPAREN         shift and go to state 59
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_EXP      shift and go to state 22
+    NUMBER_HEX      shift and go to state 23
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
+    STRING_SINGLE   shift and go to state 26
+    STRING_DOUBLE   shift and go to state 27
+    LSPAREN         shift and go to state 28
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    AND             shift and go to state 36
+    OR              shift and go to state 37
+    LT              shift and go to state 39
+    GT              shift and go to state 40
+    LTE             shift and go to state 41
+    GTE             shift and go to state 42
+    EQUALITY        shift and go to state 43
+    INEQUALITY      shift and go to state 44
 
-    arrayelement                   shift and go to state 59
-    binaryexp                      shift and go to state 60
-    operator                       shift and go to state 9
-    primaryexp                     shift and go to state 10
-    number                         shift and go to state 14
-    unaryexp                       shift and go to state 15
-    nularexp                       shift and go to state 16
-    variable                       shift and go to state 17
-    string                         shift and go to state 18
-    array                          shift and go to state 21
-    identifier                     shift and go to state 50
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
+    arrayelement                   shift and go to state 60
+    binaryexp                      shift and go to state 61
+    operator                       shift and go to state 8
+    primaryexp                     shift and go to state 9
+    number                         shift and go to state 13
+    unaryexp                       shift and go to state 14
+    nularexp                       shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    identifier                     shift and go to state 51
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
-state 30
+state 29
 
     (29) operator -> punctuation .
 
@@ -1431,8 +1490,10 @@ state 30
     OR              reduce using rule 29 (operator -> punctuation .)
     LT              reduce using rule 29 (operator -> punctuation .)
     GT              reduce using rule 29 (operator -> punctuation .)
-    EQUAL           reduce using rule 29 (operator -> punctuation .)
-    NOT             reduce using rule 29 (operator -> punctuation .)
+    LTE             reduce using rule 29 (operator -> punctuation .)
+    GTE             reduce using rule 29 (operator -> punctuation .)
+    EQUALITY        reduce using rule 29 (operator -> punctuation .)
+    INEQUALITY      reduce using rule 29 (operator -> punctuation .)
     SEMI_COLON      reduce using rule 29 (operator -> punctuation .)
     $end            reduce using rule 29 (operator -> punctuation .)
     LBRACE          reduce using rule 29 (operator -> punctuation .)
@@ -1449,7 +1510,7 @@ state 30
     RSPAREN         reduce using rule 29 (operator -> punctuation .)
 
 
-state 31
+state 30
 
     (32) punctuation -> TIMES .
 
@@ -1466,8 +1527,10 @@ state 31
     OR              reduce using rule 32 (punctuation -> TIMES .)
     LT              reduce using rule 32 (punctuation -> TIMES .)
     GT              reduce using rule 32 (punctuation -> TIMES .)
-    EQUAL           reduce using rule 32 (punctuation -> TIMES .)
-    NOT             reduce using rule 32 (punctuation -> TIMES .)
+    LTE             reduce using rule 32 (punctuation -> TIMES .)
+    GTE             reduce using rule 32 (punctuation -> TIMES .)
+    EQUALITY        reduce using rule 32 (punctuation -> TIMES .)
+    INEQUALITY      reduce using rule 32 (punctuation -> TIMES .)
     SEMI_COLON      reduce using rule 32 (punctuation -> TIMES .)
     $end            reduce using rule 32 (punctuation -> TIMES .)
     LBRACE          reduce using rule 32 (punctuation -> TIMES .)
@@ -1484,7 +1547,7 @@ state 31
     RSPAREN         reduce using rule 32 (punctuation -> TIMES .)
 
 
-state 32
+state 31
 
     (33) punctuation -> DIVIDE .
     (48) configaccessor -> DIVIDE .
@@ -1502,8 +1565,10 @@ state 32
   ! reduce/reduce conflict for OR resolved using rule 33 (punctuation -> DIVIDE .)
   ! reduce/reduce conflict for LT resolved using rule 33 (punctuation -> DIVIDE .)
   ! reduce/reduce conflict for GT resolved using rule 33 (punctuation -> DIVIDE .)
-  ! reduce/reduce conflict for EQUAL resolved using rule 33 (punctuation -> DIVIDE .)
-  ! reduce/reduce conflict for NOT resolved using rule 33 (punctuation -> DIVIDE .)
+  ! reduce/reduce conflict for LTE resolved using rule 33 (punctuation -> DIVIDE .)
+  ! reduce/reduce conflict for GTE resolved using rule 33 (punctuation -> DIVIDE .)
+  ! reduce/reduce conflict for EQUALITY resolved using rule 33 (punctuation -> DIVIDE .)
+  ! reduce/reduce conflict for INEQUALITY resolved using rule 33 (punctuation -> DIVIDE .)
   ! reduce/reduce conflict for SEMI_COLON resolved using rule 33 (punctuation -> DIVIDE .)
   ! reduce/reduce conflict for $end resolved using rule 33 (punctuation -> DIVIDE .)
   ! reduce/reduce conflict for LBRACE resolved using rule 33 (punctuation -> DIVIDE .)
@@ -1531,8 +1596,10 @@ state 32
     OR              reduce using rule 33 (punctuation -> DIVIDE .)
     LT              reduce using rule 33 (punctuation -> DIVIDE .)
     GT              reduce using rule 33 (punctuation -> DIVIDE .)
-    EQUAL           reduce using rule 33 (punctuation -> DIVIDE .)
-    NOT             reduce using rule 33 (punctuation -> DIVIDE .)
+    LTE             reduce using rule 33 (punctuation -> DIVIDE .)
+    GTE             reduce using rule 33 (punctuation -> DIVIDE .)
+    EQUALITY        reduce using rule 33 (punctuation -> DIVIDE .)
+    INEQUALITY      reduce using rule 33 (punctuation -> DIVIDE .)
     SEMI_COLON      reduce using rule 33 (punctuation -> DIVIDE .)
     $end            reduce using rule 33 (punctuation -> DIVIDE .)
     LBRACE          reduce using rule 33 (punctuation -> DIVIDE .)
@@ -1561,8 +1628,10 @@ state 32
   ! OR              [ reduce using rule 48 (configaccessor -> DIVIDE .) ]
   ! LT              [ reduce using rule 48 (configaccessor -> DIVIDE .) ]
   ! GT              [ reduce using rule 48 (configaccessor -> DIVIDE .) ]
-  ! EQUAL           [ reduce using rule 48 (configaccessor -> DIVIDE .) ]
-  ! NOT             [ reduce using rule 48 (configaccessor -> DIVIDE .) ]
+  ! LTE             [ reduce using rule 48 (configaccessor -> DIVIDE .) ]
+  ! GTE             [ reduce using rule 48 (configaccessor -> DIVIDE .) ]
+  ! EQUALITY        [ reduce using rule 48 (configaccessor -> DIVIDE .) ]
+  ! INEQUALITY      [ reduce using rule 48 (configaccessor -> DIVIDE .) ]
   ! SEMI_COLON      [ reduce using rule 48 (configaccessor -> DIVIDE .) ]
   ! $end            [ reduce using rule 48 (configaccessor -> DIVIDE .) ]
   ! LBRACE          [ reduce using rule 48 (configaccessor -> DIVIDE .) ]
@@ -1579,7 +1648,7 @@ state 32
   ! RSPAREN         [ reduce using rule 48 (configaccessor -> DIVIDE .) ]
 
 
-state 33
+state 32
 
     (34) punctuation -> MOD .
 
@@ -1596,8 +1665,10 @@ state 33
     OR              reduce using rule 34 (punctuation -> MOD .)
     LT              reduce using rule 34 (punctuation -> MOD .)
     GT              reduce using rule 34 (punctuation -> MOD .)
-    EQUAL           reduce using rule 34 (punctuation -> MOD .)
-    NOT             reduce using rule 34 (punctuation -> MOD .)
+    LTE             reduce using rule 34 (punctuation -> MOD .)
+    GTE             reduce using rule 34 (punctuation -> MOD .)
+    EQUALITY        reduce using rule 34 (punctuation -> MOD .)
+    INEQUALITY      reduce using rule 34 (punctuation -> MOD .)
     SEMI_COLON      reduce using rule 34 (punctuation -> MOD .)
     $end            reduce using rule 34 (punctuation -> MOD .)
     LBRACE          reduce using rule 34 (punctuation -> MOD .)
@@ -1614,7 +1685,7 @@ state 33
     RSPAREN         reduce using rule 34 (punctuation -> MOD .)
 
 
-state 34
+state 33
 
     (35) punctuation -> POW .
 
@@ -1631,8 +1702,10 @@ state 34
     OR              reduce using rule 35 (punctuation -> POW .)
     LT              reduce using rule 35 (punctuation -> POW .)
     GT              reduce using rule 35 (punctuation -> POW .)
-    EQUAL           reduce using rule 35 (punctuation -> POW .)
-    NOT             reduce using rule 35 (punctuation -> POW .)
+    LTE             reduce using rule 35 (punctuation -> POW .)
+    GTE             reduce using rule 35 (punctuation -> POW .)
+    EQUALITY        reduce using rule 35 (punctuation -> POW .)
+    INEQUALITY      reduce using rule 35 (punctuation -> POW .)
     SEMI_COLON      reduce using rule 35 (punctuation -> POW .)
     $end            reduce using rule 35 (punctuation -> POW .)
     LBRACE          reduce using rule 35 (punctuation -> POW .)
@@ -1649,7 +1722,7 @@ state 34
     RSPAREN         reduce using rule 35 (punctuation -> POW .)
 
 
-state 35
+state 34
 
     (36) punctuation -> SELECT .
 
@@ -1666,8 +1739,10 @@ state 35
     OR              reduce using rule 36 (punctuation -> SELECT .)
     LT              reduce using rule 36 (punctuation -> SELECT .)
     GT              reduce using rule 36 (punctuation -> SELECT .)
-    EQUAL           reduce using rule 36 (punctuation -> SELECT .)
-    NOT             reduce using rule 36 (punctuation -> SELECT .)
+    LTE             reduce using rule 36 (punctuation -> SELECT .)
+    GTE             reduce using rule 36 (punctuation -> SELECT .)
+    EQUALITY        reduce using rule 36 (punctuation -> SELECT .)
+    INEQUALITY      reduce using rule 36 (punctuation -> SELECT .)
     SEMI_COLON      reduce using rule 36 (punctuation -> SELECT .)
     $end            reduce using rule 36 (punctuation -> SELECT .)
     LBRACE          reduce using rule 36 (punctuation -> SELECT .)
@@ -1684,7 +1759,7 @@ state 35
     RSPAREN         reduce using rule 36 (punctuation -> SELECT .)
 
 
-state 36
+state 35
 
     (37) punctuation -> comparisonoperator .
 
@@ -1701,8 +1776,10 @@ state 36
     OR              reduce using rule 37 (punctuation -> comparisonoperator .)
     LT              reduce using rule 37 (punctuation -> comparisonoperator .)
     GT              reduce using rule 37 (punctuation -> comparisonoperator .)
-    EQUAL           reduce using rule 37 (punctuation -> comparisonoperator .)
-    NOT             reduce using rule 37 (punctuation -> comparisonoperator .)
+    LTE             reduce using rule 37 (punctuation -> comparisonoperator .)
+    GTE             reduce using rule 37 (punctuation -> comparisonoperator .)
+    EQUALITY        reduce using rule 37 (punctuation -> comparisonoperator .)
+    INEQUALITY      reduce using rule 37 (punctuation -> comparisonoperator .)
     SEMI_COLON      reduce using rule 37 (punctuation -> comparisonoperator .)
     $end            reduce using rule 37 (punctuation -> comparisonoperator .)
     LBRACE          reduce using rule 37 (punctuation -> comparisonoperator .)
@@ -1719,7 +1796,7 @@ state 36
     RSPAREN         reduce using rule 37 (punctuation -> comparisonoperator .)
 
 
-state 37
+state 36
 
     (38) punctuation -> AND .
 
@@ -1736,8 +1813,10 @@ state 37
     OR              reduce using rule 38 (punctuation -> AND .)
     LT              reduce using rule 38 (punctuation -> AND .)
     GT              reduce using rule 38 (punctuation -> AND .)
-    EQUAL           reduce using rule 38 (punctuation -> AND .)
-    NOT             reduce using rule 38 (punctuation -> AND .)
+    LTE             reduce using rule 38 (punctuation -> AND .)
+    GTE             reduce using rule 38 (punctuation -> AND .)
+    EQUALITY        reduce using rule 38 (punctuation -> AND .)
+    INEQUALITY      reduce using rule 38 (punctuation -> AND .)
     SEMI_COLON      reduce using rule 38 (punctuation -> AND .)
     $end            reduce using rule 38 (punctuation -> AND .)
     LBRACE          reduce using rule 38 (punctuation -> AND .)
@@ -1754,7 +1833,7 @@ state 37
     RSPAREN         reduce using rule 38 (punctuation -> AND .)
 
 
-state 38
+state 37
 
     (39) punctuation -> OR .
 
@@ -1771,8 +1850,10 @@ state 38
     OR              reduce using rule 39 (punctuation -> OR .)
     LT              reduce using rule 39 (punctuation -> OR .)
     GT              reduce using rule 39 (punctuation -> OR .)
-    EQUAL           reduce using rule 39 (punctuation -> OR .)
-    NOT             reduce using rule 39 (punctuation -> OR .)
+    LTE             reduce using rule 39 (punctuation -> OR .)
+    GTE             reduce using rule 39 (punctuation -> OR .)
+    EQUALITY        reduce using rule 39 (punctuation -> OR .)
+    INEQUALITY      reduce using rule 39 (punctuation -> OR .)
     SEMI_COLON      reduce using rule 39 (punctuation -> OR .)
     $end            reduce using rule 39 (punctuation -> OR .)
     LBRACE          reduce using rule 39 (punctuation -> OR .)
@@ -1789,7 +1870,7 @@ state 38
     RSPAREN         reduce using rule 39 (punctuation -> OR .)
 
 
-state 39
+state 38
 
     (40) punctuation -> configaccessor .
 
@@ -1806,8 +1887,10 @@ state 39
     OR              reduce using rule 40 (punctuation -> configaccessor .)
     LT              reduce using rule 40 (punctuation -> configaccessor .)
     GT              reduce using rule 40 (punctuation -> configaccessor .)
-    EQUAL           reduce using rule 40 (punctuation -> configaccessor .)
-    NOT             reduce using rule 40 (punctuation -> configaccessor .)
+    LTE             reduce using rule 40 (punctuation -> configaccessor .)
+    GTE             reduce using rule 40 (punctuation -> configaccessor .)
+    EQUALITY        reduce using rule 40 (punctuation -> configaccessor .)
+    INEQUALITY      reduce using rule 40 (punctuation -> configaccessor .)
     SEMI_COLON      reduce using rule 40 (punctuation -> configaccessor .)
     $end            reduce using rule 40 (punctuation -> configaccessor .)
     LBRACE          reduce using rule 40 (punctuation -> configaccessor .)
@@ -1824,12 +1907,10 @@ state 39
     RSPAREN         reduce using rule 40 (punctuation -> configaccessor .)
 
 
-state 40
+state 39
 
     (41) comparisonoperator -> LT .
-    (43) comparisonoperator -> LT . EQUAL
 
-  ! shift/reduce conflict for EQUAL resolved as shift
     PRIVATE_ID      reduce using rule 41 (comparisonoperator -> LT .)
     GLOBAL_ID       reduce using rule 41 (comparisonoperator -> LT .)
     PLUS            reduce using rule 41 (comparisonoperator -> LT .)
@@ -1843,7 +1924,10 @@ state 40
     OR              reduce using rule 41 (comparisonoperator -> LT .)
     LT              reduce using rule 41 (comparisonoperator -> LT .)
     GT              reduce using rule 41 (comparisonoperator -> LT .)
-    NOT             reduce using rule 41 (comparisonoperator -> LT .)
+    LTE             reduce using rule 41 (comparisonoperator -> LT .)
+    GTE             reduce using rule 41 (comparisonoperator -> LT .)
+    EQUALITY        reduce using rule 41 (comparisonoperator -> LT .)
+    INEQUALITY      reduce using rule 41 (comparisonoperator -> LT .)
     SEMI_COLON      reduce using rule 41 (comparisonoperator -> LT .)
     $end            reduce using rule 41 (comparisonoperator -> LT .)
     LBRACE          reduce using rule 41 (comparisonoperator -> LT .)
@@ -1858,18 +1942,13 @@ state 40
     RPAREN          reduce using rule 41 (comparisonoperator -> LT .)
     COMMA           reduce using rule 41 (comparisonoperator -> LT .)
     RSPAREN         reduce using rule 41 (comparisonoperator -> LT .)
-    EQUAL           shift and go to state 61
-
-  ! EQUAL           [ reduce using rule 41 (comparisonoperator -> LT .) ]
 
 
-state 41
+state 40
 
     (42) comparisonoperator -> GT .
-    (44) comparisonoperator -> GT . EQUAL
     (47) configaccessor -> GT . GT
 
-  ! shift/reduce conflict for EQUAL resolved as shift
   ! shift/reduce conflict for GT resolved as shift
     PRIVATE_ID      reduce using rule 42 (comparisonoperator -> GT .)
     GLOBAL_ID       reduce using rule 42 (comparisonoperator -> GT .)
@@ -1883,7 +1962,10 @@ state 41
     AND             reduce using rule 42 (comparisonoperator -> GT .)
     OR              reduce using rule 42 (comparisonoperator -> GT .)
     LT              reduce using rule 42 (comparisonoperator -> GT .)
-    NOT             reduce using rule 42 (comparisonoperator -> GT .)
+    LTE             reduce using rule 42 (comparisonoperator -> GT .)
+    GTE             reduce using rule 42 (comparisonoperator -> GT .)
+    EQUALITY        reduce using rule 42 (comparisonoperator -> GT .)
+    INEQUALITY      reduce using rule 42 (comparisonoperator -> GT .)
     SEMI_COLON      reduce using rule 42 (comparisonoperator -> GT .)
     $end            reduce using rule 42 (comparisonoperator -> GT .)
     LBRACE          reduce using rule 42 (comparisonoperator -> GT .)
@@ -1898,21 +1980,160 @@ state 41
     RPAREN          reduce using rule 42 (comparisonoperator -> GT .)
     COMMA           reduce using rule 42 (comparisonoperator -> GT .)
     RSPAREN         reduce using rule 42 (comparisonoperator -> GT .)
-    EQUAL           shift and go to state 63
     GT              shift and go to state 62
 
   ! GT              [ reduce using rule 42 (comparisonoperator -> GT .) ]
-  ! EQUAL           [ reduce using rule 42 (comparisonoperator -> GT .) ]
+
+
+state 41
+
+    (43) comparisonoperator -> LTE .
+
+    PRIVATE_ID      reduce using rule 43 (comparisonoperator -> LTE .)
+    GLOBAL_ID       reduce using rule 43 (comparisonoperator -> LTE .)
+    PLUS            reduce using rule 43 (comparisonoperator -> LTE .)
+    MINUS           reduce using rule 43 (comparisonoperator -> LTE .)
+    TIMES           reduce using rule 43 (comparisonoperator -> LTE .)
+    DIVIDE          reduce using rule 43 (comparisonoperator -> LTE .)
+    MOD             reduce using rule 43 (comparisonoperator -> LTE .)
+    POW             reduce using rule 43 (comparisonoperator -> LTE .)
+    SELECT          reduce using rule 43 (comparisonoperator -> LTE .)
+    AND             reduce using rule 43 (comparisonoperator -> LTE .)
+    OR              reduce using rule 43 (comparisonoperator -> LTE .)
+    LT              reduce using rule 43 (comparisonoperator -> LTE .)
+    GT              reduce using rule 43 (comparisonoperator -> LTE .)
+    LTE             reduce using rule 43 (comparisonoperator -> LTE .)
+    GTE             reduce using rule 43 (comparisonoperator -> LTE .)
+    EQUALITY        reduce using rule 43 (comparisonoperator -> LTE .)
+    INEQUALITY      reduce using rule 43 (comparisonoperator -> LTE .)
+    SEMI_COLON      reduce using rule 43 (comparisonoperator -> LTE .)
+    $end            reduce using rule 43 (comparisonoperator -> LTE .)
+    LBRACE          reduce using rule 43 (comparisonoperator -> LTE .)
+    LPAREN          reduce using rule 43 (comparisonoperator -> LTE .)
+    NUMBER_REAL     reduce using rule 43 (comparisonoperator -> LTE .)
+    NUMBER_EXP      reduce using rule 43 (comparisonoperator -> LTE .)
+    NUMBER_HEX      reduce using rule 43 (comparisonoperator -> LTE .)
+    STRING_SINGLE   reduce using rule 43 (comparisonoperator -> LTE .)
+    STRING_DOUBLE   reduce using rule 43 (comparisonoperator -> LTE .)
+    LSPAREN         reduce using rule 43 (comparisonoperator -> LTE .)
+    RBRACE          reduce using rule 43 (comparisonoperator -> LTE .)
+    RPAREN          reduce using rule 43 (comparisonoperator -> LTE .)
+    COMMA           reduce using rule 43 (comparisonoperator -> LTE .)
+    RSPAREN         reduce using rule 43 (comparisonoperator -> LTE .)
 
 
 state 42
 
-    (46) comparisonoperator -> NOT . EQUAL
+    (44) comparisonoperator -> GTE .
 
-    EQUAL           shift and go to state 64
+    PRIVATE_ID      reduce using rule 44 (comparisonoperator -> GTE .)
+    GLOBAL_ID       reduce using rule 44 (comparisonoperator -> GTE .)
+    PLUS            reduce using rule 44 (comparisonoperator -> GTE .)
+    MINUS           reduce using rule 44 (comparisonoperator -> GTE .)
+    TIMES           reduce using rule 44 (comparisonoperator -> GTE .)
+    DIVIDE          reduce using rule 44 (comparisonoperator -> GTE .)
+    MOD             reduce using rule 44 (comparisonoperator -> GTE .)
+    POW             reduce using rule 44 (comparisonoperator -> GTE .)
+    SELECT          reduce using rule 44 (comparisonoperator -> GTE .)
+    AND             reduce using rule 44 (comparisonoperator -> GTE .)
+    OR              reduce using rule 44 (comparisonoperator -> GTE .)
+    LT              reduce using rule 44 (comparisonoperator -> GTE .)
+    GT              reduce using rule 44 (comparisonoperator -> GTE .)
+    LTE             reduce using rule 44 (comparisonoperator -> GTE .)
+    GTE             reduce using rule 44 (comparisonoperator -> GTE .)
+    EQUALITY        reduce using rule 44 (comparisonoperator -> GTE .)
+    INEQUALITY      reduce using rule 44 (comparisonoperator -> GTE .)
+    SEMI_COLON      reduce using rule 44 (comparisonoperator -> GTE .)
+    $end            reduce using rule 44 (comparisonoperator -> GTE .)
+    LBRACE          reduce using rule 44 (comparisonoperator -> GTE .)
+    LPAREN          reduce using rule 44 (comparisonoperator -> GTE .)
+    NUMBER_REAL     reduce using rule 44 (comparisonoperator -> GTE .)
+    NUMBER_EXP      reduce using rule 44 (comparisonoperator -> GTE .)
+    NUMBER_HEX      reduce using rule 44 (comparisonoperator -> GTE .)
+    STRING_SINGLE   reduce using rule 44 (comparisonoperator -> GTE .)
+    STRING_DOUBLE   reduce using rule 44 (comparisonoperator -> GTE .)
+    LSPAREN         reduce using rule 44 (comparisonoperator -> GTE .)
+    RBRACE          reduce using rule 44 (comparisonoperator -> GTE .)
+    RPAREN          reduce using rule 44 (comparisonoperator -> GTE .)
+    COMMA           reduce using rule 44 (comparisonoperator -> GTE .)
+    RSPAREN         reduce using rule 44 (comparisonoperator -> GTE .)
 
 
 state 43
+
+    (45) comparisonoperator -> EQUALITY .
+
+    PRIVATE_ID      reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    GLOBAL_ID       reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    PLUS            reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    MINUS           reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    TIMES           reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    DIVIDE          reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    MOD             reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    POW             reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    SELECT          reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    AND             reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    OR              reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    LT              reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    GT              reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    LTE             reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    GTE             reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    EQUALITY        reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    INEQUALITY      reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    SEMI_COLON      reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    $end            reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    LBRACE          reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    LPAREN          reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    NUMBER_REAL     reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    NUMBER_EXP      reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    NUMBER_HEX      reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    STRING_SINGLE   reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    STRING_DOUBLE   reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    LSPAREN         reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    RBRACE          reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    RPAREN          reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    COMMA           reduce using rule 45 (comparisonoperator -> EQUALITY .)
+    RSPAREN         reduce using rule 45 (comparisonoperator -> EQUALITY .)
+
+
+state 44
+
+    (46) comparisonoperator -> INEQUALITY .
+
+    PRIVATE_ID      reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    GLOBAL_ID       reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    PLUS            reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    MINUS           reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    TIMES           reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    DIVIDE          reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    MOD             reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    POW             reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    SELECT          reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    AND             reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    OR              reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    LT              reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    GT              reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    LTE             reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    GTE             reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    EQUALITY        reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    INEQUALITY      reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    SEMI_COLON      reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    $end            reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    LBRACE          reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    LPAREN          reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    NUMBER_REAL     reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    NUMBER_EXP      reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    NUMBER_HEX      reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    STRING_SINGLE   reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    STRING_DOUBLE   reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    LSPAREN         reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    RBRACE          reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    RPAREN          reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    COMMA           reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+    RSPAREN         reduce using rule 46 (comparisonoperator -> INEQUALITY .)
+
+
+state 45
 
     (3) code -> statement SEMI_COLON . code
     (1) code -> . empty
@@ -1963,60 +2184,62 @@ state 43
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
     $end            reduce using rule 56 (empty -> .)
     RBRACE          reduce using rule 56 (empty -> .)
-    PRIVATE         shift and go to state 11
-    PRIVATE_ID      shift and go to state 12
-    GLOBAL_ID       shift and go to state 13
-    LBRACE          shift and go to state 19
-    LPAREN          shift and go to state 20
-    NUMBER_REAL     shift and go to state 22
-    NUMBER_EXP      shift and go to state 23
-    NUMBER_HEX      shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    STRING_SINGLE   shift and go to state 27
-    STRING_DOUBLE   shift and go to state 28
-    LSPAREN         shift and go to state 29
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
-    AND             shift and go to state 37
-    OR              shift and go to state 38
-    LT              shift and go to state 40
-    GT              shift and go to state 41
-    EQUAL           shift and go to state 7
-    NOT             shift and go to state 42
+    PRIVATE         shift and go to state 10
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_EXP      shift and go to state 22
+    NUMBER_HEX      shift and go to state 23
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
+    STRING_SINGLE   shift and go to state 26
+    STRING_DOUBLE   shift and go to state 27
+    LSPAREN         shift and go to state 28
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    AND             shift and go to state 36
+    OR              shift and go to state 37
+    LT              shift and go to state 39
+    GT              shift and go to state 40
+    LTE             shift and go to state 41
+    GTE             shift and go to state 42
+    EQUALITY        shift and go to state 43
+    INEQUALITY      shift and go to state 44
 
     statement                      shift and go to state 3
-    code                           shift and go to state 65
+    code                           shift and go to state 63
     empty                          shift and go to state 2
     assignment                     shift and go to state 4
     binaryexp                      shift and go to state 5
     definition                     shift and go to state 6
-    identifier                     shift and go to state 8
-    operator                       shift and go to state 9
-    primaryexp                     shift and go to state 10
-    number                         shift and go to state 14
-    unaryexp                       shift and go to state 15
-    nularexp                       shift and go to state 16
-    variable                       shift and go to state 17
-    string                         shift and go to state 18
-    array                          shift and go to state 21
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
+    identifier                     shift and go to state 7
+    operator                       shift and go to state 8
+    primaryexp                     shift and go to state 9
+    number                         shift and go to state 13
+    unaryexp                       shift and go to state 14
+    nularexp                       shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
-state 44
+state 46
 
     (9) binaryexp -> binaryexp operator . binaryexp
     (9) binaryexp -> . binaryexp operator binaryexp
@@ -2058,52 +2281,54 @@ state 44
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
-    LBRACE          shift and go to state 19
-    LPAREN          shift and go to state 20
-    NUMBER_REAL     shift and go to state 22
-    NUMBER_EXP      shift and go to state 23
-    NUMBER_HEX      shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    STRING_SINGLE   shift and go to state 27
-    STRING_DOUBLE   shift and go to state 28
-    LSPAREN         shift and go to state 29
-    PRIVATE_ID      shift and go to state 12
-    GLOBAL_ID       shift and go to state 13
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
-    AND             shift and go to state 37
-    OR              shift and go to state 38
-    LT              shift and go to state 40
-    GT              shift and go to state 41
-    EQUAL           shift and go to state 7
-    NOT             shift and go to state 42
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_EXP      shift and go to state 22
+    NUMBER_HEX      shift and go to state 23
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
+    STRING_SINGLE   shift and go to state 26
+    STRING_DOUBLE   shift and go to state 27
+    LSPAREN         shift and go to state 28
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    AND             shift and go to state 36
+    OR              shift and go to state 37
+    LT              shift and go to state 39
+    GT              shift and go to state 40
+    LTE             shift and go to state 41
+    GTE             shift and go to state 42
+    EQUALITY        shift and go to state 43
+    INEQUALITY      shift and go to state 44
 
-    binaryexp                      shift and go to state 66
-    operator                       shift and go to state 9
-    primaryexp                     shift and go to state 10
-    number                         shift and go to state 14
-    unaryexp                       shift and go to state 15
-    nularexp                       shift and go to state 16
-    variable                       shift and go to state 17
-    string                         shift and go to state 18
-    array                          shift and go to state 21
-    identifier                     shift and go to state 50
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
+    binaryexp                      shift and go to state 64
+    operator                       shift and go to state 8
+    primaryexp                     shift and go to state 9
+    number                         shift and go to state 13
+    unaryexp                       shift and go to state 14
+    nularexp                       shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    identifier                     shift and go to state 51
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
-state 45
+state 47
 
     (28) operator -> identifier .
 
@@ -2128,11 +2353,13 @@ state 45
     OR              reduce using rule 28 (operator -> identifier .)
     LT              reduce using rule 28 (operator -> identifier .)
     GT              reduce using rule 28 (operator -> identifier .)
-    EQUAL           reduce using rule 28 (operator -> identifier .)
-    NOT             reduce using rule 28 (operator -> identifier .)
+    LTE             reduce using rule 28 (operator -> identifier .)
+    GTE             reduce using rule 28 (operator -> identifier .)
+    EQUALITY        reduce using rule 28 (operator -> identifier .)
+    INEQUALITY      reduce using rule 28 (operator -> identifier .)
 
 
-state 46
+state 48
 
     (30) punctuation -> PLUS .
 
@@ -2157,11 +2384,13 @@ state 46
     OR              reduce using rule 30 (punctuation -> PLUS .)
     LT              reduce using rule 30 (punctuation -> PLUS .)
     GT              reduce using rule 30 (punctuation -> PLUS .)
-    EQUAL           reduce using rule 30 (punctuation -> PLUS .)
-    NOT             reduce using rule 30 (punctuation -> PLUS .)
+    LTE             reduce using rule 30 (punctuation -> PLUS .)
+    GTE             reduce using rule 30 (punctuation -> PLUS .)
+    EQUALITY        reduce using rule 30 (punctuation -> PLUS .)
+    INEQUALITY      reduce using rule 30 (punctuation -> PLUS .)
 
 
-state 47
+state 49
 
     (31) punctuation -> MINUS .
 
@@ -2186,11 +2415,13 @@ state 47
     OR              reduce using rule 31 (punctuation -> MINUS .)
     LT              reduce using rule 31 (punctuation -> MINUS .)
     GT              reduce using rule 31 (punctuation -> MINUS .)
-    EQUAL           reduce using rule 31 (punctuation -> MINUS .)
-    NOT             reduce using rule 31 (punctuation -> MINUS .)
+    LTE             reduce using rule 31 (punctuation -> MINUS .)
+    GTE             reduce using rule 31 (punctuation -> MINUS .)
+    EQUALITY        reduce using rule 31 (punctuation -> MINUS .)
+    INEQUALITY      reduce using rule 31 (punctuation -> MINUS .)
 
 
-state 48
+state 50
 
     (6) assignment -> definition EQUAL . binaryexp
     (9) binaryexp -> . binaryexp operator binaryexp
@@ -2232,87 +2463,54 @@ state 48
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
-    LBRACE          shift and go to state 19
-    LPAREN          shift and go to state 20
-    NUMBER_REAL     shift and go to state 22
-    NUMBER_EXP      shift and go to state 23
-    NUMBER_HEX      shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    STRING_SINGLE   shift and go to state 27
-    STRING_DOUBLE   shift and go to state 28
-    LSPAREN         shift and go to state 29
-    PRIVATE_ID      shift and go to state 12
-    GLOBAL_ID       shift and go to state 13
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
-    AND             shift and go to state 37
-    OR              shift and go to state 38
-    LT              shift and go to state 40
-    GT              shift and go to state 41
-    EQUAL           shift and go to state 7
-    NOT             shift and go to state 42
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_EXP      shift and go to state 22
+    NUMBER_HEX      shift and go to state 23
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
+    STRING_SINGLE   shift and go to state 26
+    STRING_DOUBLE   shift and go to state 27
+    LSPAREN         shift and go to state 28
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    AND             shift and go to state 36
+    OR              shift and go to state 37
+    LT              shift and go to state 39
+    GT              shift and go to state 40
+    LTE             shift and go to state 41
+    GTE             shift and go to state 42
+    EQUALITY        shift and go to state 43
+    INEQUALITY      shift and go to state 44
 
-    binaryexp                      shift and go to state 67
-    operator                       shift and go to state 9
-    primaryexp                     shift and go to state 10
-    number                         shift and go to state 14
-    unaryexp                       shift and go to state 15
-    nularexp                       shift and go to state 16
-    variable                       shift and go to state 17
-    string                         shift and go to state 18
-    array                          shift and go to state 21
-    identifier                     shift and go to state 50
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
+    binaryexp                      shift and go to state 65
+    operator                       shift and go to state 8
+    primaryexp                     shift and go to state 9
+    number                         shift and go to state 13
+    unaryexp                       shift and go to state 14
+    nularexp                       shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    identifier                     shift and go to state 51
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
-state 49
-
-    (45) comparisonoperator -> EQUAL EQUAL .
-
-    PRIVATE_ID      reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    GLOBAL_ID       reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    PLUS            reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    MINUS           reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    TIMES           reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    DIVIDE          reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    MOD             reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    POW             reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    SELECT          reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    AND             reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    OR              reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    LT              reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    GT              reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    EQUAL           reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    NOT             reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    SEMI_COLON      reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    $end            reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    LBRACE          reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    LPAREN          reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    NUMBER_REAL     reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    NUMBER_EXP      reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    NUMBER_HEX      reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    STRING_SINGLE   reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    STRING_DOUBLE   reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    LSPAREN         reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    RBRACE          reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    RPAREN          reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    COMMA           reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    RSPAREN         reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-
-
-state 50
+state 51
 
     (26) unaryexp -> identifier . primaryexp
     (27) variable -> identifier .
@@ -2354,10 +2552,10 @@ state 50
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
@@ -2374,8 +2572,10 @@ state 50
   ! reduce/reduce conflict for OR resolved using rule 27 (variable -> identifier .)
   ! reduce/reduce conflict for LT resolved using rule 27 (variable -> identifier .)
   ! reduce/reduce conflict for GT resolved using rule 27 (variable -> identifier .)
-  ! reduce/reduce conflict for EQUAL resolved using rule 27 (variable -> identifier .)
-  ! reduce/reduce conflict for NOT resolved using rule 27 (variable -> identifier .)
+  ! reduce/reduce conflict for LTE resolved using rule 27 (variable -> identifier .)
+  ! reduce/reduce conflict for GTE resolved using rule 27 (variable -> identifier .)
+  ! reduce/reduce conflict for EQUALITY resolved using rule 27 (variable -> identifier .)
+  ! reduce/reduce conflict for INEQUALITY resolved using rule 27 (variable -> identifier .)
   ! reduce/reduce conflict for SEMI_COLON resolved using rule 27 (variable -> identifier .)
   ! reduce/reduce conflict for $end resolved using rule 27 (variable -> identifier .)
   ! reduce/reduce conflict for RBRACE resolved using rule 27 (variable -> identifier .)
@@ -2395,37 +2595,41 @@ state 50
   ! shift/reduce conflict for OR resolved as shift
   ! shift/reduce conflict for LT resolved as shift
   ! shift/reduce conflict for GT resolved as shift
-  ! shift/reduce conflict for EQUAL resolved as shift
-  ! shift/reduce conflict for NOT resolved as shift
+  ! shift/reduce conflict for LTE resolved as shift
+  ! shift/reduce conflict for GTE resolved as shift
+  ! shift/reduce conflict for EQUALITY resolved as shift
+  ! shift/reduce conflict for INEQUALITY resolved as shift
     SEMI_COLON      reduce using rule 27 (variable -> identifier .)
     $end            reduce using rule 27 (variable -> identifier .)
     RBRACE          reduce using rule 27 (variable -> identifier .)
     RPAREN          reduce using rule 27 (variable -> identifier .)
     COMMA           reduce using rule 27 (variable -> identifier .)
     RSPAREN         reduce using rule 27 (variable -> identifier .)
-    LBRACE          shift and go to state 19
-    LPAREN          shift and go to state 20
-    NUMBER_REAL     shift and go to state 22
-    NUMBER_EXP      shift and go to state 23
-    NUMBER_HEX      shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    STRING_SINGLE   shift and go to state 27
-    STRING_DOUBLE   shift and go to state 28
-    LSPAREN         shift and go to state 29
-    PRIVATE_ID      shift and go to state 12
-    GLOBAL_ID       shift and go to state 13
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
-    AND             shift and go to state 37
-    OR              shift and go to state 38
-    LT              shift and go to state 40
-    GT              shift and go to state 41
-    EQUAL           shift and go to state 7
-    NOT             shift and go to state 42
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_EXP      shift and go to state 22
+    NUMBER_HEX      shift and go to state 23
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
+    STRING_SINGLE   shift and go to state 26
+    STRING_DOUBLE   shift and go to state 27
+    LSPAREN         shift and go to state 28
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    AND             shift and go to state 36
+    OR              shift and go to state 37
+    LT              shift and go to state 39
+    GT              shift and go to state 40
+    LTE             shift and go to state 41
+    GTE             shift and go to state 42
+    EQUALITY        shift and go to state 43
+    INEQUALITY      shift and go to state 44
 
   ! PRIVATE_ID      [ reduce using rule 27 (variable -> identifier .) ]
   ! GLOBAL_ID       [ reduce using rule 27 (variable -> identifier .) ]
@@ -2440,8 +2644,10 @@ state 50
   ! OR              [ reduce using rule 27 (variable -> identifier .) ]
   ! LT              [ reduce using rule 27 (variable -> identifier .) ]
   ! GT              [ reduce using rule 27 (variable -> identifier .) ]
-  ! EQUAL           [ reduce using rule 27 (variable -> identifier .) ]
-  ! NOT             [ reduce using rule 27 (variable -> identifier .) ]
+  ! LTE             [ reduce using rule 27 (variable -> identifier .) ]
+  ! GTE             [ reduce using rule 27 (variable -> identifier .) ]
+  ! EQUALITY        [ reduce using rule 27 (variable -> identifier .) ]
+  ! INEQUALITY      [ reduce using rule 27 (variable -> identifier .) ]
   ! PRIVATE_ID      [ reduce using rule 28 (operator -> identifier .) ]
   ! GLOBAL_ID       [ reduce using rule 28 (operator -> identifier .) ]
   ! PLUS            [ reduce using rule 28 (operator -> identifier .) ]
@@ -2455,8 +2661,10 @@ state 50
   ! OR              [ reduce using rule 28 (operator -> identifier .) ]
   ! LT              [ reduce using rule 28 (operator -> identifier .) ]
   ! GT              [ reduce using rule 28 (operator -> identifier .) ]
-  ! EQUAL           [ reduce using rule 28 (operator -> identifier .) ]
-  ! NOT             [ reduce using rule 28 (operator -> identifier .) ]
+  ! LTE             [ reduce using rule 28 (operator -> identifier .) ]
+  ! GTE             [ reduce using rule 28 (operator -> identifier .) ]
+  ! EQUALITY        [ reduce using rule 28 (operator -> identifier .) ]
+  ! INEQUALITY      [ reduce using rule 28 (operator -> identifier .) ]
   ! SEMI_COLON      [ reduce using rule 28 (operator -> identifier .) ]
   ! $end            [ reduce using rule 28 (operator -> identifier .) ]
   ! RBRACE          [ reduce using rule 28 (operator -> identifier .) ]
@@ -2464,23 +2672,22 @@ state 50
   ! COMMA           [ reduce using rule 28 (operator -> identifier .) ]
   ! RSPAREN         [ reduce using rule 28 (operator -> identifier .) ]
 
-    identifier                     shift and go to state 50
-    primaryexp                     shift and go to state 52
-    number                         shift and go to state 14
-    unaryexp                       shift and go to state 15
-    nularexp                       shift and go to state 16
-    variable                       shift and go to state 17
-    string                         shift and go to state 18
-    array                          shift and go to state 21
-    operator                       shift and go to state 9
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
+    identifier                     shift and go to state 51
+    primaryexp                     shift and go to state 53
+    number                         shift and go to state 13
+    unaryexp                       shift and go to state 14
+    nularexp                       shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    operator                       shift and go to state 8
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
-state 51
+state 52
 
     (7) assignment -> identifier EQUAL . binaryexp
-    (45) comparisonoperator -> EQUAL . EQUAL
     (9) binaryexp -> . binaryexp operator binaryexp
     (10) binaryexp -> . primaryexp
     (11) primaryexp -> . number
@@ -2520,52 +2727,54 @@ state 51
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
-    EQUAL           shift and go to state 68
-    LBRACE          shift and go to state 19
-    LPAREN          shift and go to state 20
-    NUMBER_REAL     shift and go to state 22
-    NUMBER_EXP      shift and go to state 23
-    NUMBER_HEX      shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    STRING_SINGLE   shift and go to state 27
-    STRING_DOUBLE   shift and go to state 28
-    LSPAREN         shift and go to state 29
-    PRIVATE_ID      shift and go to state 12
-    GLOBAL_ID       shift and go to state 13
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
-    AND             shift and go to state 37
-    OR              shift and go to state 38
-    LT              shift and go to state 40
-    GT              shift and go to state 41
-    NOT             shift and go to state 42
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_EXP      shift and go to state 22
+    NUMBER_HEX      shift and go to state 23
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
+    STRING_SINGLE   shift and go to state 26
+    STRING_DOUBLE   shift and go to state 27
+    LSPAREN         shift and go to state 28
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    AND             shift and go to state 36
+    OR              shift and go to state 37
+    LT              shift and go to state 39
+    GT              shift and go to state 40
+    LTE             shift and go to state 41
+    GTE             shift and go to state 42
+    EQUALITY        shift and go to state 43
+    INEQUALITY      shift and go to state 44
 
-    identifier                     shift and go to state 50
-    binaryexp                      shift and go to state 69
-    operator                       shift and go to state 9
-    primaryexp                     shift and go to state 10
-    number                         shift and go to state 14
-    unaryexp                       shift and go to state 15
-    nularexp                       shift and go to state 16
-    variable                       shift and go to state 17
-    string                         shift and go to state 18
-    array                          shift and go to state 21
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
+    identifier                     shift and go to state 51
+    binaryexp                      shift and go to state 66
+    operator                       shift and go to state 8
+    primaryexp                     shift and go to state 9
+    number                         shift and go to state 13
+    unaryexp                       shift and go to state 14
+    nularexp                       shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
-state 52
+state 53
 
     (26) unaryexp -> identifier primaryexp .
 
@@ -2582,8 +2791,10 @@ state 52
     OR              reduce using rule 26 (unaryexp -> identifier primaryexp .)
     LT              reduce using rule 26 (unaryexp -> identifier primaryexp .)
     GT              reduce using rule 26 (unaryexp -> identifier primaryexp .)
-    EQUAL           reduce using rule 26 (unaryexp -> identifier primaryexp .)
-    NOT             reduce using rule 26 (unaryexp -> identifier primaryexp .)
+    LTE             reduce using rule 26 (unaryexp -> identifier primaryexp .)
+    GTE             reduce using rule 26 (unaryexp -> identifier primaryexp .)
+    EQUALITY        reduce using rule 26 (unaryexp -> identifier primaryexp .)
+    INEQUALITY      reduce using rule 26 (unaryexp -> identifier primaryexp .)
     SEMI_COLON      reduce using rule 26 (unaryexp -> identifier primaryexp .)
     $end            reduce using rule 26 (unaryexp -> identifier primaryexp .)
     RBRACE          reduce using rule 26 (unaryexp -> identifier primaryexp .)
@@ -2592,21 +2803,21 @@ state 52
     RSPAREN         reduce using rule 26 (unaryexp -> identifier primaryexp .)
 
 
-state 53
+state 54
 
     (8) definition -> PRIVATE PRIVATE_ID .
 
     EQUAL           reduce using rule 8 (definition -> PRIVATE PRIVATE_ID .)
 
 
-state 54
+state 55
 
     (16) primaryexp -> LBRACE code . RBRACE
 
-    RBRACE          shift and go to state 70
+    RBRACE          shift and go to state 67
 
 
-state 55
+state 56
 
     (17) primaryexp -> LPAREN binaryexp . RPAREN
     (9) binaryexp -> binaryexp . operator binaryexp
@@ -2627,37 +2838,39 @@ state 55
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
-    RPAREN          shift and go to state 71
-    PRIVATE_ID      shift and go to state 12
-    GLOBAL_ID       shift and go to state 13
-    PLUS            shift and go to state 46
-    MINUS           shift and go to state 47
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
-    AND             shift and go to state 37
-    OR              shift and go to state 38
-    LT              shift and go to state 40
-    GT              shift and go to state 41
-    EQUAL           shift and go to state 7
-    NOT             shift and go to state 42
+    RPAREN          shift and go to state 68
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    PLUS            shift and go to state 48
+    MINUS           shift and go to state 49
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    AND             shift and go to state 36
+    OR              shift and go to state 37
+    LT              shift and go to state 39
+    GT              shift and go to state 40
+    LTE             shift and go to state 41
+    GTE             shift and go to state 42
+    EQUALITY        shift and go to state 43
+    INEQUALITY      shift and go to state 44
 
-    operator                       shift and go to state 44
-    identifier                     shift and go to state 45
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
+    operator                       shift and go to state 46
+    identifier                     shift and go to state 47
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
-state 56
+state 57
 
     (24) unaryexp -> PLUS primaryexp .
 
@@ -2674,8 +2887,10 @@ state 56
     OR              reduce using rule 24 (unaryexp -> PLUS primaryexp .)
     LT              reduce using rule 24 (unaryexp -> PLUS primaryexp .)
     GT              reduce using rule 24 (unaryexp -> PLUS primaryexp .)
-    EQUAL           reduce using rule 24 (unaryexp -> PLUS primaryexp .)
-    NOT             reduce using rule 24 (unaryexp -> PLUS primaryexp .)
+    LTE             reduce using rule 24 (unaryexp -> PLUS primaryexp .)
+    GTE             reduce using rule 24 (unaryexp -> PLUS primaryexp .)
+    EQUALITY        reduce using rule 24 (unaryexp -> PLUS primaryexp .)
+    INEQUALITY      reduce using rule 24 (unaryexp -> PLUS primaryexp .)
     SEMI_COLON      reduce using rule 24 (unaryexp -> PLUS primaryexp .)
     $end            reduce using rule 24 (unaryexp -> PLUS primaryexp .)
     RBRACE          reduce using rule 24 (unaryexp -> PLUS primaryexp .)
@@ -2684,7 +2899,7 @@ state 56
     RSPAREN         reduce using rule 24 (unaryexp -> PLUS primaryexp .)
 
 
-state 57
+state 58
 
     (25) unaryexp -> MINUS primaryexp .
 
@@ -2701,8 +2916,10 @@ state 57
     OR              reduce using rule 25 (unaryexp -> MINUS primaryexp .)
     LT              reduce using rule 25 (unaryexp -> MINUS primaryexp .)
     GT              reduce using rule 25 (unaryexp -> MINUS primaryexp .)
-    EQUAL           reduce using rule 25 (unaryexp -> MINUS primaryexp .)
-    NOT             reduce using rule 25 (unaryexp -> MINUS primaryexp .)
+    LTE             reduce using rule 25 (unaryexp -> MINUS primaryexp .)
+    GTE             reduce using rule 25 (unaryexp -> MINUS primaryexp .)
+    EQUALITY        reduce using rule 25 (unaryexp -> MINUS primaryexp .)
+    INEQUALITY      reduce using rule 25 (unaryexp -> MINUS primaryexp .)
     SEMI_COLON      reduce using rule 25 (unaryexp -> MINUS primaryexp .)
     $end            reduce using rule 25 (unaryexp -> MINUS primaryexp .)
     RBRACE          reduce using rule 25 (unaryexp -> MINUS primaryexp .)
@@ -2711,7 +2928,7 @@ state 57
     RSPAREN         reduce using rule 25 (unaryexp -> MINUS primaryexp .)
 
 
-state 58
+state 59
 
     (19) array -> LSPAREN RSPAREN .
 
@@ -2728,8 +2945,10 @@ state 58
     OR              reduce using rule 19 (array -> LSPAREN RSPAREN .)
     LT              reduce using rule 19 (array -> LSPAREN RSPAREN .)
     GT              reduce using rule 19 (array -> LSPAREN RSPAREN .)
-    EQUAL           reduce using rule 19 (array -> LSPAREN RSPAREN .)
-    NOT             reduce using rule 19 (array -> LSPAREN RSPAREN .)
+    LTE             reduce using rule 19 (array -> LSPAREN RSPAREN .)
+    GTE             reduce using rule 19 (array -> LSPAREN RSPAREN .)
+    EQUALITY        reduce using rule 19 (array -> LSPAREN RSPAREN .)
+    INEQUALITY      reduce using rule 19 (array -> LSPAREN RSPAREN .)
     SEMI_COLON      reduce using rule 19 (array -> LSPAREN RSPAREN .)
     $end            reduce using rule 19 (array -> LSPAREN RSPAREN .)
     RBRACE          reduce using rule 19 (array -> LSPAREN RSPAREN .)
@@ -2738,14 +2957,14 @@ state 58
     RSPAREN         reduce using rule 19 (array -> LSPAREN RSPAREN .)
 
 
-state 59
+state 60
 
     (20) array -> LSPAREN arrayelement . RSPAREN
 
-    RSPAREN         shift and go to state 72
+    RSPAREN         shift and go to state 69
 
 
-state 60
+state 61
 
     (21) arrayelement -> binaryexp .
     (22) arrayelement -> binaryexp . COMMA arrayelement
@@ -2767,71 +2986,38 @@ state 60
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
     RSPAREN         reduce using rule 21 (arrayelement -> binaryexp .)
-    COMMA           shift and go to state 73
-    PRIVATE_ID      shift and go to state 12
-    GLOBAL_ID       shift and go to state 13
-    PLUS            shift and go to state 46
-    MINUS           shift and go to state 47
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
-    AND             shift and go to state 37
-    OR              shift and go to state 38
-    LT              shift and go to state 40
-    GT              shift and go to state 41
-    EQUAL           shift and go to state 7
-    NOT             shift and go to state 42
+    COMMA           shift and go to state 70
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    PLUS            shift and go to state 48
+    MINUS           shift and go to state 49
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    AND             shift and go to state 36
+    OR              shift and go to state 37
+    LT              shift and go to state 39
+    GT              shift and go to state 40
+    LTE             shift and go to state 41
+    GTE             shift and go to state 42
+    EQUALITY        shift and go to state 43
+    INEQUALITY      shift and go to state 44
 
-    operator                       shift and go to state 44
-    identifier                     shift and go to state 45
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
-
-state 61
-
-    (43) comparisonoperator -> LT EQUAL .
-
-    PRIVATE_ID      reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    GLOBAL_ID       reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    PLUS            reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    MINUS           reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    TIMES           reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    DIVIDE          reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    MOD             reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    POW             reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    SELECT          reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    AND             reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    OR              reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    LT              reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    GT              reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    EQUAL           reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    NOT             reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    SEMI_COLON      reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    $end            reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    LBRACE          reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    LPAREN          reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    NUMBER_REAL     reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    NUMBER_EXP      reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    NUMBER_HEX      reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    STRING_SINGLE   reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    STRING_DOUBLE   reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    LSPAREN         reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    RBRACE          reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    RPAREN          reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    COMMA           reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-    RSPAREN         reduce using rule 43 (comparisonoperator -> LT EQUAL .)
-
+    operator                       shift and go to state 46
+    identifier                     shift and go to state 47
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
 state 62
 
@@ -2850,8 +3036,10 @@ state 62
     OR              reduce using rule 47 (configaccessor -> GT GT .)
     LT              reduce using rule 47 (configaccessor -> GT GT .)
     GT              reduce using rule 47 (configaccessor -> GT GT .)
-    EQUAL           reduce using rule 47 (configaccessor -> GT GT .)
-    NOT             reduce using rule 47 (configaccessor -> GT GT .)
+    LTE             reduce using rule 47 (configaccessor -> GT GT .)
+    GTE             reduce using rule 47 (configaccessor -> GT GT .)
+    EQUALITY        reduce using rule 47 (configaccessor -> GT GT .)
+    INEQUALITY      reduce using rule 47 (configaccessor -> GT GT .)
     SEMI_COLON      reduce using rule 47 (configaccessor -> GT GT .)
     $end            reduce using rule 47 (configaccessor -> GT GT .)
     LBRACE          reduce using rule 47 (configaccessor -> GT GT .)
@@ -2870,83 +3058,13 @@ state 62
 
 state 63
 
-    (44) comparisonoperator -> GT EQUAL .
-
-    PRIVATE_ID      reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    GLOBAL_ID       reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    PLUS            reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    MINUS           reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    TIMES           reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    DIVIDE          reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    MOD             reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    POW             reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    SELECT          reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    AND             reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    OR              reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    LT              reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    GT              reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    EQUAL           reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    NOT             reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    SEMI_COLON      reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    $end            reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    LBRACE          reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    LPAREN          reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    NUMBER_REAL     reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    NUMBER_EXP      reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    NUMBER_HEX      reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    STRING_SINGLE   reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    STRING_DOUBLE   reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    LSPAREN         reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    RBRACE          reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    RPAREN          reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    COMMA           reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-    RSPAREN         reduce using rule 44 (comparisonoperator -> GT EQUAL .)
-
-
-state 64
-
-    (46) comparisonoperator -> NOT EQUAL .
-
-    PRIVATE_ID      reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    GLOBAL_ID       reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    PLUS            reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    MINUS           reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    TIMES           reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    DIVIDE          reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    MOD             reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    POW             reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    SELECT          reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    AND             reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    OR              reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    LT              reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    GT              reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    EQUAL           reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    NOT             reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    SEMI_COLON      reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    $end            reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    LBRACE          reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    LPAREN          reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    NUMBER_REAL     reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    NUMBER_EXP      reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    NUMBER_HEX      reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    STRING_SINGLE   reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    STRING_DOUBLE   reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    LSPAREN         reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    RBRACE          reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    RPAREN          reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    COMMA           reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-    RSPAREN         reduce using rule 46 (comparisonoperator -> NOT EQUAL .)
-
-
-state 65
-
     (3) code -> statement SEMI_COLON code .
 
     $end            reduce using rule 3 (code -> statement SEMI_COLON code .)
     RBRACE          reduce using rule 3 (code -> statement SEMI_COLON code .)
 
 
-state 66
+state 64
 
     (9) binaryexp -> binaryexp operator binaryexp .
     (9) binaryexp -> binaryexp . operator binaryexp
@@ -2967,10 +3085,10 @@ state 66
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
@@ -2980,21 +3098,23 @@ state 66
     OR              reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .)
     LT              reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .)
     GT              reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .)
-    EQUAL           reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .)
-    NOT             reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .)
+    LTE             reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .)
+    GTE             reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .)
+    EQUALITY        reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .)
+    INEQUALITY      reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .)
     SEMI_COLON      reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .)
     $end            reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .)
     RBRACE          reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .)
     RPAREN          reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .)
     COMMA           reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .)
     RSPAREN         reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .)
-    PLUS            shift and go to state 46
-    MINUS           shift and go to state 47
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
+    PLUS            shift and go to state 48
+    MINUS           shift and go to state 49
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
 
   ! PLUS            [ reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .) ]
   ! MINUS           [ reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .) ]
@@ -3003,22 +3123,24 @@ state 66
   ! MOD             [ reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .) ]
   ! POW             [ reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .) ]
   ! SELECT          [ reduce using rule 9 (binaryexp -> binaryexp operator binaryexp .) ]
-  ! PRIVATE_ID      [ shift and go to state 12 ]
-  ! GLOBAL_ID       [ shift and go to state 13 ]
-  ! AND             [ shift and go to state 37 ]
-  ! OR              [ shift and go to state 38 ]
-  ! LT              [ shift and go to state 40 ]
-  ! GT              [ shift and go to state 41 ]
-  ! EQUAL           [ shift and go to state 7 ]
-  ! NOT             [ shift and go to state 42 ]
+  ! PRIVATE_ID      [ shift and go to state 11 ]
+  ! GLOBAL_ID       [ shift and go to state 12 ]
+  ! AND             [ shift and go to state 36 ]
+  ! OR              [ shift and go to state 37 ]
+  ! LT              [ shift and go to state 39 ]
+  ! GT              [ shift and go to state 40 ]
+  ! LTE             [ shift and go to state 41 ]
+  ! GTE             [ shift and go to state 42 ]
+  ! EQUALITY        [ shift and go to state 43 ]
+  ! INEQUALITY      [ shift and go to state 44 ]
 
-    operator                       shift and go to state 44
-    identifier                     shift and go to state 45
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
+    operator                       shift and go to state 46
+    identifier                     shift and go to state 47
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
-state 67
+state 65
 
     (6) assignment -> definition EQUAL binaryexp .
     (9) binaryexp -> binaryexp . operator binaryexp
@@ -3039,67 +3161,41 @@ state 67
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
     SEMI_COLON      reduce using rule 6 (assignment -> definition EQUAL binaryexp .)
     $end            reduce using rule 6 (assignment -> definition EQUAL binaryexp .)
     RBRACE          reduce using rule 6 (assignment -> definition EQUAL binaryexp .)
-    PRIVATE_ID      shift and go to state 12
-    GLOBAL_ID       shift and go to state 13
-    PLUS            shift and go to state 46
-    MINUS           shift and go to state 47
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
-    AND             shift and go to state 37
-    OR              shift and go to state 38
-    LT              shift and go to state 40
-    GT              shift and go to state 41
-    EQUAL           shift and go to state 7
-    NOT             shift and go to state 42
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    PLUS            shift and go to state 48
+    MINUS           shift and go to state 49
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    AND             shift and go to state 36
+    OR              shift and go to state 37
+    LT              shift and go to state 39
+    GT              shift and go to state 40
+    LTE             shift and go to state 41
+    GTE             shift and go to state 42
+    EQUALITY        shift and go to state 43
+    INEQUALITY      shift and go to state 44
 
-    operator                       shift and go to state 44
-    identifier                     shift and go to state 45
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
+    operator                       shift and go to state 46
+    identifier                     shift and go to state 47
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
-state 68
-
-    (45) comparisonoperator -> EQUAL EQUAL .
-    (45) comparisonoperator -> EQUAL . EQUAL
-
-  ! shift/reduce conflict for EQUAL resolved as shift
-    PRIVATE_ID      reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    GLOBAL_ID       reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    PLUS            reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    MINUS           reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    TIMES           reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    DIVIDE          reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    MOD             reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    POW             reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    SELECT          reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    AND             reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    OR              reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    LT              reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    GT              reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    NOT             reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    SEMI_COLON      reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    $end            reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    RBRACE          reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .)
-    EQUAL           shift and go to state 49
-
-  ! EQUAL           [ reduce using rule 45 (comparisonoperator -> EQUAL EQUAL .) ]
-
-
-state 69
+state 66
 
     (7) assignment -> identifier EQUAL binaryexp .
     (9) binaryexp -> binaryexp . operator binaryexp
@@ -3120,39 +3216,41 @@ state 69
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
     SEMI_COLON      reduce using rule 7 (assignment -> identifier EQUAL binaryexp .)
     $end            reduce using rule 7 (assignment -> identifier EQUAL binaryexp .)
     RBRACE          reduce using rule 7 (assignment -> identifier EQUAL binaryexp .)
-    PRIVATE_ID      shift and go to state 12
-    GLOBAL_ID       shift and go to state 13
-    PLUS            shift and go to state 46
-    MINUS           shift and go to state 47
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
-    AND             shift and go to state 37
-    OR              shift and go to state 38
-    LT              shift and go to state 40
-    GT              shift and go to state 41
-    EQUAL           shift and go to state 7
-    NOT             shift and go to state 42
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    PLUS            shift and go to state 48
+    MINUS           shift and go to state 49
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    AND             shift and go to state 36
+    OR              shift and go to state 37
+    LT              shift and go to state 39
+    GT              shift and go to state 40
+    LTE             shift and go to state 41
+    GTE             shift and go to state 42
+    EQUALITY        shift and go to state 43
+    INEQUALITY      shift and go to state 44
 
-    identifier                     shift and go to state 45
-    operator                       shift and go to state 44
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
+    identifier                     shift and go to state 47
+    operator                       shift and go to state 46
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
-state 70
+state 67
 
     (16) primaryexp -> LBRACE code RBRACE .
 
@@ -3169,8 +3267,10 @@ state 70
     OR              reduce using rule 16 (primaryexp -> LBRACE code RBRACE .)
     LT              reduce using rule 16 (primaryexp -> LBRACE code RBRACE .)
     GT              reduce using rule 16 (primaryexp -> LBRACE code RBRACE .)
-    EQUAL           reduce using rule 16 (primaryexp -> LBRACE code RBRACE .)
-    NOT             reduce using rule 16 (primaryexp -> LBRACE code RBRACE .)
+    LTE             reduce using rule 16 (primaryexp -> LBRACE code RBRACE .)
+    GTE             reduce using rule 16 (primaryexp -> LBRACE code RBRACE .)
+    EQUALITY        reduce using rule 16 (primaryexp -> LBRACE code RBRACE .)
+    INEQUALITY      reduce using rule 16 (primaryexp -> LBRACE code RBRACE .)
     SEMI_COLON      reduce using rule 16 (primaryexp -> LBRACE code RBRACE .)
     $end            reduce using rule 16 (primaryexp -> LBRACE code RBRACE .)
     RBRACE          reduce using rule 16 (primaryexp -> LBRACE code RBRACE .)
@@ -3179,7 +3279,7 @@ state 70
     RSPAREN         reduce using rule 16 (primaryexp -> LBRACE code RBRACE .)
 
 
-state 71
+state 68
 
     (17) primaryexp -> LPAREN binaryexp RPAREN .
 
@@ -3196,8 +3296,10 @@ state 71
     OR              reduce using rule 17 (primaryexp -> LPAREN binaryexp RPAREN .)
     LT              reduce using rule 17 (primaryexp -> LPAREN binaryexp RPAREN .)
     GT              reduce using rule 17 (primaryexp -> LPAREN binaryexp RPAREN .)
-    EQUAL           reduce using rule 17 (primaryexp -> LPAREN binaryexp RPAREN .)
-    NOT             reduce using rule 17 (primaryexp -> LPAREN binaryexp RPAREN .)
+    LTE             reduce using rule 17 (primaryexp -> LPAREN binaryexp RPAREN .)
+    GTE             reduce using rule 17 (primaryexp -> LPAREN binaryexp RPAREN .)
+    EQUALITY        reduce using rule 17 (primaryexp -> LPAREN binaryexp RPAREN .)
+    INEQUALITY      reduce using rule 17 (primaryexp -> LPAREN binaryexp RPAREN .)
     SEMI_COLON      reduce using rule 17 (primaryexp -> LPAREN binaryexp RPAREN .)
     $end            reduce using rule 17 (primaryexp -> LPAREN binaryexp RPAREN .)
     RBRACE          reduce using rule 17 (primaryexp -> LPAREN binaryexp RPAREN .)
@@ -3206,7 +3308,7 @@ state 71
     RSPAREN         reduce using rule 17 (primaryexp -> LPAREN binaryexp RPAREN .)
 
 
-state 72
+state 69
 
     (20) array -> LSPAREN arrayelement RSPAREN .
 
@@ -3223,8 +3325,10 @@ state 72
     OR              reduce using rule 20 (array -> LSPAREN arrayelement RSPAREN .)
     LT              reduce using rule 20 (array -> LSPAREN arrayelement RSPAREN .)
     GT              reduce using rule 20 (array -> LSPAREN arrayelement RSPAREN .)
-    EQUAL           reduce using rule 20 (array -> LSPAREN arrayelement RSPAREN .)
-    NOT             reduce using rule 20 (array -> LSPAREN arrayelement RSPAREN .)
+    LTE             reduce using rule 20 (array -> LSPAREN arrayelement RSPAREN .)
+    GTE             reduce using rule 20 (array -> LSPAREN arrayelement RSPAREN .)
+    EQUALITY        reduce using rule 20 (array -> LSPAREN arrayelement RSPAREN .)
+    INEQUALITY      reduce using rule 20 (array -> LSPAREN arrayelement RSPAREN .)
     SEMI_COLON      reduce using rule 20 (array -> LSPAREN arrayelement RSPAREN .)
     $end            reduce using rule 20 (array -> LSPAREN arrayelement RSPAREN .)
     RBRACE          reduce using rule 20 (array -> LSPAREN arrayelement RSPAREN .)
@@ -3233,7 +3337,7 @@ state 72
     RSPAREN         reduce using rule 20 (array -> LSPAREN arrayelement RSPAREN .)
 
 
-state 73
+state 70
 
     (22) arrayelement -> binaryexp COMMA . arrayelement
     (21) arrayelement -> . binaryexp
@@ -3277,53 +3381,55 @@ state 73
     (40) punctuation -> . configaccessor
     (41) comparisonoperator -> . LT
     (42) comparisonoperator -> . GT
-    (43) comparisonoperator -> . LT EQUAL
-    (44) comparisonoperator -> . GT EQUAL
-    (45) comparisonoperator -> . EQUAL EQUAL
-    (46) comparisonoperator -> . NOT EQUAL
+    (43) comparisonoperator -> . LTE
+    (44) comparisonoperator -> . GTE
+    (45) comparisonoperator -> . EQUALITY
+    (46) comparisonoperator -> . INEQUALITY
     (47) configaccessor -> . GT GT
     (48) configaccessor -> . DIVIDE
 
-    LBRACE          shift and go to state 19
-    LPAREN          shift and go to state 20
-    NUMBER_REAL     shift and go to state 22
-    NUMBER_EXP      shift and go to state 23
-    NUMBER_HEX      shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    STRING_SINGLE   shift and go to state 27
-    STRING_DOUBLE   shift and go to state 28
-    LSPAREN         shift and go to state 29
-    PRIVATE_ID      shift and go to state 12
-    GLOBAL_ID       shift and go to state 13
-    TIMES           shift and go to state 31
-    DIVIDE          shift and go to state 32
-    MOD             shift and go to state 33
-    POW             shift and go to state 34
-    SELECT          shift and go to state 35
-    AND             shift and go to state 37
-    OR              shift and go to state 38
-    LT              shift and go to state 40
-    GT              shift and go to state 41
-    EQUAL           shift and go to state 7
-    NOT             shift and go to state 42
+    LBRACE          shift and go to state 18
+    LPAREN          shift and go to state 19
+    NUMBER_REAL     shift and go to state 21
+    NUMBER_EXP      shift and go to state 22
+    NUMBER_HEX      shift and go to state 23
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
+    STRING_SINGLE   shift and go to state 26
+    STRING_DOUBLE   shift and go to state 27
+    LSPAREN         shift and go to state 28
+    PRIVATE_ID      shift and go to state 11
+    GLOBAL_ID       shift and go to state 12
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MOD             shift and go to state 32
+    POW             shift and go to state 33
+    SELECT          shift and go to state 34
+    AND             shift and go to state 36
+    OR              shift and go to state 37
+    LT              shift and go to state 39
+    GT              shift and go to state 40
+    LTE             shift and go to state 41
+    GTE             shift and go to state 42
+    EQUALITY        shift and go to state 43
+    INEQUALITY      shift and go to state 44
 
-    binaryexp                      shift and go to state 60
-    arrayelement                   shift and go to state 74
-    operator                       shift and go to state 9
-    primaryexp                     shift and go to state 10
-    number                         shift and go to state 14
-    unaryexp                       shift and go to state 15
-    nularexp                       shift and go to state 16
-    variable                       shift and go to state 17
-    string                         shift and go to state 18
-    array                          shift and go to state 21
-    identifier                     shift and go to state 50
-    punctuation                    shift and go to state 30
-    comparisonoperator             shift and go to state 36
-    configaccessor                 shift and go to state 39
+    binaryexp                      shift and go to state 61
+    arrayelement                   shift and go to state 71
+    operator                       shift and go to state 8
+    primaryexp                     shift and go to state 9
+    number                         shift and go to state 13
+    unaryexp                       shift and go to state 14
+    nularexp                       shift and go to state 15
+    variable                       shift and go to state 16
+    string                         shift and go to state 17
+    array                          shift and go to state 20
+    identifier                     shift and go to state 51
+    punctuation                    shift and go to state 29
+    comparisonoperator             shift and go to state 35
+    configaccessor                 shift and go to state 38
 
-state 74
+state 71
 
     (22) arrayelement -> binaryexp COMMA arrayelement .
 
@@ -3332,45 +3438,45 @@ state 74
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for EQUAL in state 8 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 8 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 8 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 8 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE_ID in state 8 resolved as shift
-WARNING: shift/reduce conflict for GLOBAL_ID in state 8 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 8 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 8 resolved as shift
-WARNING: shift/reduce conflict for MOD in state 8 resolved as shift
-WARNING: shift/reduce conflict for POW in state 8 resolved as shift
-WARNING: shift/reduce conflict for SELECT in state 8 resolved as shift
-WARNING: shift/reduce conflict for AND in state 8 resolved as shift
-WARNING: shift/reduce conflict for OR in state 8 resolved as shift
-WARNING: shift/reduce conflict for LT in state 8 resolved as shift
-WARNING: shift/reduce conflict for GT in state 8 resolved as shift
-WARNING: shift/reduce conflict for NOT in state 8 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 40 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 41 resolved as shift
-WARNING: shift/reduce conflict for GT in state 41 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 50 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 50 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE_ID in state 50 resolved as shift
-WARNING: shift/reduce conflict for GLOBAL_ID in state 50 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 50 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 50 resolved as shift
-WARNING: shift/reduce conflict for MOD in state 50 resolved as shift
-WARNING: shift/reduce conflict for POW in state 50 resolved as shift
-WARNING: shift/reduce conflict for SELECT in state 50 resolved as shift
-WARNING: shift/reduce conflict for AND in state 50 resolved as shift
-WARNING: shift/reduce conflict for OR in state 50 resolved as shift
-WARNING: shift/reduce conflict for LT in state 50 resolved as shift
-WARNING: shift/reduce conflict for GT in state 50 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 50 resolved as shift
-WARNING: shift/reduce conflict for NOT in state 50 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 68 resolved as shift
-WARNING: reduce/reduce conflict in state 8 resolved using rule (variable -> identifier)
-WARNING: rejected rule (operator -> identifier) in state 8
-WARNING: reduce/reduce conflict in state 32 resolved using rule (punctuation -> DIVIDE)
-WARNING: rejected rule (configaccessor -> DIVIDE) in state 32
-WARNING: reduce/reduce conflict in state 50 resolved using rule (variable -> identifier)
-WARNING: rejected rule (operator -> identifier) in state 50
+WARNING: shift/reduce conflict for PLUS in state 7 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 7 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE_ID in state 7 resolved as shift
+WARNING: shift/reduce conflict for GLOBAL_ID in state 7 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 7 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 7 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 7 resolved as shift
+WARNING: shift/reduce conflict for POW in state 7 resolved as shift
+WARNING: shift/reduce conflict for SELECT in state 7 resolved as shift
+WARNING: shift/reduce conflict for AND in state 7 resolved as shift
+WARNING: shift/reduce conflict for OR in state 7 resolved as shift
+WARNING: shift/reduce conflict for LT in state 7 resolved as shift
+WARNING: shift/reduce conflict for GT in state 7 resolved as shift
+WARNING: shift/reduce conflict for LTE in state 7 resolved as shift
+WARNING: shift/reduce conflict for GTE in state 7 resolved as shift
+WARNING: shift/reduce conflict for EQUALITY in state 7 resolved as shift
+WARNING: shift/reduce conflict for INEQUALITY in state 7 resolved as shift
+WARNING: shift/reduce conflict for GT in state 40 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 51 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 51 resolved as shift
+WARNING: shift/reduce conflict for PRIVATE_ID in state 51 resolved as shift
+WARNING: shift/reduce conflict for GLOBAL_ID in state 51 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 51 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 51 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 51 resolved as shift
+WARNING: shift/reduce conflict for POW in state 51 resolved as shift
+WARNING: shift/reduce conflict for SELECT in state 51 resolved as shift
+WARNING: shift/reduce conflict for AND in state 51 resolved as shift
+WARNING: shift/reduce conflict for OR in state 51 resolved as shift
+WARNING: shift/reduce conflict for LT in state 51 resolved as shift
+WARNING: shift/reduce conflict for GT in state 51 resolved as shift
+WARNING: shift/reduce conflict for LTE in state 51 resolved as shift
+WARNING: shift/reduce conflict for GTE in state 51 resolved as shift
+WARNING: shift/reduce conflict for EQUALITY in state 51 resolved as shift
+WARNING: shift/reduce conflict for INEQUALITY in state 51 resolved as shift
+WARNING: reduce/reduce conflict in state 7 resolved using rule (variable -> identifier)
+WARNING: rejected rule (operator -> identifier) in state 7
+WARNING: reduce/reduce conflict in state 31 resolved using rule (punctuation -> DIVIDE)
+WARNING: rejected rule (configaccessor -> DIVIDE) in state 31
+WARNING: reduce/reduce conflict in state 51 resolved using rule (variable -> identifier)
+WARNING: rejected rule (operator -> identifier) in state 51
 WARNING: Rule (configaccessor -> DIVIDE) is never reduced

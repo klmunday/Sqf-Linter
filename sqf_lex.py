@@ -46,6 +46,10 @@ tokens = [
     'SEMI_COLON',
     'COLON',
     'EQUAL',
+    'EQUALITY',
+    'INEQUALITY',
+    'LTE',
+    'GTE',
     'LT',
     'GT',
     'AND',
@@ -58,6 +62,10 @@ tokens = [
 
 t_AND = r'&&'
 t_OR = r'\|\|'
+t_EQUALITY = r'=='
+t_INEQUALITY = r'!='
+t_LTE = r'<='
+t_GTE = r'>='
 t_NOT = r'!'
 t_LT = r'<'
 t_GT = r'>'

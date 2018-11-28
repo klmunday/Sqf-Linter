@@ -13,3 +13,7 @@ if ((0xA == 10) && {10 == $A}) then {
 } else {
     hint "not equal";
 };
+
+hint (1 <= 3);
+MyGlobalTest = "test";
+MyGlobalTest
