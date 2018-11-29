@@ -15,5 +15,12 @@ if ((0xA == 10) && {10 == $A}) then {
 };
 
 hint (1 <= 3);
-MyGlobalTest = "test";
-MyGlobalTest
+MyGlobalTest = "test";  // seems to be parsed as: NONE = "test"
+
+if {true} then {
+    private _scoped = "scoped variable";
+    hint _scoped;
+};
+
+private _test = "test";
+hint _scoped;  // shouldn't work
