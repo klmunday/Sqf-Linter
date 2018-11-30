@@ -10,5 +10,5 @@ if __name__ == '__main__':
             data = f.read()
         lexer.input(data)
         parser = sqf_yacc_fh.yacc()
-        result = parser.parse(lexer=lexer, debug=False)
-        print(result)
+        vars = parser.parse(lexer=lexer, debug=False)
+        print(vars)

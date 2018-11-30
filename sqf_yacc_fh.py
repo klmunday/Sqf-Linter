@@ -31,7 +31,7 @@ def p_code(p):
             | statement
             | statement SEMI_COLON code
     """
-    var_handler.new_local_scope()
+    p[0] = var_handler  # in future when pbo support is added clear local_var_stack first
 
 
 def p_statement(p):
@@ -49,12 +49,10 @@ def p_assignment(p):
     """
     if var_handler.has_local_var(p[1]):
         var_handler.add_local_var(p[1], p[3])
-        print(f'Local variable edited: {p[1]} = {p[3]}')
-    elif not p[1].startswith('_'):
-        var_handler.add_global_var(p[1], p[3])
-        print(f'Global variable edited: {p[1]} = {p[3]}.')
     elif p[1] in engine_functions:
         print(f'Variable {p[1]} is an engine function and cannot be overwritten.', file=sys.stderr)
+    elif not p[1].startswith('_'):
+        var_handler.add_global_var(p[1], p[3])
     else:
         print(f'Variable {p[1]} is undefined.', file=sys.stderr)
 
@@ -68,7 +66,6 @@ def p_definition(p):
         pass
     else:
         var_handler.add_local_var(p[2])
-        print(f'New local variable {p[2]} defined.')
         p[0] = p[2]
 
 
@@ -93,7 +90,7 @@ def p_primaryexp(p):
                 | nularexp
                 | variable                  %prec VALUE
                 | string                    %prec VALUE
-                | LBRACE code RBRACE        %prec BRACED_EXP
+                | lbrace code rbrace        %prec BRACED_EXP
                 | LPAREN binaryexp RPAREN   %prec BRACED_EXP
                 | array                     %prec VALUE
     """
@@ -101,6 +98,22 @@ def p_primaryexp(p):
         p[0] = p[1]
     else:
         p[0] = p[2]
+
+
+def p_lbrace(p):
+    """
+    lbrace : LBRACE
+    """
+    var_handler.new_local_scope()
+    p[0] = p[1]
+
+
+def p_rbrace(p):
+    """
+    rbrace : RBRACE
+    """
+    var_handler.pop_local_stack()
+    p[0] = p[1]
 
 
 def p_array(p):
@@ -122,7 +135,7 @@ def p_arrayelement(p):
     if len(p) == 2:
         p[0] = p[1]
     else:
-        p[0] = [p[1], p[3]]  # TODO: Fix
+        p[0] = [p[1], p[3]]
 
 
 def p_nularexp(p):
@@ -136,6 +149,7 @@ def p_unaryexp(p):
     """
     unaryexp    : PLUS primaryexp       %prec UNARY_OP
                 | MINUS primaryexp      %prec UNARY_OP
+                | NOT primaryexp        %prec UNARY_OP
                 | identifier primaryexp %prec UNARY_OP
     """
     #print(f'Unary function {p[1]} called with input {p[2]}')
@@ -203,8 +217,12 @@ def p_identifier(p):
         p[0] = p[1].lower()
     elif var_handler.has_local_var(p[1]):
         p[0] = var_handler.get_local_var(p[1])
-    elif var_handler.has_global_var(p[1]):
-        p[0] = var_handler.get_global_var(p[1])
+    elif not p[1].startswith('_'):
+        if var_handler.has_global_var(p[1]):
+            p[0] = var_handler.get_global_var(p[1])
+        else:
+            var_handler.add_global_var(p[1])
+            p[0] = p[1]
     else:
         print(f'Local variable {p[1]} not defined', file=sys.stderr)
         p[0] = p[1]
@@ -236,9 +254,9 @@ def p_empty(p):
 
 def p_error(p):
     if p:
-        print(repr('Syntax error in file. Unexpected "{}" at line:{}, pos:{}').format(p.value, p.lineno, p.lexpos))
+        print(repr('Syntax error in file. Unexpected "{}" at line:{}, pos:{}').format(p.value, p.lineno, p.lexpos), file=sys.stderr)
     else:
-        print('Syntax error in file. Possibly an incomplete statement.')
+        print('Syntax error in file. Possibly an incomplete statement.', file=sys.stderr)
 
 
 parser = pyacc.yacc()
