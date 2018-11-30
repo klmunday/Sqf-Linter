@@ -35,4 +35,5 @@ if (1 isEqualTo 1) then {
 };
 
 private _test = "test";
+//_test = 3;  // need to get identifier key not value for these...
 hint _scoped;  // shouldn't work
