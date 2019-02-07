@@ -30,7 +30,7 @@ def p_code(p):
     """
     code    : empty
             | statement
-            | statement SEMI_COLON code
+            | statement terminator code
     """
     print('{} {} - {}'.format(sys._getframe().f_code.co_name, f'at line: {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     p[0] = p[len(p) - 1]
@@ -49,6 +49,13 @@ def p_statement(p):
     p[0] = p[1]
     print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
     print('')
+
+
+def p_terminator(p):
+    """
+    terminator  : SEMI_COLON
+                | COMMA
+    """
 
 
 def p_assignment(p):
@@ -80,6 +87,31 @@ def p_definition(p):
     else:
         var_handler.add_local_var(p[2])
         p[0] = p[2]
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
+    print('')
+
+
+def p_identifier(p):
+    """
+    identifier  : PRIVATE_ID %prec VARIABLE
+                | GLOBAL_ID  %prec VARIABLE
+    """
+    print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
+    if p[1].lower() in engine_functions:
+        p[0] = p[1].lower()
+    elif var_handler.has_local_var(p[1]):
+        #p[0] = var_handler.get_local_var(p[1])
+        p[0] = p[1]
+    elif not p[1].startswith('_'):
+        if var_handler.has_global_var(p[1]):
+            p[0] = p[1]
+            #p[0] = var_handler.get_global_var(p[1])
+        else:
+            var_handler.add_global_var(p[1])
+            p[0] = p[1]
+    else:
+        print(f'Error on line {p.lineno(1)} - Local variable {p[1]} not defined.', file=sys.stderr)
+        p[0] = p[1]
     print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
     print('')
 
@@ -252,29 +284,6 @@ def p_configaccessor(p):
     """
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     p[0] = ''.join(p[1:])
-    print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
-    print('')
-
-
-def p_identifier(p):
-    """
-    identifier  : PRIVATE_ID %prec VARIABLE
-                | GLOBAL_ID  %prec VARIABLE
-    """
-    print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
-    if p[1].lower() in engine_functions:
-        p[0] = p[1].lower()
-    elif var_handler.has_local_var(p[1]):
-        p[0] = var_handler.get_local_var(p[1])
-    elif not p[1].startswith('_'):
-        if var_handler.has_global_var(p[1]):
-            p[0] = var_handler.get_global_var(p[1])
-        else:
-            var_handler.add_global_var(p[1])
-            p[0] = p[1]
-    else:
-        print(f'Error on line {p.lineno(1)} - Local variable {p[1]} not defined.', file=sys.stderr)
-        p[0] = p[1]
     print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
     print('')
 

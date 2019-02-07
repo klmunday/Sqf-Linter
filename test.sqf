@@ -5,9 +5,10 @@ if (true) then {
         hint _b;
         private _b = "test";
         if (true) then {};
-    };
+    },
     _b = "new value";
 };
-private _b = 2 + 2 + 2;
+private _b = 2 + 2 + 2,
 hint _b;
+_b = 1,
 _b
