@@ -85,6 +85,9 @@ def p_definition(p):
         print(f'Error on line {p.lineno(2)} - Local variable {p[2]} already defined.', file=sys.stderr)
         p[0] = p[2]
     else:
+        if not p[2][1].islower():
+            print(f'Warning on line {p.lineno(2)} - Local variable defined with unconventional casing. '
+                  f'Use lower case for first letter of local variables.', file=sys.stderr)
         var_handler.add_local_var(p[2])
         p[0] = p[2]
     print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
