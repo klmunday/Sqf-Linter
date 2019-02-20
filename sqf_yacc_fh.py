@@ -2,7 +2,6 @@ import ply.yacc as pyacc
 from sqf_lex import tokens
 from var_handler import VarHandler
 import sys
-import inspect
 
 
 var_handler = VarHandler()
@@ -16,7 +15,7 @@ precedence = (  # https://community.bistudio.com/wiki/SQF_syntax#Rules_of_Preced
     ('left', 'AND'),
     ('left', 'COMPARISON_OP', 'CONFIG_ACCESSOR_GTGT'),
     ('left', 'BINARY_OP', 'COLON'),
-#    ('left', 'ELSE'),
+    ('left', 'ELSE'),
     ('left', 'PLUS', 'MINUS'),
     ('left', 'TIMES', 'DIVIDE', 'MOD', 'CONFIG_ACCESSOR_SLASH'),
     ('left', 'POW'),
@@ -34,21 +33,19 @@ def p_code(p):
     """
     print('{} {} - {}'.format(sys._getframe().f_code.co_name, f'at line: {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     p[0] = p[len(p) - 1]
-    print(p[0])
-    print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_statement(p):
     """
-    statement   : assignment
+    statement   : controlstructure
+                | assignment
                 | binaryexp
                 | binaryexp operator binaryexp
     """
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     p[0] = p[1]
-    print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_terminator(p):
@@ -56,6 +53,55 @@ def p_terminator(p):
     terminator  : SEMI_COLON
                 | COMMA
     """
+    pass
+
+
+def p_controlstructure(p):
+    """
+    controlstructure : ifstatement
+    """
+    print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
+
+
+def p_helpertype(p):
+    """
+    helpertype  : iftype
+                | withtype
+    """
+
+
+def p_iftype(p):
+    """
+    iftype : IF LPAREN primaryexp RPAREN
+    """
+    print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
+
+
+def p_ifstatement(p):
+    """
+    ifstatement : iftype THEN bracedexp
+                | iftype THEN bracedexp ELSE bracedexp
+    """
+    print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
+
+
+def p_withtype(p):
+    """
+    withtype : WITH NAMESPACE
+    """
+    print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
+
+
+def p_whiletype(p):
+    """
+    whiletype : WHILE bracedexp
+    """
+    print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_assignment(p):
@@ -72,8 +118,7 @@ def p_assignment(p):
         var_handler.add_global_var(p[1], p[3])
     else:
         print(f'Variable {p[1]} is undefined.', file=sys.stderr)
-    print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_definition(p):
@@ -90,8 +135,7 @@ def p_definition(p):
                   f'Use lower case for first letter of local variables.', file=sys.stderr)
         var_handler.add_local_var(p[2])
         p[0] = p[2]
-    print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_identifier(p):
@@ -115,8 +159,7 @@ def p_identifier(p):
     else:
         print(f'Error on line {p.lineno(1)} - Local variable {p[1]} not defined.', file=sys.stderr)
         p[0] = p[1]
-    print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_binaryexp(p):
@@ -132,8 +175,7 @@ def p_binaryexp(p):
             print(f'{p[1]} {p[2]} {p[3]} >> {e}', file=sys.stderr)
     else:
         p[0] = p[1]
-    print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_primaryexp(p):
@@ -146,14 +188,14 @@ def p_primaryexp(p):
                 | bracedexp                 %prec BRACED_EXP
                 | LPAREN binaryexp RPAREN   %prec BRACED_EXP
                 | array                     %prec VALUE
+                | helpertype                %prec VALUE
     """
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     if len(p) == 2:
         p[0] = p[1]
     else:
         p[0] = p[2]
-    print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_bracedexp(p):
@@ -163,8 +205,7 @@ def p_bracedexp(p):
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     p[0] = p[3]
     var_handler.pop_local_stack()
-    print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_new_scope(p):
@@ -182,8 +223,7 @@ def p_array(p):
         p[0] = []
     else:
         p[0] = p[2]
-    print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_arrayelement(p):
@@ -196,8 +236,7 @@ def p_arrayelement(p):
         p[0] = p[1]
     else:
         p[0] = [p[1], p[3]]
-        print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_nularexp(p):
@@ -206,8 +245,7 @@ def p_nularexp(p):
     """
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     p[0] = p[1]
-    print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_unaryexp(p):
@@ -217,10 +255,8 @@ def p_unaryexp(p):
                 | NOT primaryexp        %prec UNARY_OP
                 | identifier primaryexp %prec UNARY_OP
     """
-    ##print(f'Unary function {p[1]} called with input {p[2]}')
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
-    print(f'{sys._getframe().f_code.co_name} output: {p[len(p) - 1]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[len(p) - 1]}\n')
 
 
 def p_variable(p):
@@ -229,8 +265,7 @@ def p_variable(p):
     """
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     p[0] = p[1]
-    print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_operator(p):
@@ -240,8 +275,7 @@ def p_operator(p):
     """
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     p[0] = p[1]
-    print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_punctuation(p):
@@ -261,8 +295,7 @@ def p_punctuation(p):
     """
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     p[0] = p[1]
-    print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_comparisonoperator(p):
@@ -276,8 +309,7 @@ def p_comparisonoperator(p):
     """
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     p[0] = p[1]
-    print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_configaccessor(p):
@@ -287,8 +319,7 @@ def p_configaccessor(p):
     """
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     p[0] = ''.join(p[1:])
-    print(f'{sys._getframe().f_code.co_name} output: {p[0]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_number(p):
@@ -299,8 +330,7 @@ def p_number(p):
     """
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     p[0] = p[1]
-    print(f'{sys._getframe().f_code.co_name} output: {p[1]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[1]}\n')
 
 
 def p_string(p):
@@ -310,8 +340,7 @@ def p_string(p):
     """
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     p[0] = p[1]
-    print(f'{sys._getframe().f_code.co_name} output: {p[1]}')
-    print('')
+    print(f'{sys._getframe().f_code.co_name} output: {p[1]}\n')
 
 
 def p_empty(p):
@@ -324,10 +353,9 @@ def p_empty(p):
 def p_error(p):
     #print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     if p:
-        print(repr('Syntax error in file. Unexpected "{}" at line:{}, pos:{}').format(p.value, p.lineno, p.lexpos), file=sys.stderr)
+        print(repr('Syntax error in file. Unexpected "{}" at line:{}, pos:{}\n').format(p.value, p.lineno, p.lexpos), file=sys.stderr)
     else:
-        print('Syntax error in file. Possibly an incomplete statement.', file=sys.stderr)
-    print('')
+        print('Syntax error in file. Possibly an incomplete statement.\n', file=sys.stderr)
 
 
 parser = pyacc.yacc()

@@ -2,13 +2,13 @@ import ply.lex as plex
 
 reserved = {
 #    'for': 'FOR',
-#    'if': 'IF',
-#    'with': 'WITH',
-#    'while': 'WHILE',
+    'if': 'IF',
+    'with': 'WITH',
+    'while': 'WHILE',
 #    'switch': 'SWITCH',
     'private': 'PRIVATE',
-#    'else': 'ELSE',
-#    'this': 'THIS',
+    'else': 'ELSE',
+    'then': 'THEN',
 #    'thislist': 'THISLIST',
 #    'thistrigger': 'THISTRIGGER',
 #    '_this': '_THIS',
@@ -58,6 +58,7 @@ tokens = [
     'STRING_DOUBLE',
     'STRING_SINGLE',
     'BOOL',
+    'NAMESPACE',
 ] + list(reserved.values())
 
 t_AND = r'&&'
@@ -86,6 +87,10 @@ t_SELECT = r'\#'
 t_SEMI_COLON = r';'
 t_COLON = r':'
 t_EQUAL = r'='
+t_IF = r'if'
+t_THEN = r'then'
+t_ELSE = r'else'
+t_NAMESPACE = r'parsingNamespace|missionNamespace|uiNamespace|profileNamespace'
 
 
 def t_STRING_DOUBLE(t):
