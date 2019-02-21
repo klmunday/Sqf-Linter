@@ -68,6 +68,7 @@ def p_helpertype(p):
     """
     helpertype  : iftype
                 | withtype
+                | whiletype
     """
 
 
