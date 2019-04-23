@@ -1,23 +1,19 @@
 import ply.lex as plex
 
 reserved = {
-#    'for': 'FOR',
+    'for': 'FOR',
+    'foreach': 'FOREACH',
     'if': 'IF',
     'with': 'WITH',
     'while': 'WHILE',
-#    'switch': 'SWITCH',
+    'switch': 'SWITCH',
     'private': 'PRIVATE',
     'else': 'ELSE',
     'then': 'THEN',
-#    'thislist': 'THISLIST',
-#    'thistrigger': 'THISTRIGGER',
-#    '_this': '_THIS',
-#    '_x': '_X',
-#    '_exception': '_EXCEPTION',
-#    '_foreachindex': '_FOREACHINDEX',
-#    '_thiseventhandler': '_THISEVENTHANDLER',
-#    '_thisfsm': '_THISFSM',
-#    '_thisscript': '_THISSCRIPT',
+    'step': 'STEP',
+    'to': 'TO',
+    'do': 'DO',
+    'from': 'FROM',
 }
 
 tokens = [
@@ -155,7 +151,7 @@ t_ignore = ' \t'
 
 
 def t_error(t):
-    print(f'Illegal character "{t.value[0]}" on line {lexer.lineno}')
+    print(f'Unexpected character "{t.value[0]}" on line {lexer.lineno}')
     t.lexer.skip(1)
 
 

@@ -5,6 +5,10 @@ import sys
 
 
 var_handler = VarHandler()
+terminators = {
+    ';': 0,
+    ',': 0,
+}
 
 literals = []
 
@@ -53,12 +57,16 @@ def p_terminator(p):
     terminator  : SEMI_COLON
                 | COMMA
     """
-    pass
+    terminators[p[1]] += 1
+    if all(terminators.values()):
+        print(f'Warning on line {p.lineno(1)}: Mixed line terminators used: {p[1]} should be replaced.', file=sys.stderr)
 
 
 def p_controlstructure(p):
     """
-    controlstructure : ifstatement
+    controlstructure    : ifstatement
+                        | whileloop
+                        | forloop
     """
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
@@ -69,12 +77,15 @@ def p_helpertype(p):
     helpertype  : iftype
                 | withtype
                 | whiletype
+                | fortype
     """
+    print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_iftype(p):
     """
-    iftype : IF LPAREN primaryexp RPAREN
+    iftype : IF LPAREN binaryexp RPAREN
     """
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
@@ -99,7 +110,44 @@ def p_withtype(p):
 
 def p_whiletype(p):
     """
-    whiletype : WHILE bracedexp
+    whiletype   : WHILE LPAREN binaryexp RPAREN
+                | WHILE bracedexp
+    """
+    print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
+
+
+def p_whileloop(p):
+    """
+    whileloop : whiletype DO bracedexp
+    """
+    print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
+
+
+def p_fortype(p):
+    """
+    fortype : FOR new_scope string FROM primaryexp TO primaryexp
+            | FOR new_scope string FROM primaryexp TO primaryexp STEP primaryexp
+            | FOR new_scope LSPAREN bracedexp_noscope COMMA bracedexp_noscope COMMA bracedexp_noscope RSPAREN
+    """
+    print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
+    if p[2] != '[':
+        print(f'FORLOOP VAR: {p[2]}')
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
+
+
+def p_forloop(p):
+    """
+    forloop : fortype DO bracedexp_noscope
+    """
+    print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
+
+
+def p_bracedexp_noscope(p):
+    """
+     bracedexp_noscope : LBRACE code RBRACE
     """
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
@@ -108,7 +156,7 @@ def p_whiletype(p):
 def p_assignment(p):
     """
     assignment  : definition EQUAL binaryexp
-                | identifier EQUAL binaryexp
+                | variable EQUAL binaryexp
     """
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     if var_handler.has_local_var(p[1]):
@@ -117,8 +165,6 @@ def p_assignment(p):
         print(f'Variable {p[1]} is an engine function and cannot be overwritten.', file=sys.stderr)
     elif not p[1].startswith('_'):
         var_handler.add_global_var(p[1], p[3])
-    else:
-        print(f'Variable {p[1]} is undefined.', file=sys.stderr)
     print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
@@ -148,18 +194,26 @@ def p_identifier(p):
     if p[1].lower() in engine_functions:
         p[0] = p[1].lower()
     elif var_handler.has_local_var(p[1]):
-        #p[0] = var_handler.get_local_var(p[1])
-        p[0] = p[1]
+        p[0] = var_handler.get_local_var(p[1])
     elif not p[1].startswith('_'):
         if var_handler.has_global_var(p[1]):
-            p[0] = p[1]
-            #p[0] = var_handler.get_global_var(p[1])
+            p[0] = var_handler.get_global_var(p[1])
         else:
             var_handler.add_global_var(p[1])
             p[0] = p[1]
     else:
         print(f'Error on line {p.lineno(1)} - Local variable {p[1]} not defined.', file=sys.stderr)
         p[0] = p[1]
+    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
+
+
+def p_variable(p):
+    """
+    variable    : PRIVATE_ID %prec VARIABLE
+                | GLOBAL_ID %prec VARIABLE
+    """
+    print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
+    p[0] = p[1]
     print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
@@ -171,9 +225,14 @@ def p_binaryexp(p):
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     if len(p) > 2:
         try:
-            p[0] = eval(' '.join(map(str, p[1:])))  # TODO: change this, dont be lazy...
+            for i in [1, 3]:
+                if isinstance(p[i], str) and var_handler.has_any_var(p[i]):
+                    p[i] = var_handler.get_local_var(p[i]) if p[i].startswith('_') else var_handler.get_global_var(p[i])
+            #p[0] = eval(' '.join(map(str, p[1:])))
         except TypeError as e:
-            print(f'{p[1]} {p[2]} {p[3]} >> {e}', file=sys.stderr)
+            print(f'{p[1]} {p[2]} {p[3]} >> TypeError: {e}', file=sys.stderr)
+        except NameError as e:
+            print(f'{p[1]} {p[2]} {p[3]} >> NameError: {e}', file=sys.stderr)
     else:
         p[0] = p[1]
     print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
@@ -182,9 +241,9 @@ def p_binaryexp(p):
 def p_primaryexp(p):
     """
     primaryexp  : number                    %prec VALUE
+                | identifier                %prec VALUE
                 | unaryexp
                 | nularexp
-                | variable                  %prec VALUE
                 | string                    %prec VALUE
                 | bracedexp                 %prec BRACED_EXP
                 | LPAREN binaryexp RPAREN   %prec BRACED_EXP
@@ -255,18 +314,10 @@ def p_unaryexp(p):
                 | MINUS primaryexp      %prec UNARY_OP
                 | NOT primaryexp        %prec UNARY_OP
                 | identifier primaryexp %prec UNARY_OP
+                | binaryexp identifier  %prec UNARY_OP
     """
     print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     print(f'{sys._getframe().f_code.co_name} output: {p[len(p) - 1]}\n')
-
-
-def p_variable(p):
-    """
-    variable : identifier
-    """
-    print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
-    p[0] = p[1]
-    print(f'{sys._getframe().f_code.co_name} output: {p[0]}\n')
 
 
 def p_operator(p):
@@ -354,7 +405,7 @@ def p_empty(p):
 def p_error(p):
     #print('{} {}: {}'.format(sys._getframe().f_code.co_name, f'at line {p.lineno(1)}' if p.lineno(1) else '', ' '.join([str(x) for x in p[1:]])))
     if p:
-        print(repr('Syntax error in file. Unexpected "{}" at line:{}, pos:{}\n').format(p.value, p.lineno, p.lexpos), file=sys.stderr)
+        print('Syntax error in file. Unexpected "{}" at line:{}, pos:{}\n'.format(p.value, p.lineno, p.lexpos), file=sys.stderr)
     else:
         print('Syntax error in file. Possibly an incomplete statement.\n', file=sys.stderr)
 
