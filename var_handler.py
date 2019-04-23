@@ -6,7 +6,7 @@ class VarHandler:
             'profilenamespace': {},
             'uinamespace': {},
         }
-        self.cur_namespace = 'missionnamespace'
+        self.cur_namespace = ['missionnamespace']
         self.local_var_stack = [{}]
 
     def __str__(self):
@@ -25,16 +25,16 @@ class VarHandler:
     def get_local_var(self, varname):
         for stack in reversed(self.local_var_stack):
             value = stack.get(varname)
-            if value:
+            if value is not None:
                 return value
         return None
 
     def add_global_var(self, varname, value='ANY'):
-        self.global_vars.get(self.cur_namespace)[varname.lower()] = value
+        self.global_vars.get(self.get_namespace())[varname.lower()] = value
 
     def get_global_var(self, varname, namespace=''):
         namespace = self.cur_namespace if namespace == '' else namespace.lower()
-        return self.global_vars.get(namespace).get(varname)
+        return self.global_vars.get(namespace).get(varname.lower())
 
     def new_local_scope(self):
         print(f'CREATING NEW LOCAL SCOPE')
@@ -47,18 +47,24 @@ class VarHandler:
         print(f'UPDATED VAR_HANDLER:{self}')
 
     def change_namespace(self, namespace):
-        self.cur_namespace = namespace.lower()
+        self.cur_namespace.append(namespace)
+
+    def pop_namespace(self):
+        self.cur_namespace.pop()
+
+    def get_namespace(self):
+        return self.cur_namespace[-1]
 
     def has_local_var(self, varname):
         for stack in reversed(self.local_var_stack):
-            if stack.get(varname.lower()):
+            if stack.get(varname.lower()) is not None:
                 return True
         return False
 
     def has_global_var(self, varname, namespace=''):
         namespace = self.cur_namespace if namespace == '' else namespace.lower()
-        return self.global_vars.get(namespace).get(varname.lower())
+        return self.global_vars.get(namespace).get(varname.lower()) is not None
 
     def has_any_var(self, varname):
         varname = varname.lower()
-        return any([self.has_local_var(varname), self.has_global_var(varname, self.cur_namespace)])
+        return any([self.has_local_var(varname), self.has_global_var(varname, self.get_namespace())])
