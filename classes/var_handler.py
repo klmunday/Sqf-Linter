@@ -41,7 +41,7 @@ class VarHandler:
         self.global_vars.get(self.get_namespace())[varname.lower()].set_assigned()
 
     def get_global_var(self, varname, namespace=''):
-        namespace = self.cur_namespace if namespace == '' else namespace.lower()
+        namespace = self.get_namespace() if namespace == '' else namespace.lower()
         var = self.global_vars.get(namespace).get(varname.lower())
         if var:
             var.increment_uses()
