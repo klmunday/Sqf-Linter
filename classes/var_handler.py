@@ -1,4 +1,4 @@
-from classes.variable import  Variable
+from classes.variable import Variable
 
 
 class VarHandler:
@@ -20,8 +20,8 @@ class VarHandler:
     def get_current_frame(self):
         return self.local_var_stack[-1]
 
-    def add_local_var(self, varname):
-        self.get_current_frame()[varname.lower()] = Variable(varname.lower())
+    def add_local_var(self, varname, lineno):
+        self.get_current_frame()[varname.lower()] = Variable(varname.lower(), lineno)
 
     def update_local_var(self, varname):
         self.get_current_frame()[varname.lower()].set_assigned()
@@ -34,8 +34,8 @@ class VarHandler:
                 return var
         return None
 
-    def add_global_var(self, varname):
-        self.global_vars.get(self.get_namespace())[varname.lower()] = Variable(varname.lower())
+    def add_global_var(self, varname, lineno):
+        self.global_vars.get(self.get_namespace())[varname.lower()] = Variable(varname.lower(), lineno)
 
     def update_global_var(self, varname):
         self.global_vars.get(self.get_namespace())[varname.lower()].set_assigned()
@@ -52,7 +52,9 @@ class VarHandler:
         self.local_var_stack.append({})
 
     def pop_local_stack(self):
+        unused_vars = {name: var for name, var in self.get_current_frame().items() if var.uses == 0}
         self.local_var_stack.pop()
+        return unused_vars
 
     def change_namespace(self, namespace):
         self.cur_namespace.append(namespace.lower())
