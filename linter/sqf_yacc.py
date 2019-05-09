@@ -272,6 +272,35 @@ def p_setvariable_any(p):
           f'Cannot guaranty success, recommend manual check.')
 
 
+def p_param_unary(p):
+    """
+    param_unaray    : PARAM LSPAREN number RSPAREN
+                    | PARAM LSPAREN number COMMA primaryexp RSPAREN
+                    | PARAM LSPAREN number COMMA primaryexp COMMA array RSPAREN
+                    | PARAM LSPAREN number COMMA primaryexp COMMA array COMMA number RSPAREN
+                    | PARAM LSPAREN number COMMA primaryexp COMMA array COMMA array RSPAREN
+    """
+    if len(p) != 5:
+        p[0] = p[5]
+    print(f'WARNING: Unable to check value passing into param on line: {p.lineno(2)}. '
+          f'Please check manually.')
+
+
+def p_param_binary(p):
+    """
+    param_binary    : primaryexp PARAM LSPAREN number RSPAREN
+                    | primaryexp PARAM LSPAREN number COMMA primaryexp RSPAREN
+                    | primaryexp PARAM LSPAREN number COMMA primaryexp COMMA array RSPAREN
+                    | primaryexp PARAM LSPAREN number COMMA primaryexp COMMA array COMMA number RSPAREN
+                    | primaryexp PARAM LSPAREN number COMMA primaryexp COMMA array COMMA array RSPAREN
+    """
+    if len(p) != 6:
+        p[0] = p[6]
+    print(f'WARNING: Unable to check value passing into param on line: {p.lineno(2)}. '
+          f'Please check manually.')
+
+
+
 def p_vardefinition(p):
     """
     vardefinition   : definition
@@ -385,6 +414,7 @@ def p_binaryexp(p):
                 | getvariable_any                           %prec BINARY_OP
                 | setvariable_ns                            %prec BINARY_OP
                 | setvariable_any                           %prec BINARY_OP
+                | param_binary                              %prec BINARY_OP
     """
 
 
@@ -486,6 +516,7 @@ def p_unaryexp(p):
                 | MINUS primaryexp      %prec UNARY_OP
                 | NOT primaryexp        %prec UNARY_OP
                 | vardefinition         %prec UNARY_OP
+                | param_unaray           %prec UNARY_OP
     """
 
 
