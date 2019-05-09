@@ -220,6 +220,39 @@ def p_bracedexp_noscope(p):
     p[0] = p[2]
 
 
+def p_getvariable_ns(p):
+    """
+    getvariable_ns  : NAMESPACE GETVARIABLE string
+                    | NAMESPACE GETVARIABLE LSPAREN string COMMA primaryexp RSPAREN
+    """
+    if len(p) == 4:
+        p[3] = p[3].replace("'", "")
+        p[3] = p[3].replace('"', '')
+        if not var_handler.get_global_var(p[3], p[1]):
+            print(f'ERROR: getVariable failed on line {p.lineno(2)}. {p[3]} not found in namespace: {p[1]}. '
+                  f'Check if it is undefined or in a different namespace.')
+        else:
+            p[0] = var_handler.get_global_var(p[3], p[1])
+    elif len(p) == 8:
+        p[4] = p[4].replace("'", "")
+        p[4] = p[4].replace('"', '')
+        if not var_handler.get_global_var(p[4], p[1]):
+            print(f'ERROR: getVariable failed on line {p.lineno(2)}. {p[4]} not found in namespace: {p[1]}. '
+                  f'Check if it is undefined or in a different namespace.'
+                  f'Defaulting to default value: {p[6]}')
+        else:
+            p[0] = var_handler.get_global_var(p[4], p[1])
+
+
+def p_getvariable_any(p):
+    """
+    getvariable_any : primaryexp GETVARIABLE string
+                    | primaryexp GETVARIABLE LSPAREN string COMMA primaryexp RSPAREN
+    """
+    print(f'WARNING: getVariable called on a non-namespace object on line: {p.lineno(2)}. '
+          f'Cannot guaranty success, recommend manual check.')
+
+
 def p_vardefinition(p):
     """
     vardefinition   : definition
@@ -233,11 +266,13 @@ def p_assignment(p):
                 | definition EQUAL primaryexp
                 | variable EQUAL primaryexp
     """
-    if not var_handler.has_local_var(p[1]):
-        var_handler.add_local_var(p[1], p.lineno(2))
-    elif p[1] in engine_functions:
+    if p[1] in engine_functions:
         print(f'ERROR: Engine function assignment attempted on line: {p.lineno(1)}. '
               f'Engine functions cannot be assigned to.')
+    elif not p[1].startswith('_'):
+        var_handler.add_global_var(p[1], p.lineno(1))
+    elif not var_handler.has_local_var(p[1]):
+        var_handler.add_local_var(p[1], p.lineno(2))
     elif not p[1].startswith('_'):
         var_handler.add_global_var(p[1], p.lineno(1))
     if not get_interpretation_state():
@@ -327,6 +362,8 @@ def p_binaryexp(p):
     binaryexp   : primaryexp BINARY_FNC primaryexp          %prec BINARY_OP
                 | primaryexp comparisonoperator primaryexp  %prec BINARY_OP
                 | primaryexp mathoperator primaryexp        %prec BINARY_OP
+                | getvariable_ns                            %prec BINARY_OP
+                | getvariable_any                           %prec BINARY_OP
     """
 
 
