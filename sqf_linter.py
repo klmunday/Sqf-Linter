@@ -1,18 +1,18 @@
 import sys
 import sqf_lex
-import sqf_yacc_fh
-from contextlib import redirect_stdout
+import sqf_yacc
+from contextlib import redirect_stdout, redirect_stderr
 
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         with open('output.log', 'w') as out_file:
             with redirect_stdout(out_file):
-                lexer = sqf_lex.lex()
                 with open(sys.argv[1], 'r') as f:
                     data = f.read()
+                lexer = sqf_lex.lex()
                 lexer.input(data)
-                parser = sqf_yacc_fh.yacc()
+                parser = sqf_yacc.yacc()
 
                 debug = False
                 if debug:
