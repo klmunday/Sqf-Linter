@@ -34,8 +34,10 @@ class VarHandler:
                 return var
         return None
 
-    def add_global_var(self, varname, lineno):
-        self.global_vars.get(self.get_namespace())[varname.lower()] = Variable(varname.lower(), lineno)
+    def add_global_var(self, varname, lineno, namespace=''):
+        namespace = self.get_namespace() if namespace == '' else namespace.lower()
+        if not self.get_global_var(varname):
+            self.global_vars.get(namespace)[varname.lower()] = Variable(varname.lower(), lineno)
 
     def update_global_var(self, varname):
         self.global_vars.get(self.get_namespace())[varname.lower()].set_assigned()
