@@ -185,15 +185,15 @@ def p_fortype(p):
         if p[3][0] is '_':
             if var_handler.has_local_var(p[3]):
                 if get_interpretation_state:
-                    print(f'ERROR: Local variable {p[3]} already defined. Occurs on line: {p.lineno(3)}.')
+                    print(f'ERROR: Local variable {p[3]} already defined. Occurs on line: {p.lineno(1)}.')
                 p[0] = p[3]
             else:
                 if not p[3][1].islower():
-                    print(f'WARNING: Local variable {p[3]} defined with unconventional casing. on line: {p.lineno(3)}. '
+                    print(f'WARNING: Local variable {p[3]} defined with unconventional casing. on line: {p.lineno(1)}. '
                           f'Use lower case for the first character of local variables.')
-                var_handler.add_local_var(p[3], p.lineno(3))
+                var_handler.add_local_var(p[3], p.lineno(1))
         else:
-            var_handler.add_global_var(p[3], p.lineno(3))
+            var_handler.add_global_var(p[3], p.lineno(1))
 
 
 def p_forloop(p):
