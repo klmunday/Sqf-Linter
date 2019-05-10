@@ -150,6 +150,7 @@ def p_withstatement(p):
     withstatement : withstatementinit bracedexp
     """
     p[0] = p[2]
+    var_handler.pop_namespace()
 
 
 def p_whiletype(p):
