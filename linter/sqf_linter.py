@@ -12,7 +12,7 @@ if __name__ == '__main__':
         lexer = sqf_lex.lex()
         lexer.input(data)
         parser = sqf_yacc.yacc()
-        debug = True
+        debug = False
         results = parser.parse(lexer=lexer, debug=debug)
         if results:
             print(results)

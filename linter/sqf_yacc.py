@@ -236,6 +236,8 @@ def p_getvariable_ns(p):
                   f'Check if it is undefined or in a different namespace.')
         else:
             p[0] = var_handler.get_global_var(p[3], p[1])
+            print(f'WARNING: getVariable used on line: {p.lineno(2)} without default value. '
+                  f'Using a default value is recommended.')
     elif len(p) == 8:
         p[4] = p[4].replace("'", "")
         p[4] = p[4].replace('"', '')
