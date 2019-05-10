@@ -47,6 +47,7 @@ def p_statement(p):
                 | binaryexp
                 | nularexp
                 | unaryexp
+                | primaryexp
     """
     p[0] = p[1]
 
@@ -112,7 +113,7 @@ def p_switchbody(p):
 
 def p_iftype(p):
     """
-    iftype  : IF forloop_condition
+    iftype  : IF bracedexp_condition
             | IF LPAREN primaryexp RPAREN
     """
     p[0] = p[1]
@@ -153,7 +154,7 @@ def p_withstatement(p):
 
 def p_whiletype(p):
     """
-    whiletype   : WHILE forloop_condition
+    whiletype   : WHILE bracedexp_condition
     """
 
 
@@ -176,7 +177,7 @@ def p_fortype(p):
     """
     fortype : FOR new_scope string FROM primaryexp TO primaryexp
             | FOR new_scope string FROM primaryexp TO primaryexp STEP primaryexp
-            | FOR new_scope LSPAREN bracedexp_noscope COMMA forloop_condition COMMA bracedexp_noscope RSPAREN
+            | FOR new_scope LSPAREN bracedexp_noscope COMMA bracedexp_condition COMMA bracedexp_noscope RSPAREN
     """
     if p[3] != '[':
         if p[3][0] in ["'", '"']:
@@ -206,7 +207,7 @@ def p_forloop(p):
 
 def p_bracedexp_condition(p):
     """
-    forloop_condition   : LBRACE booleanexp RBRACE
+    bracedexp_condition   : LBRACE booleanexp RBRACE
                         | identifier
     """
     if len(p) is 2:
@@ -486,7 +487,8 @@ def p_primaryexp(p):
     """
     primaryexp  : number                    %prec VALUE
                 | identifier                %prec VALUE
-                | helpertype                %prec VALUE
+                | controlstructure
+                | helpertype
                 | array                     %prec VALUE
                 | unaryexp                  %prec UNARY_OP
                 | nularexp                  %prec NULAR_OP
