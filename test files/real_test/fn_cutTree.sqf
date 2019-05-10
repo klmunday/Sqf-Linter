@@ -12,15 +12,15 @@ _treeType = [_tree] call life_fnc_getModelName;
 if (player getVariable ["life_var_woodAxe", 0]) then {
     switch (_treeType) do {
         case "t_ficus_small_f": {_cutSpeed = 0.10; _woodAmount = 1;};
-        case "t_ficus_medium_f": {_cutSpeed = 0.20; _woodAmount = 3;};
-        case "t_cyathea_f": {_cutSpeed = 0.15; _woodAmount = 2;};
-        case "t_leucaena_f": {_cutSpeed = 0.10; _woodAmount = 1;};
+        case "t_ficus_medium_f": {_cutSpeed = 0.20; _woodAmount = 3;},
+        case "t_cyathea_f": {_cutSpeed = 0.15; _woodAmount = 2;},
+        case "t_leucaena_f": {_cutSpeed = 0.10; _woodAmount = 1;},
         case "t_palaquium_f": {_cutSpeed = 0.25; _woodAmount = 4;};
         case "t_cocosnucifera2s_small_f": {_cutSpeed = 0.20; _woodAmount = 3;};
         case "t_cocosnucifera3s_tall_f": {_cutSpeed = 0.25; _woodAmount = 4;};
         case "t_agathis_wide_f": {_cutSpeed = 0.15; _woodAmount = 2;};
         case "t_agathis_tall_f": {_cutSpeed = 0.20; _woodAmount = 3;};
-        case "t_albizia_f": {_cutSpeed = 0.15; _woodAmount = 2;};
+        case "t_albizia_f": {_cutSpeed = 0.15; _woodAmount = 2;},
         default {_cutSpeed = 0.15; _woodAmount = 2;};
     };
 
