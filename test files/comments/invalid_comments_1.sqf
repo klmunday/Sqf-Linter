@@ -5,7 +5,7 @@ is
 also
 a comment
 
-
+*/
 
 
 private _test = 1 + /* * 12; /
