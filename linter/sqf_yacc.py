@@ -236,7 +236,7 @@ def p_getvariable_ns(p):
             print(f'ERROR: getVariable failed on line {p.lineno(2)}. {p[3]} not found in namespace: {p[1]}. '
                   f'Check if it is undefined or in a different namespace.')
         else:
-            p[0] = var_handler.get_global_var(p[3], p[1])
+            p[0] = var_handler.get_global_var(p[3], p[1]).name
             print(f'WARNING: getVariable used on line: {p.lineno(2)} without default value. '
                   f'Using a default value is recommended.')
     elif len(p) == 8:
@@ -247,7 +247,7 @@ def p_getvariable_ns(p):
                   f'Check if it is undefined or in a different namespace.'
                   f'Defaulting to default value: {p[6]}')
         else:
-            p[0] = var_handler.get_global_var(p[4], p[1])
+            p[0] = var_handler.get_global_var(p[4], p[1]).name
 
 
 def p_getvariable_any(p):
@@ -378,6 +378,7 @@ def p_assignment(p):
     """
     assignment  : assignment_code code RBRACE
                 | definition EQUAL primaryexp
+                | identifier EQUAL primaryexp
                 | variable EQUAL primaryexp
     """
     if p[1] in engine_functions:
@@ -396,6 +397,7 @@ def p_assignment(p):
 def p_assignment_code(p):
     """
     assignment_code : definition EQUAL LBRACE
+                    | identifier EQUAL LBRACE
                     | variable EQUAL LBRACE
     """
     #  Make parser read the braced code without "simulating" execution
@@ -449,13 +451,14 @@ def p_identifier(p):
     if p[1].lower() in engine_functions:
         p[0] = p[1].lower()
     elif var_handler.has_local_var(p[1]):
-        p[0] = var_handler.get_local_var(p[1])
+        p[0] = var_handler.get_local_var(p[1]).name
     elif not p[1].startswith('_'):
         if var_handler.has_global_var(p[1]):
-            p[0] = var_handler.get_global_var(p[1])
+            p[0] = var_handler.get_global_var(p[1]).name
         else:
             print(f'WARNING: Possible undeclared global variable {p[1]} on line {p.lineno(1)}. '
-                  f'Please check manually, it may just be a function that I can\'t read')
+                  f'Please check manually, it may just be a function that I can\'t read. '
+                  f'ignore this message if you\'re setting a global var the lazy way here!')
             var_handler.add_global_var(p[1], p.lineno(1))
             p[0] = p[1]
     else:
@@ -469,6 +472,8 @@ def p_variable(p):
     variable    : PRIVATE_ID %prec VARIABLE
                 | GLOBAL_ID %prec VARIABLE
     """
+    if not var_handler.has_local_var(p[1]) and not var_handler.has_global_var(p[1]):
+        print(f'ERROR: Undefined variable {p[1]} used on line {p.lineno(1)}.')
     p[0] = p[1]
 
 
