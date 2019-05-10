@@ -8,4 +8,4 @@ a comment
 
 
 
-private _test = 1 + /* test * 12; /
+private _test = 1 + /* * 12; /

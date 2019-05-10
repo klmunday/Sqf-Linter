@@ -21,12 +21,15 @@ class VarHandler:
         return self.local_var_stack[-1]
 
     def add_local_var(self, varname, lineno):
+        varname = varname.lower()
         self.get_current_frame()[varname.lower()] = Variable(varname.lower(), lineno)
 
     def update_local_var(self, varname):
+        varname = varname.lower()
         self.get_current_frame()[varname.lower()].set_assigned()
 
     def get_local_var(self, varname):
+        varname = varname.lower()
         for stack in reversed(self.local_var_stack):
             var = stack.get(varname)
             if var:
@@ -35,11 +38,13 @@ class VarHandler:
         return None
 
     def add_global_var(self, varname, lineno, namespace=''):
+        varname = varname.lower()
         namespace = self.get_namespace() if namespace == '' else namespace.lower()
         if not self.get_global_var(varname):
             self.global_vars.get(namespace)[varname.lower()] = Variable(varname.lower(), lineno)
 
     def update_global_var(self, varname):
+        varname = varname.lower()
         self.global_vars.get(self.get_namespace())[varname.lower()].set_assigned()
 
     def get_global_var(self, varname, namespace=''):
